@@ -1,5 +1,5 @@
 # basiclib
-A Library with some basic methods for all your needs when you are starting a Java application. Comments are in french in the source code. You find classes and methods for :
+A Java library with some basic methods (most are static methods) for all your needs when you are starting an application. Comments are in french in the source code. You find classes and methods for :
 - date and time (DateTimeLib class)
 - file reading helper (see files in ch.jcsinfo.file package)
 - some mathematical methods (MathLib class)
