@@ -6,6 +6,6 @@ A Library with some basic methods for all your needs when you are starting a Jav
 - some generic models (see files in ch.jcsinfo.models)
 - some printing classes (see files in ch.jcsinfo.printing package)
 - some system classes (see files in ch.jcsinfo.system package)
-- some util classes (callback, simple cypher, prefs manger, scree info, etc)
+- some util classes (callback, simple cypher, prefs manager, screen info, etc)
 
 You can download and open this project in NetBeans 8.1. I'ts a Java 8 maven project. So, dependencies are loaded automaticly from maven central.
