@@ -11,11 +11,6 @@ import org.junit.Test;
  */
 public class MathLibTest {
 
-  private static void displayResults(Object expResult, Object result) {
-    System.out.println("- expResult: " + expResult);
-    System.out.println("- result:    " + result);
-  }
-
   @Test
   public void testRoundToMultiple() {
     StackTracer.printCurrentTestMethod();
@@ -39,14 +34,14 @@ public class MathLibTest {
     final double r3a = 100;
     final double r3b = 110;
 
-    System.out.println("- " + v1a + " arrondi à " + p1 + " = " + MathLib.roundValue(v1a, p1));
-    System.out.println("- " + v1b + " arrondi à " + p1 + " = " + MathLib.roundValue(v1b, p1));
+    System.out.println("  - " + v1a + " rounded to " + p1 + " = " + MathLib.roundValue(v1a, p1));
+    System.out.println("  - " + v1b + " rounded to " + p1 + " = " + MathLib.roundValue(v1b, p1));
 
-    System.out.println("- " + v2a + " arrondi à " + p2 + " = " + MathLib.roundValue(v2a, p2));
-    System.out.println("- " + v2b + " arrondi à " + p2 + " = " + MathLib.roundValue(v2b, p2));
+    System.out.println("  - " + v2a + " rounded to " + p2 + " = " + MathLib.roundValue(v2a, p2));
+    System.out.println("  - " + v2b + " rounded to " + p2 + " = " + MathLib.roundValue(v2b, p2));
 
-    System.out.println("- " + v3a + " arrondi à " + p3 + " = " + MathLib.roundValue(v3a, p3));
-    System.out.println("- " + v3b + " arrondi à " + p3 + " = " + MathLib.roundValue(v3b, p3));
+    System.out.println("  - " + v3a + " rounded to " + p3 + " = " + MathLib.roundValue(v3a, p3));
+    System.out.println("  - " + v3b + " rounded to " + p3 + " = " + MathLib.roundValue(v3b, p3));
 
     assertEquals(MathLib.roundValue(v1a, p1), r1a, delta);
     assertEquals(MathLib.roundValue(v1b, p1), r1b, delta);
@@ -71,7 +66,7 @@ public class MathLibTest {
     for (int i = 0; i < ok.length; i++) {
       results[i] = MathLib.columnNameToIndex(t[i]);
       ok[i] = results[i] == expected[i];
-      System.out.println("- columnNameToIndex("+t[i]+") = "+ results[i]);
+      System.out.println("  - columnNameToIndex("+t[i]+") = "+ results[i]);
     }
     assertTrue(ok[0] && ok[1] && ok[2]);
   }

@@ -83,6 +83,28 @@ public class StackTracer {
   public static void printCurrentTestMethod() {
     System.out.println("\n*** " + trace(Thread.currentThread().getStackTrace(), 2, 2) + " ...");
   }
+  
+  /**
+   * Affiche le résultat d'un test. Se trouve dans cette bibliothèque par convenance.
+   * 
+   * @param expResult le résultat attendu
+   * @param result le résultat trouvé
+   */
+  public static void printTestResult(Object expResult, Object result) {
+    System.out.println("  - expResult: " + expResult);
+    System.out.println("  - result:    " + result);
+  }
+  
+  /**
+   * Affiche le résultat d'un test. Se trouve dans cette bibliothèque par convenance.
+   * 
+   * @param source l'objet source fourni au test
+   * @param result le résultat trouvé
+   */
+  public static void printTestInfo(Object source, Object result) {
+    System.out.println("  - source: " + source);
+    System.out.println("  - result: " + result);
+  }
 
   /**
    * Récupère une méthode parente de -N niveaux au dessus de la méthode courante.

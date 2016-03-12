@@ -2,27 +2,37 @@ package tests;
 
 import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.ConvertLib;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 /**
  * Classe de test de "ConvertLib".
  *
  * @author jcstritt
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ConvertLibTest {
 
-  private static void displayResults(Object expResult, Object result) {
-    System.out.println("- expResult: " + expResult);
-    System.out.println("- result:    " + result);
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
+  }
+
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+    System.out.println();
   }
 
   // retourne 123456 codé dans un buffer en BCD
-  private  short[] getShortBcdNumber() {
+  private short[] getShortBcdNumber() {
     short[] b = new short[4];
 
     // "123456" codé en BCD dans un buffer
@@ -33,12 +43,8 @@ public class ConvertLibTest {
     return b;
   }
 
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
   @Test
-  public void testBcdToString() {
+  public void test01_bcdToString() {
     StackTracer.printCurrentTestMethod();
 
     // le résultat attendu
@@ -49,7 +55,7 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     String result = ConvertLib.bcdToString(b);
-    displayResults(expResult, result);
+    StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
   }
 
@@ -57,7 +63,7 @@ public class ConvertLibTest {
    * Test of bcdToInt method, of class ConvertLib.
    */
   @Test
-  public void testBcdToInt() {
+  public void test02_bcdToInt() {
     StackTracer.printCurrentTestMethod();
 
     // le nombre attendu
@@ -68,12 +74,12 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     int result = ConvertLib.bcdToInt(b);
-    displayResults(expResult, result);
+    StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
   }
 
   @Test
-  public void testBcdToBigDecimal() {
+  public void test03_bcdToBigDecimal() {
     StackTracer.printCurrentTestMethod();
 
     // le résultat attendu
@@ -92,7 +98,7 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     String result = ConvertLib.bcdToBigDecimal(b).toPlainString();
-    displayResults(expResult, result);
+    StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
   }
 
@@ -100,7 +106,7 @@ public class ConvertLibTest {
    * Test of encryptedBufferToString method, of class ConvertLib.
    */
   @Test
-  public void testBufferToString() {
+  public void test04_bufferToString() {
     StackTracer.printCurrentTestMethod();
 
     // le resultat attendu
@@ -117,13 +123,13 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     String result = ConvertLib.bufferToString(buffer);
-    displayResults(expResult, result);
+    StackTracer.printTestResult(expResult, result);
     boolean ok = result.equals(expResult);
     assertTrue(ok);
   }
 
   @Test
-  public void testIntToDate() {
+  public void test05_intToDate() {
     StackTracer.printCurrentTestMethod();
 
     // on simule une date (celle d'aujourd'hui) au format "entier"
@@ -142,12 +148,12 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     Date result = ConvertLib.intToDate(iDate);
-    displayResults(expResult, result);
+    StackTracer.printTestInfo(iDate, result);
     assertEquals(expResult, result);
   }
 
   @Test
-  public void testIsIntNumber() {
+  public void test06_isIntNumber() {
     StackTracer.printCurrentTestMethod();
     String t[] = {"1245", "1245.6", "1245f"};
     boolean ok[] = new boolean[3];
@@ -155,17 +161,17 @@ public class ConvertLibTest {
     // on teste les 3 exemples
     for (int i = 0; i < ok.length; i++) {
       ok[i] = ConvertLib.isIntNumber(t[i]);
-      System.out.println("- isIntNumber("+t[i]+") = "+ ok[i]);
+      System.out.println("  - isIntNumber(" + t[i] + ") = " + ok[i]);
     }
     assertTrue(ok[0] && !ok[1] && !ok[2]);
   }
 
   @Test
-  public void testStringToInt() { // int -2^32 ... 0 ... 2^31-1
+  public void test07_stringToInt() { // int -2^32 ... 0 ... 2^31-1
     StackTracer.printCurrentTestMethod();
     String t[] = {"-2147483648", "1", "2147483647"};
-    int i1 = (int)-Math.pow(2, 32);
-    int i2 = (int)(Math.pow(2, 31)-1);
+    int i1 = (int) -Math.pow(2, 32);
+    int i2 = (int) (Math.pow(2, 31) - 1);
     int expected[] = {i1, 1, i2};
     int results[] = new int[3];
     boolean ok[] = new boolean[3];
@@ -174,17 +180,17 @@ public class ConvertLibTest {
     for (int i = 0; i < ok.length; i++) {
       results[i] = ConvertLib.stringToInt(t[i]);
       ok[i] = results[i] == expected[i];
-      System.out.println("- stringToInt("+t[i]+") = "+ results[i]);
+      System.out.println("  - stringToInt(" + t[i] + ") = " + results[i]);
     }
     assertTrue(ok[0] && ok[1] && ok[2]);
   }
 
   @Test
-  public void testStringToLong() { // int -2^64 ... 0 ... 2^63-1
+  public void test08_stringToLong() { // int -2^64 ... 0 ... 2^63-1
     StackTracer.printCurrentTestMethod();
     String t[] = {"-9223372036854775808", "1", "9223372036854775807"};
-    long l1 = (long)-Math.pow(2, 64);
-    long l2 = (long)(Math.pow(2, 63)-1);
+    long l1 = (long) -Math.pow(2, 64);
+    long l2 = (long) (Math.pow(2, 63) - 1);
     long expected[] = {l1, 1, l2};
     long results[] = new long[3];
     boolean ok[] = new boolean[3];
@@ -193,13 +199,13 @@ public class ConvertLibTest {
     for (int i = 0; i < ok.length; i++) {
       results[i] = ConvertLib.stringToLong(t[i]);
       ok[i] = results[i] == expected[i];
-      System.out.println("- stringToLong("+t[i]+") = "+ results[i]);
+      System.out.println("  - stringToLong(" + t[i] + ") = " + results[i]);
     }
     assertTrue(ok[0] && ok[1] && ok[2]);
   }
 
   @Test
-  public void testStringToFloat() {
+  public void test09_stringToFloat() {
     StackTracer.printCurrentTestMethod();
     float SMALLEST_FLOAT = 3.4e-38f;
     String t[] = {"-3.14159f", "1", "+3.4e+38"};
@@ -212,13 +218,13 @@ public class ConvertLibTest {
     for (int i = 0; i < ok.length; i++) {
       results[i] = ConvertLib.stringToFloat(t[i]);
       ok[i] = results[i] == expected[i]; //  < SMALLEST_FLOAT;
-      System.out.println("- stringToFloat("+t[i]+") = "+ results[i]);
+      System.out.println("  - stringToFloat(" + t[i] + ") = " + results[i]);
     }
     assertTrue(ok[0] && ok[1] && ok[2]);
   }
 
   @Test
-  public void testStringToDouble() {
+  public void test10_stringToDouble() {
     StackTracer.printCurrentTestMethod();
     String t[] = {"-3.14159d", "1.", "1.7e+308"};
     double SMALLEST_DOUBLE = 1.7e-308d;
@@ -232,12 +238,9 @@ public class ConvertLibTest {
     for (int i = 0; i < ok.length; i++) {
       results[i] = ConvertLib.stringToDouble(t[i]);
       ok[i] = results[i] == expected[i];
-      System.out.println("- stringToDouble("+t[i]+") = "+ results[i]);
+      System.out.println("  - stringToDouble(" + t[i] + ") = " + results[i]);
     }
     assertTrue(ok[0] && ok[1] && ok[2]);
   }
-
-
-
 
 }

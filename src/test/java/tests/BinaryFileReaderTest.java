@@ -44,44 +44,40 @@ public class BinaryFileReaderTest {
   }
 
   @Test
-  public void test01_Open() {
+  public void test01_open() {
     StackTracer.printCurrentTestMethod();
-    boolean ok1 = readerComptes.open();
-    boolean ok2 = readerPmtModes.open();
-    assertTrue(ok1 && ok2);
+    boolean result = readerComptes.open();
+    StackTracer.printTestInfo(COMPTES, result);
+    assertTrue(result);
   }
 
   @Test
-  public void test02_NumberOfBytes() {
+  public void test02_numberOfBytes() {
     StackTracer.printCurrentTestMethod();
     int result = readerComptes.numberOfBytes();
-    System.out.println("result=" + result);
-    boolean ok = result > 0;
-    assertTrue(ok);
+    StackTracer.printTestInfo(COMPTES, result);
+    assertTrue(result > 0);
   }
 
   @Test
-  public void test03_NumberOfRecords() {
+  public void test03_numberOfRecords() {
     StackTracer.printCurrentTestMethod();
-    int expResult = 0;
     int result = readerComptes.numberOfRecords();
-    boolean ok = result > 1;
-    System.out.println("result=" + result);
-    assertTrue(ok);
+    StackTracer.printTestInfo(COMPTES, result);
+    assertTrue(result > 1);
   }
 
   @Test
-  public void test04_SkipBytes() {
+  public void test04_skipBytes() {
     StackTracer.printCurrentTestMethod();
     int nb1 = readerComptes.getRecordSize();
     int nb2 = readerComptes.skipBytes(readerComptes.getRecordSize());
-    System.out.println("- to skip: " + nb1);
-    System.out.println("- skipped: " + nb2);
+    StackTracer.printTestInfo(COMPTES, nb2);
     assertEquals(nb2, nb1);
   }
 
   @Test
-  public void test05_LitComptes() throws Exception {
+  public void test05_readComptes() throws Exception {
     StackTracer.printCurrentTestMethod();
     int nb = readerComptes.numberOfRecords();
     for (int i = 0; i < nb; i++) {
@@ -106,7 +102,7 @@ public class BinaryFileReaderTest {
           soldes[j].setMontant(mt);
         }
         c.setSoldes(soldes);
-        System.out.println((i + 1) + ". " + c);
+        System.out.println("  " + (i + 1) + ". " + c);
         if (SHOW_DETAILS) {
           System.out.println(c.getSoldes());
         }
@@ -118,9 +114,45 @@ public class BinaryFileReaderTest {
     boolean ok = nb > 1;
     assertTrue(ok);
   }
+  
+  
+  
+  
+  @Test
+  public void test06_open() {
+    StackTracer.printCurrentTestMethod();
+    boolean result = readerPmtModes.open();
+    StackTracer.printTestInfo(PMTMODES, result);
+    assertTrue(result);
+  }
 
   @Test
-  public void test06_LitPmtModes() throws Exception {
+  public void test07_numberOfBytes() {
+    StackTracer.printCurrentTestMethod();
+    int result = readerPmtModes.numberOfBytes();
+    StackTracer.printTestInfo(PMTMODES, result);
+    assertTrue(result > 0);
+  }
+
+  @Test
+  public void test08_numberOfRecords() {
+    StackTracer.printCurrentTestMethod();
+    int result = readerPmtModes.numberOfRecords();
+    StackTracer.printTestInfo(PMTMODES, result);
+    assertTrue(result > 1);
+  }
+
+  @Test
+  public void test09_skipBytes() {
+    StackTracer.printCurrentTestMethod();
+    int nb1 = readerPmtModes.getRecordSize();
+    int nb2 = readerPmtModes.skipBytes(readerPmtModes.getRecordSize());
+    StackTracer.printTestInfo(PMTMODES, nb2);
+    assertEquals(nb2, nb1);
+  }
+  
+  @Test
+  public void test10_readPmtModes() throws Exception {
     StackTracer.printCurrentTestMethod();
     int nb = readerPmtModes.numberOfRecords();
     for (int i = 0; i < nb; i++) {
@@ -129,12 +161,11 @@ public class BinaryFileReaderTest {
         pm.setAbrev(readerPmtModes.readString(6));
         pm.setDesignation(readerPmtModes.readString(30));
         pm.setNoCompte(readerPmtModes.readDec(6).intValue());
-        System.out.println(i + ". " + pm);
+        System.out.println("  " + (i + 1) + ". " + pm);
       } else {
         readerPmtModes.skipBytes(readerPmtModes.getRecordSize() - 4);
       }
     }
-    boolean ok = nb > 1;
-    assertTrue(ok);
+    assertTrue(nb > 1);
   }
 }

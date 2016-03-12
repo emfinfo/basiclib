@@ -18,15 +18,6 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DateTimeLibTest {
   
-  @BeforeClass
-  public static void setUpClass() {
-//    System.out.println("Default charset: " + Charset.defaultCharset().displayName());
-  }
-  
-  @AfterClass
-  public static void tearDownClass() {
-  }
-  
   @Test
   public void test01_stringToDate() {
     StackTracer.printCurrentTestMethod();
@@ -34,8 +25,8 @@ public class DateTimeLibTest {
     Date d = DateTimeLib.stringToDate(sDate);
     Calendar calendar = Calendar.getInstance();  
     calendar.setTime(d);  
-    System.out.println("- à parser : " + sDate);
-    System.out.println("- parsé    : " + DateTimeLib.dateToString(d));
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
     assertTrue(calendar.get(Calendar.YEAR)==2015 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==28);
   }
   
@@ -46,8 +37,8 @@ public class DateTimeLibTest {
     Date d = DateTimeLib.stringToDate(sDate, false);
     Calendar calendar = Calendar.getInstance();  
     calendar.setTime(d);  
-    System.out.println("- à parser : " + sDate);
-    System.out.println("- parsé    : " + DateTimeLib.dateToString(d));
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
     assertTrue(calendar.get(Calendar.YEAR)==2015 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==1);
   }
 
@@ -58,8 +49,8 @@ public class DateTimeLibTest {
     Date d = DateTimeLib.stringToDate(sDate, true);
     Calendar calendar = Calendar.getInstance();  
     calendar.setTime(d);  
-    System.out.println("- à parser : " + sDate);
-    System.out.println("- parsé    : " + DateTimeLib.dateToString(d));
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
     assertTrue(calendar.get(Calendar.YEAR)==2015 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==28);
   }
 
@@ -70,8 +61,8 @@ public class DateTimeLibTest {
     Date d = DateTimeLib.isoStringToDate(sDate);
     Calendar calendar = Calendar.getInstance();  
     calendar.setTime(d);  
-    System.out.println("- à parser : " + sDate);
-    System.out.println("- parsé    : " + DateTimeLib.dateToString(d));
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed    : " + DateTimeLib.dateToString(d));
     assertTrue(calendar.get(Calendar.YEAR)==2015 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==28);
   }  
   
@@ -81,8 +72,8 @@ public class DateTimeLibTest {
     String res[] = new String[2];
     res[0] = DateTimeLib.dateToString(dates[0], DateTimeLib.ISO8601_FORMAT_SHORT);
     res[1] = DateTimeLib.dateToString(dates[1], DateTimeLib.ISO8601_FORMAT_SHORT);
-    System.out.println("- date[0] : " + res[0]);
-    System.out.println("- date[1] : " + res[1]);  
+    System.out.println("  - date[0] : " + res[0]);
+    System.out.println("  - date[1] : " + res[1] + "\n");  
     return res;
   }
   

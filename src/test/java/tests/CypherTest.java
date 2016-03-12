@@ -31,8 +31,8 @@ public class CypherTest {
   public void testEncrypt() {
     StackTracer.printCurrentTestMethod();
     encoded = Cypher.encrypt(toEncode, key, Charset.defaultCharset());
-    System.out.println("- à coder  : " + toEncode);
-    System.out.println("- codé     : " + encoded);
+    System.out.println("  - to encrypt  : " + toEncode);
+    System.out.println("  - codé     : " + encoded);
     assertTrue(!encoded.equals(toEncode));
   }
   
@@ -41,8 +41,8 @@ public class CypherTest {
     StackTracer.printCurrentTestMethod();
     String toDecode = encoded;
     String decoded = Cypher.decrypt(toDecode, key, Charset.defaultCharset());
-    System.out.println("- à décoder: " + toDecode);
-    System.out.println("- décodé   : " + decoded);
+    System.out.println("  - à décoder: " + toDecode);
+    System.out.println("  - décodé   : " + decoded);
     assertTrue(decoded.equals(toEncode));
   }  
 
