@@ -9,7 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Test de quelques méthodes de JavaLib.
+ * 
  * @author jcstritt
  */
 public class JavaLibTest {
@@ -17,6 +18,7 @@ public class JavaLibTest {
 
   @BeforeClass
   public static void setUpClass() {
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
     if (!FileHelper.isFileExists(CLASS_TO_CHECK)) {
       CLASS_TO_CHECK = "build/test/classes/beans/Compte.class";
     }
@@ -24,6 +26,7 @@ public class JavaLibTest {
 
   @AfterClass
   public static void tearDownClass() {
+    System.out.println();
   }
 
   @Test

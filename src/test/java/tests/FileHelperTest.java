@@ -13,7 +13,7 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 /**
- * Test de quelques méthodes importantes de FileHelper
+ * Test de quelques méthodes importantes de FileHelper.
  *
  * @author J.-C. Stritt
  */
@@ -43,24 +43,25 @@ public class FileHelperTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    StackTracer.printCurrentTestMethod();
-    System.out.println("User dir: ");
-    System.out.println("  - " +CURRENT_DIR + "\n");
-
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
     File absFile = new File(ABSOLUTE_1);
     File relFile = new File(RELATIVE_1);
 
-    System.out.println("Absolute file path and name: ");
-    System.out.println("  - " + absFile.getPath());
-    System.out.println("  - " + absFile.getName() + "\n");
+//    System.out.println("User dir: ");
+//    System.out.println("  - " +CURRENT_DIR + "\n");
 
-    System.out.println("Relative file path and name: ");
-    System.out.println("  - " + relFile.getPath());
-    System.out.println("  - " + relFile.getName());
+//    System.out.println("Absolute file path and name: ");
+//    System.out.println("  - " + absFile.getPath());
+//    System.out.println("  - " + absFile.getName() + "\n");
+
+//    System.out.println("Relative file path and name: ");
+//    System.out.println("  - " + relFile.getPath());
+//    System.out.println("  - " + relFile.getName());
   }
 
   @AfterClass
   public static void tearDownClass() throws Exception {
+    System.out.println();
   }
 
   @Test

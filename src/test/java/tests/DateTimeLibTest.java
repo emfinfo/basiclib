@@ -12,11 +12,22 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- *
+ * Test des principales méthodes de DateTimeLib.
+ * 
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DateTimeLibTest {
+
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
+  }
+
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+    System.out.println();
+  }
   
   @Test
   public void test01_stringToDate() {

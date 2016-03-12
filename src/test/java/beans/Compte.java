@@ -27,12 +27,12 @@ public class Compte {
 
   @Override
   public String toString() {
-    String s = numero + " " + monnaie + " - " + designation + " - " + groupe + " - ";
-    s += " rang: " + rang;
-    s += " code TVA: " + codeTVA;
-    s += " taux amb.: " + tauxAmbigu;
-    s += " saisies:" + nbEcriSaisies;
-    s += " comptab.:" + nbEcriComptab;
+    String s = numero + " " + monnaie + " " + designation + ", " + groupe;
+    s += ", rang: " + rang;
+    s += ", code TVA: " + codeTVA;
+    s += ", taux amb.: " + tauxAmbigu;
+    s += ", saisies:" + nbEcriSaisies;
+    s += ", comptab.:" + nbEcriComptab;
     return s;
   }
 

@@ -2,7 +2,6 @@ package tests;
 
 import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.ConvertLib;
-import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;

@@ -2,17 +2,32 @@ package tests;
 
 import ch.jcsinfo.math.MathLib;
 import ch.jcsinfo.system.StackTracer;
+import org.junit.AfterClass;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 /**
  *
  * @author jcstritt
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MathLibTest {
 
+  @BeforeClass
+  public static void setUpClass() throws Exception {
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
+  }
+
+  @AfterClass
+  public static void tearDownClass() throws Exception {
+    System.out.println();
+  }
+  
   @Test
-  public void testRoundToMultiple() {
+  public void test01_roundValue() {
     StackTracer.printCurrentTestMethod();
     final double delta = 1e-15;
 
@@ -55,7 +70,7 @@ public class MathLibTest {
   }
 
   @Test
-  public void testColumnNameToIndex() {
+  public void test02_columnNameToIndex() {
     StackTracer.printCurrentTestMethod();
     String t[] = {"A", "Z", "AA", "FB"};
     double expected[] = {0, 25, 26, 157};

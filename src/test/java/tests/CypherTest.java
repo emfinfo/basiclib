@@ -6,12 +6,16 @@ import java.nio.charset.Charset;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 /**
- *
+ * Test de quelques méthodes de Cypher.
+ * 
  * @author jcstritt
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CypherTest {
   private static String toEncode = "06h30, Bonjour les amis de la pêche en Gruyère !";
   
@@ -20,29 +24,31 @@ public class CypherTest {
   
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("Default charset: " + Charset.defaultCharset().displayName());
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
+//    System.out.println("Default charset: " + Charset.defaultCharset().displayName());
   }
 
   @AfterClass
   public static void tearDownClass() throws Exception {
+    System.out.println();
   }  
 
   @Test
-  public void testEncrypt() {
+  public void test01_encrypt() {
     StackTracer.printCurrentTestMethod();
     encoded = Cypher.encrypt(toEncode, key, Charset.defaultCharset());
-    System.out.println("  - to encrypt  : " + toEncode);
-    System.out.println("  - codé     : " + encoded);
+    System.out.println("  - to encrypt : " + toEncode);
+    System.out.println("  - crypted    : " + encoded);
     assertTrue(!encoded.equals(toEncode));
   }
   
   @Test
-  public void testDecrypt() {
+  public void test02_decrypt() {
     StackTracer.printCurrentTestMethod();
     String toDecode = encoded;
     String decoded = Cypher.decrypt(toDecode, key, Charset.defaultCharset());
-    System.out.println("  - à décoder: " + toDecode);
-    System.out.println("  - décodé   : " + decoded);
+    System.out.println("  - to decrypt : " + toDecode);
+    System.out.println("  - decrypted  : " + decoded);
     assertTrue(decoded.equals(toEncode));
   }  
 

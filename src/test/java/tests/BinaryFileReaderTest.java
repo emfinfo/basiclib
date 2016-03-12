@@ -5,12 +5,13 @@ import beans.Solde;
 import beans.PmtMode;
 import ch.jcsinfo.file.BinaryFileReader;
 import ch.jcsinfo.system.StackTracer;
+import ch.jcsinfo.util.ConvertLib;
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
@@ -32,7 +33,8 @@ public class BinaryFileReaderTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("Default charset: " + Charset.defaultCharset().displayName());
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
+//    System.out.println("Default charset: " + Charset.defaultCharset().displayName());
     readerComptes = new BinaryFileReader(COMPTES, COMPTES_REC_SIZE);
     readerPmtModes = new BinaryFileReader(PMTMODES, PMTMODES_REC_SIZE);
   }
@@ -41,6 +43,7 @@ public class BinaryFileReaderTest {
   public static void tearDownClass() throws Exception {
     readerComptes.closeFile();
     readerPmtModes.closeFile();
+    System.out.println();
   }
 
   @Test
@@ -80,6 +83,8 @@ public class BinaryFileReaderTest {
   public void test05_readComptes() throws Exception {
     StackTracer.printCurrentTestMethod();
     int nb = readerComptes.numberOfRecords();
+    StackTracer.printTestInfo(COMPTES, nb);
+    System.out.println();
     for (int i = 0; i < nb; i++) {
       Compte c = new Compte();
       if (readerComptes.readInt() == 0) {
@@ -102,21 +107,17 @@ public class BinaryFileReaderTest {
           soldes[j].setMontant(mt);
         }
         c.setSoldes(soldes);
-        System.out.println("  " + (i + 1) + ". " + c);
+        System.out.println("    " + ConvertLib.formatNumber(i+1, "00") + " - " + c);
         if (SHOW_DETAILS) {
           System.out.println(c.getSoldes());
         }
-        // readerComptes.skipBytes(66);
-      } else {
+      } else { // compte effacé: status = -1
         readerComptes.skipBytes(readerComptes.getRecordSize() - 4);
       }
     }
     boolean ok = nb > 1;
     assertTrue(ok);
   }
-  
-  
-  
   
   @Test
   public void test06_open() {
@@ -155,14 +156,16 @@ public class BinaryFileReaderTest {
   public void test10_readPmtModes() throws Exception {
     StackTracer.printCurrentTestMethod();
     int nb = readerPmtModes.numberOfRecords();
+    StackTracer.printTestInfo(PMTMODES, nb);
+    System.out.println();
     for (int i = 0; i < nb; i++) {
       PmtMode pm = new PmtMode();
       if (readerPmtModes.readInt() == 0) {
         pm.setAbrev(readerPmtModes.readString(6));
         pm.setDesignation(readerPmtModes.readString(30));
         pm.setNoCompte(readerPmtModes.readDec(6).intValue());
-        System.out.println("  " + (i + 1) + ". " + pm);
-      } else {
+        System.out.println("    " + pm);
+      } else { // pmtMode effacé : status = -1
         readerPmtModes.skipBytes(readerPmtModes.getRecordSize() - 4);
       }
     }
