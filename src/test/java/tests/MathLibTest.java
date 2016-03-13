@@ -19,7 +19,6 @@ public class MathLibTest {
   @BeforeClass
   public static void setUpClass() throws Exception {
     System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
-    System.out.println("Current charset = " );
   }
 
   @AfterClass
