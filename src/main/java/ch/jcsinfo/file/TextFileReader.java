@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -18,8 +19,8 @@ import org.slf4j.LoggerFactory;
  * @param <E> le type de classe-entité à extraire
  */
 public class TextFileReader<E> {
-
-  TextFileExtracter<E> extracter;
+  private TextFileExtracter<E> extracter;
+  private Logger logger;
 
   /**
    * Constructeur.
@@ -28,6 +29,7 @@ public class TextFileReader<E> {
    */
   public TextFileReader(TextFileExtracter<E> extracter) {
     this.extracter = extracter;
+    this.logger = LoggerFactory.getLogger(getClass());   
   }
 
   /**
@@ -79,7 +81,7 @@ public class TextFileReader<E> {
       ar = readData(br);
 
     } catch (IOException ex) {
-      LoggerFactory.getLogger(getClass()).error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
+      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
     } finally {
       if (br != null) {
         try {
@@ -118,8 +120,7 @@ public class TextFileReader<E> {
       ar = readData(br);
 
     } catch (IOException ex) {
-      LoggerFactory.getLogger(getClass()).error("{} [{}]",
-        StackTracer.getCurrentMethod(), ex.getMessage());
+      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
     } finally {
       if (br != null) {
         try {

@@ -34,7 +34,6 @@ import org.xml.sax.SAXException;
  * @author Jean-Claude Stritt
  */
 public class FileHelper {
-
   public static final String REGEX_URL1 = "[\\\\]+";
   public static final String REGEX_URL2 = "\\" + "/";
   public static final String REGEX_FDR1 = "[/\\\\]+";

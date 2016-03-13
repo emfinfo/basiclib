@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 public class BinaryFileReader {
   private String fileName;
   private int recordSize;
+  private Logger logger;
   private DataInputStream dis = null;
 
   /**
@@ -30,6 +32,7 @@ public class BinaryFileReader {
   public BinaryFileReader( String fileName, int recordSize ) {
     this.fileName = fileName;
     this.recordSize = recordSize;
+    this.logger = LoggerFactory.getLogger(getClass());   
   }
 
   /**
@@ -40,12 +43,10 @@ public class BinaryFileReader {
   public boolean open() {
     boolean ok = false;
     try {
-      dis = new DataInputStream(
-              new BufferedInputStream(new FileInputStream(fileName)));
+      dis = new DataInputStream(new BufferedInputStream(new FileInputStream(fileName)));
       ok = true;
     } catch (FileNotFoundException ex) {
-      LoggerFactory.getLogger(getClass()).error("{} [{}]",
-              StackTracer.getCurrentMethod(), ex.getMessage());
+      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return ok;
   }
@@ -240,6 +241,7 @@ public class BinaryFileReader {
         dis.close();
       }
     } catch (IOException ex) {
+      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
     }
   }
 }
