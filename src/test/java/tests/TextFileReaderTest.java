@@ -33,8 +33,7 @@ public class TextFileReaderTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("Default charset: " + Charset.defaultCharset().displayName());
-//    changeCharset("utf-8"); 
+    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
   }
 
   @AfterClass

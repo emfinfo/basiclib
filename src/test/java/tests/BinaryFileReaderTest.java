@@ -5,8 +5,10 @@ import beans.Solde;
 import beans.PmtMode;
 import ch.jcsinfo.file.BinaryFileReader;
 import ch.jcsinfo.system.StackTracer;
+import ch.jcsinfo.system.SystemLib;
 import ch.jcsinfo.util.ConvertLib;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +36,6 @@ public class BinaryFileReaderTest {
   @BeforeClass
   public static void setUpClass() throws Exception {
     System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
-//    System.out.println("Default charset: " + Charset.defaultCharset().displayName());
     readerComptes = new BinaryFileReader(COMPTES, COMPTES_REC_SIZE);
     readerPmtModes = new BinaryFileReader(PMTMODES, PMTMODES_REC_SIZE);
   }
