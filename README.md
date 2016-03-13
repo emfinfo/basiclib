@@ -10,14 +10,11 @@ A Java library with some basic methods (most are static methods) for all your ne
 
 You can download and open this project in NetBeans 8.1. I'ts a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
 
-In Terminal or console Windows, you can start "test" with a Maven command :
+In MacOS terminal or Windows console, you can start the "test" suite with a Maven command :
 - mvn test
  
 You can check a specific test with (for example) :
 - mvn test -Dtest=BinaryFileReaderTest
-
-You can recreate site "javadoc" with :
-- mvn site
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/basiclib/project-info<br>
