@@ -19,6 +19,7 @@ You can check a specific test with (for example) :
 You can recreate site "javadoc" with :
 - mvn site
 
-- http://jcstritt.emf-informatique.ch/basiclib/project-info
-- http://jcstritt.emf-informatique.ch/basiclib/project-javadoc
+http://jcstritt.emf-informatique.ch/basiclib/project-info
+§
+http://jcstritt.emf-informatique.ch/basiclib/project-javadoc
 
