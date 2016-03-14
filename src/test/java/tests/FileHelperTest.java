@@ -146,10 +146,12 @@ public class FileHelperTest {
     StackTracer.printCurrentTestMethod();
     List<String> files = FileHelper.getFolderFiles(PATH, ".txt");
     boolean ok = files != null && files.size()==2;
+    StackTracer.printTestInfo(PATH + " (.txt)", files.size());
     assertTrue(ok);
     if (ok) {
+      System.out.println();
       for (String fname : files) {
-        System.out.println("  - " + fname);
+        System.out.println("    " + fname);
       }
     }
   }
@@ -206,5 +208,5 @@ public class FileHelperTest {
     }
     assertTrue(ok);
   }  
-
+  
 }

@@ -12,15 +12,16 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={
+  JavaLibTest.class,
+  SystemLibTest.class,
   MathLibTest.class,
+  CypherTest.class,
   ConvertLibTest.class,
   FileHelperTest.class,
   BinaryFileReaderTest.class,
   TextFileReaderTest.class,
-  CypherTest.class,
-  PrintHelperTest.class,
-  JavaLibTest.class,
-  SystemLibTest.class}
+  PrintHelperTest.class
+  }
 )
 public class AllTests {
 

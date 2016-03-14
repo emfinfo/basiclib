@@ -4,8 +4,8 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Classe avec des méthodes statiques pour connaitre quelques informations de
@@ -14,13 +14,23 @@ import java.util.logging.Logger;
  * @author jcstritt
  */
 public class JavaLib {
+  private static Logger logger = LoggerFactory.getLogger(SystemLib.class);
 
+  /**
+   * Retourne la version Java par défaut utilisé par l'OS.
+   * 
+   * @return la version Java tournant sur l'OS
+   */
+  public static String getJavaVersion() {
+    return System.getProperty("java.version");
+  }
+  
   /**
    * Retourne le nb de bits (32 ou 64) de l'actuel JRE utilisé.
    *
    * @return un entier 32 ou 64 (bits)
    */
-  public static int getJavaPlatformBits() {
+  public static int getJavaVersionBits() {
     return Integer.parseInt(System.getProperty("sun.arch.data.model"));
   }
 
@@ -43,9 +53,9 @@ public class JavaLib {
       }
       in.close();
     } catch (FileNotFoundException ex) {
-      Logger.getLogger(JavaLib.class.getName()).log(Level.SEVERE, null, ex);
+      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), filename + " (" + FileNotFoundException.class.getSimpleName() + ")");
     } catch (IOException ex) {
-      Logger.getLogger(JavaLib.class.getName()).log(Level.SEVERE, null, ex);
+      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), filename + " (" + IOException.class.getSimpleName() + ")");
     }
     return data;
   }
@@ -54,8 +64,8 @@ public class JavaLib {
    * Retourne le nom de la plateforme Java (ex: J2SE 7) qui a été utilisée lors de la
    * dernière compilation d'une classe Java.
    *
-   * @param filename un nom de fichier ".class" à tester
-   * @return une chaîne de caractères avec la plateforme Java utilisée
+   * @param filename un nom de fichier ".class" pour tester le nom de la plateforme
+   * @return la plateforme Java utilisée
    */
   public static String getJavaClassPlatform(String filename) {
     final String J2SE = "J2SE ";
@@ -78,6 +88,6 @@ public class JavaLib {
         res = "JDK 1." + (data[0] - 44);
     }
     return res;
-  }
-
+  }  
+  
 }

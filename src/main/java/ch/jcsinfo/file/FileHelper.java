@@ -632,9 +632,7 @@ public class FileHelper {
    * @throws java.io.IOException l'exception à gérer au niveau supérieur
    * @return l'URI du fichier créé
    */
-  public static URI copyFile(File sourceFile,
-          File targetDirectory, String targetFilename,
-          boolean deleteOnExit)
+  public static URI copyFile(File sourceFile, File targetDirectory, String targetFilename, boolean deleteOnExit)
           throws IOException {
     targetFilename = check(targetFilename);
     FileOutputStream out;

@@ -33,28 +33,37 @@ public class JavaLibTest {
   }
 
   @Test
-  public void test01_getJavaPlatformBits() {
+  public void test01_getJavaVersion() {
     StackTracer.printCurrentTestMethod();
-    int result = JavaLib.getJavaPlatformBits();
-    System.out.println("  - Java " + result + " bits");
+    String result = JavaLib.getJavaVersion();
+    System.out.println("  - " + result);
+    assertTrue(!result.isEmpty());
+  }
+
+  @Test
+  public void test02_getJavaVersionBits() {
+    StackTracer.printCurrentTestMethod();
+    int result = JavaLib.getJavaVersionBits();
+    System.out.println("  - " + result + " bits");
     assertTrue(result == 32 || result == 64);
   }
 
   @Test
-  public void test02_getJavaClassVersion() {
+  public void test03_getJavaClassVersion() {
     StackTracer.printCurrentTestMethod();
     int[] result = JavaLib.getJavaClassVersion(CLASS_TO_CHECK);
-    System.out.println("  - Java major: " + result[0]);
-    System.out.println("  - Java minor: " + result[1]);
+    System.out.println("  - major: " + result[0]);
+    System.out.println("  - minor: " + result[1]);
     assertTrue(result[0] > 0);
   }
 
   @Test
-  public void test03_getJavaClassPlatform() {
+  public void test04_getJavaClassPlatform() {
     StackTracer.printCurrentTestMethod();
     String result = JavaLib.getJavaClassPlatform(CLASS_TO_CHECK);
-    System.out.println("  - Java platform: " + result);
+    System.out.println("  - " + result);
     assertTrue(result.contains("JDK") || result.contains("J2SE"));
   }
+
 
 }

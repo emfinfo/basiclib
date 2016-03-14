@@ -28,13 +28,29 @@ public class SystemLib {
   }
 
   /**
+   * Reset les données pour log4J en relisant son fichier de propriétés.
+   *
+   * @param cl ClassLoader peut être obtenu par :<br>
+   * ClassLoader cl = MaClasse.class.getClassLoader();
+   */
+  public static void resetLog4j(ClassLoader cl) {
+    String propFile = "log4j.properties";
+    LogManager.resetConfiguration();
+    URL url = cl.getResource(propFile);
+    if (url != null) {
+      PropertyConfigurator.configure(url);
+      logger.debug("{} with « {} » ok !", StackTracer.getCurrentMethod(), propFile);
+    }
+  }  
+  
+  /**
    * Ouvre une application du bureau basée sur le fichier transmis.
    * Ainsi, un fichier .pdf devrait s'ouvrir automatiquement avec Acrobat Reader
    * par exemple. Cette méthode devrait fonctionner avec tous les OS.
    *
-   * @param myFile le fichier à ouvrir
+   * @param fileName le fichier à ouvrir (avec son chemin)
    */
-  public static void openDesktopFile(String myFile) {
+  public static void openDesktopFile(String fileName) {
 
     // on vérifie que la classe SystemLib soit bien supportée
     if (Desktop.isDesktopSupported()) {
@@ -47,10 +63,10 @@ public class SystemLib {
 
         // on lance l'application associée au fichier pour l'ouvrir
         try {
-          desktop.open(new File(myFile));
-          logger.debug("{} « {} »", StackTracer.getCurrentMethod(), myFile);
+          desktop.open(new File(fileName));
+          logger.debug("{} « {} » ok !", StackTracer.getCurrentMethod(), fileName);
         } catch (IOException ex) {
-          logger.error("{} « {} »", StackTracer.getCurrentMethod(), myFile + " (" + IOException.class.getSimpleName() + ")");
+          logger.error("{} « {} »", StackTracer.getCurrentMethod(), fileName + " (" + IOException.class.getSimpleName() + ")");
         }
       }
     }
@@ -63,88 +79,10 @@ public class SystemLib {
    */
   public static void sleep(long ms) {
     try {
+      logger.debug("{} now for « {} » ms", StackTracer.getCurrentMethod(), ms);
       Thread.sleep(ms);
     } catch (InterruptedException e) {
     }
-  }
-
-  /**
-   * Trouve une méthode par introspection dans la classe de l'objet "source"
-   * fourni. Si elle n'est pas trouvée, la méthode est encore recherchée
-   * dans la classe parente (classe mère).
-   *
-   * @param source     l'objet où rechercher la méthode
-   * @param methodName le nom de la méthode recherchée
-   * @return la méthode si elle a été trouvée, autrement null
-   */
-  // idem, mais on donne l'objet
-  public static Method findMethod(Object source, String methodName) {
-    Method m = null;
-
-    // on recherche la méthode dans la classe de l'objet "source"
-    try {
-      m = source.getClass().getDeclaredMethod(methodName);
-    } catch (NoSuchMethodException | SecurityException e) {
-    }
-
-    // on recherche la méthode dans la classe parente
-    if (m == null) {
-      try {
-        Class<?> c = source.getClass();
-        Class<?> parent = c.getSuperclass();
-//        System.out.println("Class: " + c.getSimpleName());
-//        System.out.println("Parent: " + parent.getSimpleName());
-        m = parent.getDeclaredMethod(methodName);
-      } catch (NoSuchMethodException | SecurityException e) {
-      }
-    }
-
-    // si pas trouvé, on met un message dans le fichier de log
-    if (m == null) {
-      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), "method not found !");
-    }
-    return m;
-  }
-
-  /**
-   * Appel d'une méthode sans paramètre contenue dans un objet source.
-   *
-   * @param source l'objet "source" où se trouve la méthode
-   * @param method la méthode à appeler
-   */
-  public static void callMethod(Object source, Method method) {
-    final Method myMethod = method;
-    try {
-      Object[] args = new Object[0];
-      myMethod.setAccessible(true); // ajout JCS 9.2.2014
-      myMethod.invoke(source, args);
-    } catch (IllegalAccessException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalAccessException.class.getSimpleName());
-    } catch (IllegalArgumentException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalArgumentException.class.getSimpleName());
-    } catch (InvocationTargetException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + InvocationTargetException.class.getSimpleName());
-    }
-  }
-
-  /**
-   * Retourne TRUE si on se trouve sur un OS de type Windows.
-   *
-   * @return true si Windows
-   */
-  public static boolean isWindows() {
-    String os = System.getProperty("os.name").toLowerCase();
-    return (os.contains("win"));
-  }
-
-  /**
-   * Retourne TRUE si on se trouve sur un OS de type Mac.
-   *
-   * @return true si MacOS
-   */
-  public static boolean isMacOS() {
-    String os = System.getProperty("os.name").toLowerCase();
-    return (os.contains("mac"));
   }
 
   /**
@@ -159,6 +97,7 @@ public class SystemLib {
     try {
       PrintStream ps = new PrintStream(System.out, true, ch);
       System.setOut(ps);
+      logger.debug("{} to « {} » ok !", StackTracer.getCurrentMethod(), ch);
     } catch (UnsupportedEncodingException ex) {
       logger.error("{} « {} »", StackTracer.getCurrentMethod() + "(" + ch + ")", UnsupportedEncodingException.class.getSimpleName());
     }
@@ -179,22 +118,92 @@ public class SystemLib {
       list.add(charset.displayName());
     }
     return list;
+  }  
+  
+  /**
+   * Trouve une méthode par introspection dans la classe de l'objet "source"
+   * fourni. Si elle n'est pas trouvée, la méthode est encore recherchée
+   * dans la classe parente (classe mère).
+   *
+   * @param source     l'objet où rechercher la méthode
+   * @param methodName le nom de la méthode recherchée
+   * @return la méthode si elle a été trouvée, autrement null
+   */
+  // idem, mais on donne l'objet
+  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
+    Method m = null;
+
+    // on recherche la méthode dans la classe de l'objet "source"
+    try {
+      Class<?> cl = source.getClass();
+//      Method[] methods = cl.getDeclaredMethods();
+//      for (Method method : methods) {
+//        System.out.println("  - "+method.getName());
+//      }
+      m = cl.getDeclaredMethod(methodName, parameterTypes);
+    } catch (NoSuchMethodException | SecurityException ex) {
+    }
+
+    // on recherche la méthode dans la classe parente
+    if (m == null) {
+      try {
+        Class<?> c = source.getClass();
+        Class<?> parent = c.getSuperclass();
+//        System.out.println("Class: " + c.getSimpleName());
+//        System.out.println("Parent: " + parent.getSimpleName());
+        m = parent.getDeclaredMethod(methodName);
+      } catch (NoSuchMethodException | SecurityException ex) {
+      }
+    }
+
+    // si pas trouvé, on met un message dans le fichier de log
+    if (m == null) {
+      logger.debug("{}(« {} ») not found !", StackTracer.getCurrentMethod(), methodName);
+    }
+    return m;
   }
 
   /**
-   * Reset les données pour log4J en relisant son fichier de propriétés.
+   * Appel d'une méthode contenue dans un objet source.
    *
-   * @param cl ClassLoader peut être obtenu par :<br>
-   * ClassLoader cl = MaClasse.class.getClassLoader();
+   * @param source l'objet "source" où se trouve la méthode
+   * @param method la méthode à appeler
    */
-  public static void resetLog4j(ClassLoader cl) {
-    String propFile = "log4j.properties";
-    LogManager.resetConfiguration();
-    URL url = cl.getResource(propFile);
-    if (url != null) {
-      PropertyConfigurator.configure(url);
-      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), propFile);
+  public static Object callMethod(Object source, Method method, Object... parameters) {
+    final Method myMethod = method;
+    Object result = null;
+    try {
+//      Object[] parameters = new Object[0];
+      myMethod.setAccessible(true); // ajout JCS 9.2.2014
+      result = myMethod.invoke(source, parameters);
+    } catch (IllegalAccessException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalAccessException.class.getSimpleName());
+    } catch (IllegalArgumentException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalArgumentException.class.getSimpleName());
+    } catch (InvocationTargetException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + InvocationTargetException.class.getSimpleName());
     }
+    return result;
+  }
+
+  /**
+   * Retourne TRUE si on se trouve sur un OS de type Windows.
+   *
+   * @return true si Windows
+   */
+  public static boolean isWindows() {
+    String os = System.getProperty("os.name").toLowerCase();
+    return (os.contains("win"));
+  }
+
+  /**
+   * Retourne TRUE si on se trouve sur un OS de type Mac.
+   *
+   * @return true si MacOS
+   */
+  public static boolean isMacOS() {
+    String os = System.getProperty("os.name").toLowerCase();
+    return (os.contains("mac"));
   }
 
   /**
