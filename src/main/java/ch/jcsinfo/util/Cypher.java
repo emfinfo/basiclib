@@ -8,7 +8,7 @@ import java.util.Base64;
  * - par substitution d'alphabets<br>
  * - par manipulation de bits (xor)<br>
  * 
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class Cypher {
 

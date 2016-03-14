@@ -13,8 +13,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- * Classe de test de "ConvertLib".
- *
+ * Test des méthodes principales de la classe correspondante.
+ * 
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

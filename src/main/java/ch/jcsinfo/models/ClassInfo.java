@@ -16,7 +16,7 @@ package ch.jcsinfo.models;
  *  ...
  * </pre>
  * 
- * @author StrittJC
+ * @author Jean-Claude Stritt
  */
 public class ClassInfo {
   private String className;

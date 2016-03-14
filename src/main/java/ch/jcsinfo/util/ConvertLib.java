@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * Quelques autres méthodes de conversion sur des objets ont aussi été
  * rajoutées.
  *
- * @author J.-C Stritt
+ * @author Jean-Claude Stritt
  */
 public class ConvertLib {
 

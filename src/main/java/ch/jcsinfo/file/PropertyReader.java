@@ -14,7 +14,7 @@ import java.util.Properties;
  *   Application.splash.font1=Sans Serif-PLAIN-12
  * </pre>
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class PropertyReader {
   private Properties props ;

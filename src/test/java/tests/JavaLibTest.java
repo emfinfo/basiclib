@@ -11,7 +11,7 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 /**
- * Test de quelques méthodes de JavaLib.
+ * Test des méthodes principales de la classe correspondante.
  * 
  * @author jcstritt
  */

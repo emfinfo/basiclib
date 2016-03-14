@@ -7,7 +7,7 @@ import ch.jcsinfo.math.MathLib;
  * Classe abstraite de type "adapter" pour implémenter les méthodes
  * de l'interface "CallbackHandler".
  * 
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public abstract class CallbackAdapter implements CallbackHandler {
   protected String title = "";

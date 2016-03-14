@@ -28,7 +28,7 @@ import javax.print.attribute.standard.PageRanges;
  * Classe qui offre quelques méthodes pour gérer la gestion de l'impression sur une
  * imprimante.
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class PrintHelper {
   public static final double A4_WIDTH = 21.0; // cm

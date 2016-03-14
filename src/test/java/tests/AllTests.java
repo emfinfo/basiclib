@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * Suite de tests pour cette librairie. Certaines données se trouvent
  * dans le dossier "data" du projet.
  *
- * @author Jean-Claude Stritt
+ * @author jcstritt
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={

@@ -3,7 +3,7 @@ package ch.jcsinfo.util;
 /**
  * Interface pour gérer le patron de conception "callback".
  * 
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public interface CallbackHandler {
 

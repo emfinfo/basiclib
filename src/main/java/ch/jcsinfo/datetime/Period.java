@@ -6,7 +6,7 @@ import java.util.Date;
  * Permet d'encapsuler toutes les données d'une période.<br> 
  * Utile par exemple pour gérer des absences.
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class Period {
 

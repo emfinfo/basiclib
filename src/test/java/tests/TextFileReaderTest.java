@@ -7,7 +7,6 @@ import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.ConvertLib;
 import helpers.DepartementExtracter;
 import helpers.LocaliteExtracter;
-import java.nio.charset.Charset;
 import java.util.List;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
@@ -17,8 +16,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- * Test des méthodes de TextFileReader.
- *
+ * Test des méthodes principales de la classe correspondante.
+ * 
  * @author J.-C. Stritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

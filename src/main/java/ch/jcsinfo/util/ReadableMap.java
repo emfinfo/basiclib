@@ -10,11 +10,12 @@ import java.util.Map.Entry;
  * Exemple d'utilisation :<br>
  * System.out.println(new PrettyPrintingMap(myMap));
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
+ * 
  * @param <K> le type pour les clés
  * @param <V> le type pour les valeurs
  */
-public class PrettyPrintingMap<K, V> {
+public class ReadableMap<K, V> {
 
   private Map<K, V> map;
 
@@ -23,7 +24,7 @@ public class PrettyPrintingMap<K, V> {
    *
    * @param map la map à convertir en String
    */
-  public PrettyPrintingMap(Map<K, V> map) {
+  public ReadableMap(Map<K, V> map) {
     this.map = map;
   }
 

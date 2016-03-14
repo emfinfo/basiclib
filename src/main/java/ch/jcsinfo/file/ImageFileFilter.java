@@ -6,7 +6,7 @@ import java.io.FileFilter;
 /**
  * Une classe de filtre pour un JFileChooser.
  *
- * @author StrittJC
+ * @author Jean-Claude Stritt
  */
 public class ImageFileFilter implements FileFilter {
 

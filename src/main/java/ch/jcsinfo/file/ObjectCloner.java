@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Sérialisation et désérialisation d'un objet.
  *
- * @author StrittJC
+ * @author Jean-Claude Stritt
  */
 public class ObjectCloner {
   private static final String FILE_NAME = "obj.ser";
@@ -26,7 +26,6 @@ public class ObjectCloner {
 
   private ObjectCloner() {
   }
-  
   
   /**
    * Méthode privée pour afficher un message de log.

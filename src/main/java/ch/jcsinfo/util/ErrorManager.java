@@ -7,7 +7,7 @@ import java.util.HashMap;
  * Manager d'erreurs qui permet d'ajouter plusieurs tests d'erreur
  * dans une hmap et de retourner la première erreur réelle.
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class ErrorManager {
   HashMap<Integer, ErrorModel> hmap;

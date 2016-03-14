@@ -16,7 +16,8 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 /**
- *
+ * Test des méthodes principales de la classe correspondante.
+ * 
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

@@ -5,7 +5,7 @@ import javax.print.PrintService;
 /**
  * Modèle pour mémoriser l'état d'une imprimante.
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class Printer {
   private PrintService printService;

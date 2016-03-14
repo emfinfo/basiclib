@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * Classe avec des méthodes statiques pour connaitre quelques informations de
  * l'environnement Java.
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class JavaLib {
   private static Logger logger = LoggerFactory.getLogger(SystemLib.class);

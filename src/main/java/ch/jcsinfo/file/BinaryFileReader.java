@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Permet de lire un fichier binaire de type ".DAF" (fichiers des logiciels PSP).
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class BinaryFileReader {
   private String fileName;

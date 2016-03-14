@@ -4,7 +4,7 @@ package ch.jcsinfo.models;
  * Modèle pour mémoriser les informations nécessaires à la gestion des
  * options de copie sur une imprimante.
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class PrinterCopy {
   protected int id;

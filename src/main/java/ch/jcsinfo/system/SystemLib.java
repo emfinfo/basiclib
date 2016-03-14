@@ -127,6 +127,7 @@ public class SystemLib {
    *
    * @param source     l'objet où rechercher la méthode
    * @param methodName le nom de la méthode recherchée
+   * @param parameterTypes un ou plusieurs types des paramètres de la méthode recherchée
    * @return la méthode si elle a été trouvée, autrement null
    */
   // idem, mais on donne l'objet
@@ -168,6 +169,8 @@ public class SystemLib {
    *
    * @param source l'objet "source" où se trouve la méthode
    * @param method la méthode à appeler
+   * @param parameters les éventuels paramètres de la méthode appelée
+   * @return un objet de retour éventuel (certaines méthodes retournent void)
    */
   public static Object callMethod(Object source, Method method, Object... parameters) {
     final Method myMethod = method;

@@ -6,7 +6,7 @@ import java.util.Observable;
  * Classe de type singleton qui permet de créer un sujet observable par
  * la modification d'un état interne (entier "state").
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class ObservableModel extends Observable {
   private static ObservableModel instance = null;

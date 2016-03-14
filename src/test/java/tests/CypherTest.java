@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- * Test de quelques méthodes de Cypher.
+ * Test des méthodes principales de la classe correspondante.
  * 
  * @author jcstritt
  */

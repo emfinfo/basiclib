@@ -7,7 +7,7 @@ import javax.print.event.PrintJobEvent;
 /**
  * Classe pour gérer le déroulement d'un job d'impression.
  *
- * @author jcstritt
+ * @author Jean-Claude Stritt
  */
 public class PrintJobWatcher {
   private boolean done = false;

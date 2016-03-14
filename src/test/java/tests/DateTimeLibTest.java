@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- * Test des principales méthodes de DateTimeLib.
+ * Test des méthodes principales de la classe correspondante.
  * 
  * @author jcstritt
  */
