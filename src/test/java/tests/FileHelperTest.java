@@ -180,7 +180,7 @@ public class FileHelperTest {
   @Test
   public void test13_loadProperties() {
     StackTracer.printCurrentTestMethod();
-    String filePath = FileHelper.getAbsolutePath("src/test/resources/" + PROP_FILE);
+    String filePath = FileHelper.getAbsolutePath("data/" + PROP_FILE);
     Properties properties = FileHelper.loadProperties(filePath);
     StackTracer.printTestInfo(FileHelper.getRelativePath(filePath, CURRENT_DIR), properties.size());
     boolean ok = properties.size() > 0;
@@ -196,7 +196,7 @@ public class FileHelperTest {
   @Test
   public void test14_loadXmlProperties() {
     StackTracer.printCurrentTestMethod();
-    String filePath = FileHelper.getAbsolutePath("src/test/resources/META-INF/" + XML_FILE);
+    String filePath = FileHelper.getAbsolutePath("data/" + XML_FILE);
     Properties properties = FileHelper.loadXmlProperties(filePath);
     StackTracer.printTestInfo(FileHelper.getRelativePath(filePath, CURRENT_DIR), properties.size());
     boolean ok = properties.size() > 0;
