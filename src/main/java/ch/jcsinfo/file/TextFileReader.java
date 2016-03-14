@@ -81,7 +81,7 @@ public class TextFileReader<E> {
       ar = readData(br);
 
     } catch (IOException ex) {
-      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
     } finally {
       if (br != null) {
         try {
@@ -120,7 +120,7 @@ public class TextFileReader<E> {
       ar = readData(br);
 
     } catch (IOException ex) {
-      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
     } finally {
       if (br != null) {
         try {

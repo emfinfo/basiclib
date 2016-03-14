@@ -4,6 +4,8 @@ import ch.jcsinfo.file.FileHelper;
 import ch.jcsinfo.system.StackTracer;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,6 +28,8 @@ public class FileHelperTest {
   static final String FILE_EXT_1 = ".java";
   static final String FILE_EXT_2 = ".class";
   static final String FILE_ADD_PART = "_new";
+  static final String XML_FILE = "persistence.xml";
+  static final String PROP_FILE = "log4j.properties";
 
   static final String PATHNAME = FileHelper.normalizeFileName(CURRENT_DIR + "/" + PACKAGE_NAME);
   static final String RELATIVE_1 = FileHelper.normalizeFileName(PACKAGE_NAME + "/" + FILE_NAME_1 + FILE_EXT_1);
@@ -57,6 +61,7 @@ public class FileHelperTest {
 //    System.out.println("Relative file path and name: ");
 //    System.out.println("  - " + relFile.getPath());
 //    System.out.println("  - " + relFile.getName());
+
   }
 
   @AfterClass
@@ -152,7 +157,7 @@ public class FileHelperTest {
   @Test
   public void test11_filePathToUrl() {
     StackTracer.printCurrentTestMethod();
-    String filePath = FileHelper.getAbsolutePath("build.xml");
+    String filePath = FileHelper.getAbsolutePath(XML_FILE);
     String result = FileHelper.filePathToURL(filePath);
     StackTracer.printTestInfo(filePath, result);
     boolean ok = result.length() > filePath.length();
@@ -162,12 +167,44 @@ public class FileHelperTest {
   @Test
   public void test12_urlToFilePath() {
     StackTracer.printCurrentTestMethod();
-    String filePath = FileHelper.getAbsolutePath("build.xml");
+    String filePath = FileHelper.getAbsolutePath(XML_FILE);
     String url = FileHelper.filePathToURL(filePath);
     String result = FileHelper.urlToFilePath(url);
     StackTracer.printTestInfo(url, result);
     boolean ok = result.length() > 0;
     assertTrue(ok);
   }
+
+  @Test
+  public void test13_loadProperties() {
+    StackTracer.printCurrentTestMethod();
+    String filePath = FileHelper.getAbsolutePath("src/test/resources/" + PROP_FILE);
+    Properties properties = FileHelper.loadProperties(filePath);
+    StackTracer.printTestInfo(FileHelper.getRelativePath(filePath, CURRENT_DIR), properties.size());
+    boolean ok = properties.size() > 0;
+    if (ok) {
+      System.out.println();
+      for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+        System.out.println("    " + entry.getKey() + " = " + entry.getValue());
+      }
+    }
+    assertTrue(ok);
+  }  
+  
+  @Test
+  public void test14_loadXmlProperties() {
+    StackTracer.printCurrentTestMethod();
+    String filePath = FileHelper.getAbsolutePath("src/test/resources/META-INF/" + XML_FILE);
+    Properties properties = FileHelper.loadXmlProperties(filePath);
+    StackTracer.printTestInfo(FileHelper.getRelativePath(filePath, CURRENT_DIR), properties.size());
+    boolean ok = properties.size() > 0;
+    if (ok) {
+      System.out.println();
+      for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+        System.out.println("    " + entry.getKey() + " = " + entry.getValue());
+      }
+    }
+    assertTrue(ok);
+  }  
 
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -21,6 +22,10 @@ import org.slf4j.LoggerFactory;
  * @author Jean-Claude Stritt
  */
 public class SystemLib {
+  private static Logger logger = LoggerFactory.getLogger(SystemLib.class);
+
+  private SystemLib() {
+  }
 
   /**
    * Ouvre une application du bureau basée sur le fichier transmis.
@@ -43,12 +48,9 @@ public class SystemLib {
         // on lance l'application associée au fichier pour l'ouvrir
         try {
           desktop.open(new File(myFile));
-          LoggerFactory.getLogger(SystemLib.class).debug("[{}] - Open file {} ...",
-                  StackTracer.getCurrentMethod(), myFile);
+          logger.debug("{} « {} »", StackTracer.getCurrentMethod(), myFile);
         } catch (IOException ex) {
-          LoggerFactory.getLogger(SystemLib.class).error(
-                  "[{}] - Error when opening {} !",
-                  StackTracer.getCurrentMethod(), myFile);
+          logger.error("{} « {} »", StackTracer.getCurrentMethod(), myFile + " (" + IOException.class.getSimpleName() + ")");
         }
       }
     }
@@ -99,8 +101,7 @@ public class SystemLib {
 
     // si pas trouvé, on met un message dans le fichier de log
     if (m == null) {
-      LoggerFactory.getLogger(SystemLib.class).debug("{} - {}",
-              StackTracer.getCurrentMethod(), "method not found !");
+      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), "method not found !");
     }
     return m;
   }
@@ -117,18 +118,12 @@ public class SystemLib {
       Object[] args = new Object[0];
       myMethod.setAccessible(true); // ajout JCS 9.2.2014
       myMethod.invoke(source, args);
-    } catch (IllegalAccessException e) {
-      LoggerFactory.getLogger(SystemLib.class).error("{} - {}",
-              StackTracer.getCurrentMethod(), method.getName() + " (IllegalAccessException)");
-    } catch (IllegalArgumentException e) {
-      LoggerFactory.getLogger(SystemLib.class).error("{} - {}",
-              StackTracer.getCurrentMethod(), method.getName()+ " (IllegalArgumentException)");
-    } catch (InvocationTargetException e) {
-//      System.err.println("An InvocationTargetException was caught!");
-//      Throwable cause = e.getCause();
-//      System.out.format("Invocation of %s failed because of: %s%n", method, cause.getMessage());
-      LoggerFactory.getLogger(SystemLib.class).error("{} - {}",
-              StackTracer.getCurrentMethod(), method.getName()+ " (InvocationTargetException)");
+    } catch (IllegalAccessException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalAccessException.class.getSimpleName());
+    } catch (IllegalArgumentException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalArgumentException.class.getSimpleName());
+    } catch (InvocationTargetException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + InvocationTargetException.class.getSimpleName());
     }
   }
 
@@ -147,7 +142,7 @@ public class SystemLib {
    *
    * @return true si MacOS
    */
-  public static boolean isMac() {
+  public static boolean isMacOS() {
     String os = System.getProperty("os.name").toLowerCase();
     return (os.contains("mac"));
   }
@@ -165,24 +160,13 @@ public class SystemLib {
       PrintStream ps = new PrintStream(System.out, true, ch);
       System.setOut(ps);
     } catch (UnsupportedEncodingException ex) {
-      System.out.println("Exception error : " + ex.getMessage());
+      logger.error("{} « {} »", StackTracer.getCurrentMethod() + "(" + ch + ")", UnsupportedEncodingException.class.getSimpleName());
     }
 //    System.out.println("\n"
 //              + "Old CHARSET: " + cs.name() + "\n"
 //              + "New CHARSET: " + System.getProperty("file.encoding")
 //              + "\nàâäÂÄéèêëîïÎÏÊËôöÔÖûüùÛÜÿç");
   }
-  
-  /**
-   * Change automatiquement le CHARSET selon l'OS.
-   */
-  public static void changeCharset() {
-    if (isMac()) {
-      changeCharset("macroman");
-    } else {
-      changeCharset("iso-8859-1");
-    }
-  }  
 
   /**
    * Retourne une liste des charsets disponible sur l'OS.
@@ -206,40 +190,32 @@ public class SystemLib {
   public static void resetLog4j(ClassLoader cl) {
     String propFile = "log4j.properties";
     LogManager.resetConfiguration();
-    URL log4jUrl = cl.getResource(propFile);
-    if (log4jUrl != null) {
-      PropertyConfigurator.configure(log4jUrl);
-    } else {
-      LoggerFactory.getLogger(SystemLib.class).error(
-              "[{}] - file {} not found error !",
-              StackTracer.getCurrentMethod(), propFile);
+    URL url = cl.getResource(propFile);
+    if (url != null) {
+      PropertyConfigurator.configure(url);
+      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), propFile);
     }
   }
-  
+
   /**
    * Retourne un tableau d'informations sur l'utilisation de la mémoire.<br>
    * result[0] = la mémoire utilisée<br>
    * result[1] = la mémoire encore libre<br>
    * result[2] = le total de la mémoire à disposition<br>
    * result[3] = la mémoire maximale à disposition<br>
-   * 
+   *
    * @return un tableau avec les 4 informations ci-dessus
    */
   public static float[] getMemoryUsage() {
     final int NBDECS = 1;
-    final float MB = 1024*1024;
+    final float MB = 1024 * 1024;
     float result[] = new float[4];
     Runtime r = Runtime.getRuntime();
     result[0] = (r.totalMemory() - r.freeMemory()) / MB;
     result[1] = r.freeMemory() / MB;
     result[2] = r.totalMemory() / MB;
     result[3] = r.maxMemory() / MB;
-//    System.out.println(">>> used memory:  "+String.format("%.1f", result[0]));
-//    System.out.println(">>> free memory:  "+String.format("%.1f", result[1]));
-//    System.out.println(">>> total memory: "+String.format("%.1f", result[2]));
-//    System.out.println(">>> max memory:   "+String.format("%.1f", result[3]));
-    return result;  
+    return result;
   }
-  
 
 }

@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,6 +39,7 @@ public class FileHelper {
   public static final String REGEX_URL2 = "\\" + "/";
   public static final String REGEX_FDR1 = "[/\\\\]+";
   public static final String REGEX_FDR2 = "\\" + File.separator;
+  private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
 
   /**
    * Normalise une URL en la transformant tout en minuscules et en transformant
@@ -174,12 +176,14 @@ public class FileHelper {
    * @return une liste avec les noms de fichiers
    */
   public static List<String> getFolderFiles(String folder, String fileName) {
+    List<String> files = new ArrayList<>();
     File rep = new File(folder);
     String[] f = rep.list();
-    List<String> files = new ArrayList<>();
-    for (String f1 : f) {
-      if (f1.toLowerCase().contains(fileName)) {
-        files.add(f1);
+    if (f != null) {
+      for (String f1 : f) {
+        if (f1.toLowerCase().contains(fileName)) {
+          files.add(f1);
+        }
       }
     }
     return files;
@@ -292,8 +296,6 @@ public class FileHelper {
       sb.append(f.getCanonicalPath().replace('\\', '/'));
     } catch (IOException e) {
     }
-//    LoggerFactory.getLogger(FileHelper.class).debug("[{}] - {} !",
-//            StackTracer.getCurrentMethod(), sb.toString());
     return sb.toString();
   }
 
@@ -304,7 +306,7 @@ public class FileHelper {
    * @return un nom de fichier normalisé Windows, Mac, Unix, etc.
    */
   public static String urlToFilePath(String urlFilePath) {
-    String filePath = "";
+    String filePath = urlFilePath;
     File f;
     URL url;
     try {
@@ -316,15 +318,11 @@ public class FileHelper {
       }
       try {
         filePath = f.getCanonicalPath();
-//        LoggerFactory.getLogger(FileHelper.class).debug("[{}] - {} !",
-//                StackTracer.getCurrentMethod(), filePath);
       } catch (IOException ex) {
-        LoggerFactory.getLogger(FileHelper.class).error("[{}] - {} !",
-                StackTracer.getCurrentMethod(), ex);
+       logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
       }
     } catch (MalformedURLException ex) {
-      LoggerFactory.getLogger(FileHelper.class).error("[{}] - {} !",
-              StackTracer.getCurrentMethod(), ex);
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return filePath;
   }
@@ -343,8 +341,7 @@ public class FileHelper {
         ok = true;
       }
     } catch (Exception ex) {
-      LoggerFactory.getLogger(FileHelper.class).error("[{}] - {} !",
-              StackTracer.getCurrentMethod(), ex);
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex);
     }
     return ok;
   }
@@ -494,8 +491,7 @@ public class FileHelper {
       Class<?> cl = Class.forName(clName);
       is = cl.getClassLoader().getResourceAsStream(fname);
     } catch (ClassNotFoundException ex) {
-      LoggerFactory.getLogger(FileHelper.class).error("[{}] - resource file {} not found !",
-              StackTracer.getCurrentMethod(), fname);
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName() + ": " + fname);
     }
     return (is != null) ? new BufferedInputStream(is) : is;
   }
@@ -553,8 +549,7 @@ public class FileHelper {
         props.load(is);
         is.close();
       } catch (IOException ex) {
-        LoggerFactory.getLogger(FileHelper.class).error("[{}] - error reading {} !",
-                StackTracer.getCurrentMethod(), fileName);
+        logger.error("{} « {} »", StackTracer.getCurrentMethod(), IOException.class.getSimpleName() + ": " + fileName);
       }
     }
     return props;
@@ -586,8 +581,7 @@ public class FileHelper {
           }
         }
       } catch (ParserConfigurationException | SAXException | IOException ex) {
-        LoggerFactory.getLogger(FileHelper.class).error("[{}] - error reading {} !",
-                StackTracer.getCurrentMethod(), fileName);
+        logger.error("{} « {} »", StackTracer.getCurrentMethod(), IOException.class.getSimpleName()+ ": " +fileName);
       }
     }
     return props;
@@ -601,13 +595,11 @@ public class FileHelper {
    */
   public static boolean openDocument(String docPath) {
     boolean ok = false;
-    if (FileHelper.isFileExists(docPath)) {
+    if (isFileExists(docPath)) {
       SystemLib.openDesktopFile(docPath);
       ok = true;
     } else {
-      LoggerFactory.getLogger(FileHelper.class).error(
-              "[{}] - file not found ({}) !",
-              StackTracer.getCurrentMethod(), docPath);
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), "Document not found: " + docPath);
     }
     return ok;
   }
@@ -619,13 +611,9 @@ public class FileHelper {
    * @return true (vrai) si le document a été trouvé et normalement ouvert
    */
   public static boolean openDocumentWithUrl(String urlName) {
-    String docName = FileHelper.urlToFilePath(urlName);
-    LoggerFactory.getLogger(FileHelper.class).debug(
-            "[{}] - urlName: ({})",
-            StackTracer.getCurrentMethod(), urlName);
-    LoggerFactory.getLogger(FileHelper.class).debug(
-            "[{}] - docName: ({})",
-            StackTracer.getCurrentMethod(), docName);
+    String docName = urlToFilePath(urlName);
+//    logger.debug("{} « {} »", StackTracer.getCurrentMethod(), "urlName: " + urlName);
+//    logger.debug("{} « {} »", StackTracer.getCurrentMethod(), "docName: " + docName);
     return openDocument(docName);
   }
 

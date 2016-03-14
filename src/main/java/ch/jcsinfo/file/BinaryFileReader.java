@@ -46,7 +46,7 @@ public class BinaryFileReader {
       dis = new DataInputStream(new BufferedInputStream(new FileInputStream(fileName)));
       ok = true;
     } catch (FileNotFoundException ex) {
-      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return ok;
   }
@@ -241,7 +241,7 @@ public class BinaryFileReader {
         dis.close();
       }
     } catch (IOException ex) {
-      logger.error("{} [{}]", StackTracer.getCurrentMethod(), ex.getMessage());
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
     }
   }
 }

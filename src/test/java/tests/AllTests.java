@@ -19,7 +19,9 @@ import org.junit.runners.Suite.SuiteClasses;
   TextFileReaderTest.class,
   CypherTest.class,
   PrintHelperTest.class,
-  JavaLibTest.class})
+  JavaLibTest.class,
+  SystemLibTest.class}
+)
 public class AllTests {
 
   @BeforeClass

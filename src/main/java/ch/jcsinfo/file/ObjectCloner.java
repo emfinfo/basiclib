@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -20,14 +21,22 @@ import org.slf4j.LoggerFactory;
  * @author StrittJC
  */
 public class ObjectCloner {
-
   private static final String FILE_NAME = "obj.ser";
+  private static Logger logger = LoggerFactory.getLogger(ObjectCloner.class);
 
   private ObjectCloner() {
   }
   
+  
+  /**
+   * Méthode privée pour afficher un message de log.
+   * 
+   * @param method la méthode où a eu lieu l'erreur
+   * @param msg le message d'erreur à afficher
+   * @param err le type d'erreur
+   */
   private static void log(String method, String msg, String err) {
-    LoggerFactory.getLogger(ObjectCloner.class).error("{} - {}", method, msg + ": " + err);
+    logger.error("{} « {} »", method, msg + ": " + err);
   }
 
   /**
@@ -50,13 +59,19 @@ public class ObjectCloner {
       out.close();
       in.close();
     } catch (IOException ex) {
-      log(StackTracer.getCurrentMethod(), "IOException", ex.getMessage());
+      log(StackTracer.getCurrentMethod(), IOException.class.getSimpleName(), ex.getMessage());
     } catch (ClassNotFoundException ex) {
-      log(StackTracer.getCurrentMethod(), "ClassNotFoundException", ex.getMessage());
+      log(StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName(), ex.getMessage());
     }
     return newObj;
   }
   
+  /**
+   * Copy rapide d'un objet.
+   * 
+   * @param orig l'objet original à copier
+   * @return l'objet copié
+   */
   public static Object fastcopy(Object orig) {
     Object obj = null;
     try {
@@ -73,9 +88,9 @@ public class ObjectCloner {
               = new ObjectInputStream(fbos.getInputStream());
       obj = in.readObject();
     } catch (IOException ex) {
-      log(StackTracer.getCurrentMethod(), "IOException", ex.getMessage());
+      log(StackTracer.getCurrentMethod(), IOException.class.getSimpleName(), ex.getMessage());
     } catch (ClassNotFoundException ex) {
-      log(StackTracer.getCurrentMethod(), "ClassNotFoundException", ex.getMessage());
+      log(StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName(), ex.getMessage());
     }
     return obj;
   }
@@ -94,7 +109,7 @@ public class ObjectCloner {
       out.writeObject(obj);
       out.close();
     } catch (Exception ex) {
-      log(StackTracer.getCurrentMethod(), "Exception", ex.getMessage());
+      log(StackTracer.getCurrentMethod(), Exception.class.getSimpleName(), ex.getMessage());
     }
   }
 
@@ -112,9 +127,9 @@ public class ObjectCloner {
       in.close();
       return newObj;
     } catch (IOException ex) {
-      log(StackTracer.getCurrentMethod(), "IOException", ex.getMessage());
+      log(StackTracer.getCurrentMethod(), IOException.class.getSimpleName(), ex.getMessage());
     } catch (ClassNotFoundException ex) {
-      log(StackTracer.getCurrentMethod(), "ClassNotFoundException", ex.getMessage());
+      log(StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName(), ex.getMessage());
     }
     return null;
   }
