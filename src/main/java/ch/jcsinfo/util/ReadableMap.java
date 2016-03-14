@@ -8,7 +8,7 @@ import java.util.Map.Entry;
  * Classe qui permet de convertir rapidement le contenu d'une map en une chaine
  * de caractères (String) affichable facilement par la suite.<br>
  * Exemple d'utilisation :<br>
- * System.out.println(new PrettyPrintingMap(myMap));
+ * System.out.println(new ReadableMap(myMap));
  *
  * @author Jean-Claude Stritt
  * 
