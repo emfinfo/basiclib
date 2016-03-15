@@ -130,7 +130,7 @@
       <organization>EMF</organization>
       <organizationUrl>http://www.emf.ch</organizationUrl>
       <roles>
-        <role>ingenieur</role>
+        <role>engineer</role>
         <role>developer</role>
       </roles>
       <timezone>Europe/Switzerland</timezone>
