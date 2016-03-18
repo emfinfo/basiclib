@@ -17,4 +17,4 @@ You can check a specific test with (for example) :
 - mvn test -Dtest=BinaryFileReaderTest
 
 Documentation :<br>
-    http://jcstritt.emf-informatique.ch/docs/basiclib<br>
+    http://jcstritt.emf-informatique.ch/doc/basiclib<br>
