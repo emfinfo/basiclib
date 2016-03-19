@@ -35,6 +35,7 @@ import org.xml.sax.SAXException;
  * @author Jean-Claude Stritt
  */
 public class FileHelper {
+
   public static final String REGEX_URL1 = "[\\\\]+";
   public static final String REGEX_URL2 = "\\" + "/";
   public static final String REGEX_FDR1 = "[/\\\\]+";
@@ -208,9 +209,9 @@ public class FileHelper {
 
     try {
       String[] baseComponents = base.getCanonicalPath().split(Pattern.quote(
-              File.separator));
+        File.separator));
       String[] targetComponents = target.getCanonicalPath().split(Pattern.quote(
-              File.separator));
+        File.separator));
 
       // skip common components
       int index = 0;
@@ -319,7 +320,7 @@ public class FileHelper {
       try {
         filePath = f.getCanonicalPath();
       } catch (IOException ex) {
-       logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
+        logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
       }
     } catch (MalformedURLException ex) {
       logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
@@ -581,7 +582,7 @@ public class FileHelper {
           }
         }
       } catch (ParserConfigurationException | SAXException | IOException ex) {
-        logger.error("{} « {} »", StackTracer.getCurrentMethod(), IOException.class.getSimpleName()+ ": " +fileName);
+        logger.error("{} « {} »", StackTracer.getCurrentMethod(), IOException.class.getSimpleName() + ": " + fileName);
       }
     }
     return props;
@@ -628,36 +629,36 @@ public class FileHelper {
    * @param targetDirectory le dossier de destination (de type String)
    * @param targetFilename  le nom du fichier de destination (de type String)
    * @param deleteOnExit    true si l'on veut effacer le fichier source
-   * 
+   *
    * @throws java.io.IOException l'exception à gérer au niveau supérieur
    * @return l'URI du fichier créé
    */
   public static URI copyFile(File sourceFile, File targetDirectory, String targetFilename, boolean deleteOnExit)
-          throws IOException {
+    throws IOException {
     targetFilename = check(targetFilename);
     FileOutputStream out;
+    InputStream in = new FileInputStream(sourceFile);
     File outp;
-    try (InputStream in = new FileInputStream(sourceFile)) {
-      if (targetDirectory != null) {
-        outp = new File(targetDirectory + File.separator + targetFilename);
-        if (!targetDirectory.exists()) {
-          targetDirectory.mkdirs();
-        }
-        outp.delete();
-        out = new FileOutputStream(targetDirectory + File.separator + targetFilename);
-      } else {
-        outp = new File(targetFilename);
-        outp.delete();
-        out = new FileOutputStream(targetFilename);
+    if (targetDirectory != null) {
+      outp = new File(targetDirectory + File.separator + targetFilename);
+      if (!targetDirectory.exists()) {
+        targetDirectory.mkdirs();
       }
-      
-      // copie des octets depuis le flux entrant vers le flux sortant
-      byte[] buf = new byte[1024];
-      int len;
-      while ((len = in.read(buf)) > 0) {
-        out.write(buf, 0, len);
-      }
+      outp.delete();
+      out = new FileOutputStream(targetDirectory + File.separator + targetFilename);
+    } else {
+      outp = new File(targetFilename);
+      outp.delete();
+      out = new FileOutputStream(targetFilename);
     }
+
+    // copie des octets depuis le flux entrant vers le flux sortant
+    byte[] buf = new byte[1024];
+    int len;
+    while ((len = in.read(buf)) > 0) {
+      out.write(buf, 0, len);
+    }
+    in.close();
     out.close();
 
     return outp.toURI();
@@ -672,18 +673,17 @@ public class FileHelper {
    * @return l'URI du fichier de destination
    *
    * @throws java.io.FileNotFoundException l'exception "fichier non trouvé" à gérer au niveau supérieur
-   * @throws java.io.IOException l'exception de type IO à gérer au niveau supérieur
+   * @throws java.io.IOException           l'exception de type IO à gérer au niveau supérieur
    */
   public static URI copyFile(File sourceFile, File destFile) throws FileNotFoundException, IOException {
-    OutputStream out;
-    try (InputStream in = new FileInputStream(sourceFile)) {
-      out = new FileOutputStream(destFile);
-      byte[] buf = new byte[1024];
-      int len;
-      while ((len = in.read(buf)) > 0) {
-        out.write(buf, 0, len);
-      }
+    InputStream in = new FileInputStream(sourceFile);
+    OutputStream out = new FileOutputStream(destFile);
+    byte[] buf = new byte[1024];
+    int len;
+    while ((len = in.read(buf)) > 0) {
+      out.write(buf, 0, len);
     }
+    in.close();
     out.close();
     return destFile.toURI();
   }

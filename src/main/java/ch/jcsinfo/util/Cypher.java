@@ -89,11 +89,13 @@ public class Cypher {
   public static String encrypt( String exp, String key, Charset cs ) {
     byte[] expBytes = exp.trim().getBytes(cs);
     byte[] keyBytes = key.trim().getBytes();
-    return Base64.getEncoder().encodeToString(xorProcess(expBytes, keyBytes));
+//    return new String(Base64.encodeBase64(xorProcess(expBytes, keyBytes))); //java 7
+    return Base64.getEncoder().encodeToString(xorProcess(expBytes, keyBytes)); // java 8
   }
   
   public static String decrypt( String exp, String key, Charset cs ) {
-    byte[] expBytes = Base64.getDecoder().decode(exp.trim());
+//    byte[] expBytes = Base64.decodeBase64(exp.trim().getBytes(cs)); // java 7
+    byte[] expBytes = Base64.getDecoder().decode(exp.trim()); // java 8
     byte[] keyBytes = key.trim().getBytes();
     byte[] resultBytes = xorProcess(expBytes, keyBytes);
     return new String(resultBytes, cs);

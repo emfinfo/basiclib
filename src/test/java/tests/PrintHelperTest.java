@@ -20,13 +20,12 @@ import org.junit.runners.MethodSorters;
 
 /**
  * Test des méthodes principales de la classe correspondante.
- * 
+ *
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrintHelperTest {
   private static final String TEST_PRINTER_NAME = "HP LaserJet P3010 Series";
-//  private static final String TEST_PRINTER_NAME = "HP Laserjet 2430 (A45)";
 //  private static final String RESULTS_FOLDER = "reports/results";
 //  private static final String TEST_DOCUMENT_NAME = "report_test_file.pdf";
 //  private static final String TEST_DOCUMENT_NAME = "safdemo_report_2012_11_17_184259.pdf";
@@ -46,8 +45,8 @@ public class PrintHelperTest {
   @AfterClass
   public static void tearDownClass() throws Exception {
     System.out.println();
-  }  
-  
+  }
+
   @Test
   public void test01_getListOfPrinters() {
     StackTracer.printCurrentTestMethod();
@@ -98,7 +97,7 @@ public class PrintHelperTest {
       Attribute attr[] = Arrays.copyOf(aset.toArray(), aset.size(), Attribute[].class);
       for (int i = 0; i < attr.length; i++) {
         Attribute attribute = attr[i];
-        System.out.println("    " + ConvertLib.formatNumber(i+1,"00") + ". " + attribute);
+        System.out.println("    " + ConvertLib.formatNumber(i + 1, "00") + ". " + attribute);
       }
     }
     assertTrue(ok);
@@ -134,7 +133,7 @@ public class PrintHelperTest {
       System.out.println();
       for (int i = 0; i < medias.length; i++) {
         Media media = medias[i];
-        System.out.println("    " + (i+1) + ". " + media);
+        System.out.println("    " + (i + 1) + ". " + media);
       }
     }
     assertTrue(ok);
@@ -150,7 +149,7 @@ public class PrintHelperTest {
       System.out.println();
       for (int i = 0; i < medias.length; i++) {
         Media media = medias[i];
-        System.out.println("    " + ConvertLib.formatNumber(i+1,"00") + ". " + media);
+        System.out.println("    " + ConvertLib.formatNumber(i + 1, "00") + ". " + media);
       }
     }
   }
