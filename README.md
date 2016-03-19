@@ -8,7 +8,7 @@ A Java library with some basic methods (most are static methods) for all your ne
 - some system classes & methods (see files in ch.jcsinfo.system package)
 - some util classes & methods (callback, simple cypher, conversion types, prefs manager, screen info, etc)
 
-You can download and open this project in NetBeans 8.1. I'ts a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
+You can download and open this project in NetBeans 8.1. It's a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
 
 In MacOS terminal or Windows console, you can start the "test" suite with a Maven command :
 - mvn test
@@ -17,4 +17,4 @@ You can check a specific test with (for example) :
 - mvn test -Dtest=BinaryFileReaderTest
 
 Documentation :<br>
-    http://jcstritt.emf-informatique.ch/docs/basiclib<br>
+    http://jcstritt.emf-informatique.ch/doc/basiclib<br>
