@@ -29,7 +29,7 @@ public class FileHelperTest {
   static final String FILE_EXT_2 = ".class";
   static final String FILE_ADD_PART = "_new";
   static final String XML_FILE = "persistence.xml";
-  static final String PROP_FILE = "log4j.properties";
+  static final String PROP_FILE = "App.properties";
 
   static final String PATHNAME = FileHelper.normalizeFileName(CURRENT_DIR + "/" + PACKAGE_NAME);
   static final String RELATIVE_1 = FileHelper.normalizeFileName(PACKAGE_NAME + "/" + FILE_NAME_1 + FILE_EXT_1);
