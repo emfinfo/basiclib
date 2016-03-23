@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
  * @author Jean-Claude Stritt
  */
 public class SystemLib {
+
   private static Logger logger = LoggerFactory.getLogger(SystemLib.class);
 
   private SystemLib() {
@@ -41,8 +42,8 @@ public class SystemLib {
       PropertyConfigurator.configure(url);
       logger.debug("{} with « {} » ok !", StackTracer.getCurrentMethod(), propFile);
     }
-  }  
-  
+  }
+
   /**
    * Ouvre une application du bureau basée sur le fichier transmis.
    * Ainsi, un fichier .pdf devrait s'ouvrir automatiquement avec Acrobat Reader
@@ -118,19 +119,20 @@ public class SystemLib {
       list.add(charset.displayName());
     }
     return list;
-  }  
-  
+  }
+
   /**
    * Trouve une méthode par introspection dans la classe de l'objet "source"
    * fourni. Si elle n'est pas trouvée, la méthode est encore recherchée
    * dans la classe parente (classe mère).
    *
-   * @param source     l'objet où rechercher la méthode
-   * @param methodName le nom de la méthode recherchée
+   * @param source         l'objet où rechercher la méthode
+   * @param methodName     le nom de la méthode recherchée
    * @param parameterTypes un ou plusieurs types des paramètres de la méthode recherchée
    * @return la méthode si elle a été trouvée, autrement null
    */
   // idem, mais on donne l'objet
+//  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
   public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
     Method m = null;
 
@@ -163,12 +165,12 @@ public class SystemLib {
     }
     return m;
   }
-
+  
   /**
    * Appel d'une méthode contenue dans un objet source.
    *
-   * @param source l'objet "source" où se trouve la méthode
-   * @param method la méthode à appeler
+   * @param source     l'objet "source" où se trouve la méthode
+   * @param method     la méthode à appeler
    * @param parameters les éventuels paramètres de la méthode appelée
    * @return un objet de retour éventuel (certaines méthodes retournent void)
    */
