@@ -25,7 +25,7 @@ import org.junit.runners.MethodSorters;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrintHelperTest {
-  private static final String TEST_PRINTER_NAME = "HP LaserJet P3010 Series";
+  private static String TEST_PRINTER_NAME;
 //  private static final String RESULTS_FOLDER = "reports/results";
 //  private static final String TEST_DOCUMENT_NAME = "report_test_file.pdf";
 //  private static final String TEST_DOCUMENT_NAME = "safdemo_report_2012_11_17_184259.pdf";
@@ -71,6 +71,7 @@ public class PrintHelperTest {
     boolean ok = ps != null && !ps.getName().isEmpty();
     if (ok) {
       System.out.println("  - defaut print service: " + ps.getName());
+      TEST_PRINTER_NAME = ps.getName();
     }
     assertTrue(ok);
   }
@@ -124,23 +125,7 @@ public class PrintHelperTest {
   }
 
   @Test
-  public void test06_getPaperTrays() {
-    StackTracer.printCurrentTestMethod();
-    Media[] medias = PrintHelper.getPaperTraysArray(TEST_PRINTER_NAME);
-    boolean ok = medias.length > 0;
-    StackTracer.printTestInfo(TEST_PRINTER_NAME, medias.length);
-    if (ok) {
-      System.out.println();
-      for (int i = 0; i < medias.length; i++) {
-        Media media = medias[i];
-        System.out.println("    " + (i + 1) + ". " + media);
-      }
-    }
-    assertTrue(ok);
-  }
-
-  @Test
-  public void test07_getPaperFormatsArray() {
+  public void test06_getPaperFormatsArray() {
     StackTracer.printCurrentTestMethod();
     Media[] medias = PrintHelper.getPaperFormatsArray(TEST_PRINTER_NAME);
     boolean ok = medias.length > 0;

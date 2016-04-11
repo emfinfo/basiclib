@@ -1,17 +1,19 @@
 package tests;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+
 /**
  * Suite de tests pour cette librairie. Certaines données se trouvent
  * dans le dossier "data" du projet.
  *
  * @author jcstritt
  */
-@RunWith(value=Suite.class)
-@SuiteClasses(value={
+@RunWith(value = Suite.class)
+@SuiteClasses(value = {
   JavaLibTest.class,
   SystemLibTest.class,
   MathLibTest.class,
@@ -22,8 +24,8 @@ import org.junit.runners.Suite.SuiteClasses;
   BinaryFileReaderTest.class,
   TextFileReaderTest.class,
   PrintHelperTest.class
-  }
-)
+})
+
 public class AllTests {
 
   @BeforeClass
