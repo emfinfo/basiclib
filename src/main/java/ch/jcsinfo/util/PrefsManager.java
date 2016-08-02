@@ -31,7 +31,7 @@ import javax.print.PrintService;
  * @author Jean-Claude Stritt
  */
 public class PrefsManager {
-  private static String nodeID = "";
+  private static String nodeID = "ch.jcsinfo";
 
   /**
    * Une liste de préférences assez généralistes pour pouvoir être utilisées
@@ -57,10 +57,7 @@ public class PrefsManager {
     DB_DRIVER, DB_URL, DB_USER, DB_PSW,
 
     FILTER1_FIELD_IDX, FILTER1_EXPR, FILTER2_FIELD_IDX, FILTER2_EXPR,
-    FILTER_LOG_AND, FILTER_LOG_OR,
-
-//    DISCOUNT_RATE, VAT_RATE, DELAY_DAYS, FIRST_CODE_A, FIRST_CODE_B,
-//    SIMULATION_MODE, MESURE_MODE,
+    FILTER_LOG_AND, FILTER_LOG_OR
 
   }
 
