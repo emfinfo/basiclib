@@ -31,7 +31,7 @@ import javax.print.PrintService;
  * @author Jean-Claude Stritt
  */
 public class PrefsManager {
-  private static String nodeID = "ch.jcsinfo";
+  private static String nodeID = "";
 
   /**
    * Une liste de préférences assez généralistes pour pouvoir être utilisées
@@ -68,6 +68,9 @@ public class PrefsManager {
    */
   public static Preferences getPrefs() {
     Preferences prefs = Preferences.userRoot().node(nodeID);
+//    Preferences root = Preferences.userRoot().node("ch");
+//    Preferences parent = root.node("jcsinfo");
+//    Preferences prefs = parent.node(nodeID);
     return prefs;
   }
 
