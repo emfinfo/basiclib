@@ -1,9 +1,9 @@
 package ch.jcsinfo.util;
 
 import ch.jcsinfo.file.FileHelper;
-import ch.jcsinfo.printing.PrintHelper;
 import ch.jcsinfo.models.Printer;
 import ch.jcsinfo.models.PrinterCopy;
+import ch.jcsinfo.printing.PrintHelper;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,30 +34,39 @@ public class PrefsManager {
   private static String nodeID = "";
 
   /**
-   * Une liste de préférences assez généralistes pour pouvoir être utilisée
-   * dans tout logiciel de type Java standalone.
+   * Une liste de préférences assez généralistes pour pouvoir être utilisées
+   * dans tout logiciel de type Java.
    */
   public static enum Pref {
     BG_PICTURE_FILENAME, CURRENT_LAF, CURRENT_DPI,
     PICT_FOLDER, PICT_ZOOM_FACTOR, PICT_PREF_SIZE,
+
     PRINT_FOLDER_TEMPLATES, PRINT_FOLDER_RESULTS,
-    PRINT_DEFAULT_PRINTER, PRINT_DEFAULT_TRAY,
-    PRINT_DEFAULT_FORMAT, PRINT_DEFAULT_OPEN_FORMAT, PRINT_DELETE_FILES_AFTER,
-    COPY1_PRINTER, COPY2_PRINTER, COPY3_PRINTER, COPY4_PRINTER,
-    COPY1_TEXT, COPY2_TEXT, COPY3_TEXT, COPY4_TEXT,
-    COPY1_NB, COPY2_NB, COPY3_NB, COPY4_NB,
-    DISCOUNT_RATE, VAT_RATE, DELAY_DAYS, FIRST_CODE_A, FIRST_CODE_B,
+    PRINT_DEFAULT_PRINTER, PRINT_DEFAULT_FORMAT,
+    PRINT_DEFAULT_OPEN_FORMAT, PRINT_DELETE_FILES_AFTER,
+    PRINT_WEB_OPEN_RESULT, PRINT_WEB_ZIP_ALL,
+
+    COPY1_PRINTER, COPY1_TEXT, COPY1_NB,
+    COPY2_PRINTER, COPY2_TEXT, COPY2_NB,
+    COPY3_PRINTER, COPY3_TEXT, COPY3_NB,
+    COPY4_PRINTER, COPY4_TEXT, COPY4_NB,
+
+    DATA_EXPORT_FOLDER, DATA_IMPORT_FOLDER,
     EXCEL_FILENAME, EXCEL_SHEET_INDEX, EXCEL_FIRST_LINE, EXCEL_ID_COLUMN,
-    SIMULATION_MODE, MESURE_MODE,
-    FILTER1_FIELD_IDX, FILTER2_FIELD_IDX, FILTER1_EXPR, FILTER2_EXPR,
-    FILTER_LOG_AND, FILTER_LOG_OR, EXPORT_FOLDER, IMPORT_FOLDER,
-    PRINT_OPEN_RESULT, PRINT_ZIP_ALL,
-    DB_DRIVER, DB_URL, DB_USER, DB_PSW
+
+    DB_DRIVER, DB_URL, DB_USER, DB_PSW,
+
+    FILTER1_FIELD_IDX, FILTER1_EXPR, FILTER2_FIELD_IDX, FILTER2_EXPR,
+    FILTER_LOG_AND, FILTER_LOG_OR,
+
+//    DISCOUNT_RATE, VAT_RATE, DELAY_DAYS, FIRST_CODE_A, FIRST_CODE_B,
+//    SIMULATION_MODE, MESURE_MODE,
+
   }
 
   /**
    * Récupère toutes les préférences settées pour le noeud ce cette application.
-   * 
+   *
    * @return une liste des préférences
    */
   public static Preferences getPrefs() {
@@ -67,7 +76,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type "String".
-   * 
+   *
    * @param keyName un nom de clé pour rechercher une préférence
    * @return la valeur de la clé sous la forme d'un String
    */
@@ -85,7 +94,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type "String".
-   * 
+   *
    * @param key une clé de type Pref à retrouver
    * @return la valeur de la clé sous la forme d'un String
    */
@@ -95,7 +104,7 @@ public class PrefsManager {
 
   /**
    * Mémorise une valeur de préférence de type "String".
-   * 
+   *
    * @param keyName un nom de clé pour mettre à jour une préférence
    * @param value la valeur de la clé à mettre à jour
    */
@@ -106,7 +115,7 @@ public class PrefsManager {
 
   /**
    * Mémorise une valeur de préférence de type "String".
-   * 
+   *
    * @param key une clé de type Pref à mettre à jour
    * @param value une valeur String à mettre à jour pour la clé donnée
    */
@@ -116,7 +125,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type "boolean".
-   * 
+   *
    * @param keyName le nom d'une clé contenant un "booléen" à retrouver
    * @return la valeur de cette clé sous la forme d'un booléen
    */
@@ -127,7 +136,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type "boolean".
-   * 
+   *
    * @param key une clé de type Pref à retrouver
    * @return la valeur de cette clé sous la forme d'un booléen
    */
@@ -137,7 +146,7 @@ public class PrefsManager {
 
   /**
    * Mémorise une valeur de préférence de type "boolean".
-   * 
+   *
    * @param keyName le nom d'une clé à rechercher
    * @param value une valeur booléenne à mettre à jour
    */
@@ -147,7 +156,7 @@ public class PrefsManager {
 
   /**
    * Mémorise une valeur de préférence de type "boolean".
-   * 
+   *
    * @param key une clé de type Pref à rechercher
    * @param value une valeur booléenne à mettre à jour
    */
@@ -157,7 +166,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type "int" (Integer).
-   * 
+   *
    * @param keyName un nom de clé à rechercher
    * @return la valeur de cette clé qui doit contenir un entier
    */
@@ -167,7 +176,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type "int" (Integer).
-   * 
+   *
    * @param key une clé de type Pref à rechercher
    * @return la valeur de cette clé qui doit contenir un entier
    */
@@ -177,7 +186,7 @@ public class PrefsManager {
 
   /**
    * Mémorise une valeur de type int (Integer).
-   * 
+   *
    * @param keyName un nom de clé à rechercher
    * @param value une valeur de type Integer à mettre à jour
    */
@@ -187,7 +196,7 @@ public class PrefsManager {
 
   /**
    * Mémorise une valeur de type "int" (Integer).
-   * 
+   *
    * @param key une clé de type Pref à rechercher
    * @param value une valeur de type Integer à mettre à jour
    */
@@ -197,7 +206,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type float.
-   * 
+   *
    * @param keyName un nom de clé à rechercher
    * @return la valeur de cette clé (nombre réel de type float)
    */
@@ -207,7 +216,7 @@ public class PrefsManager {
 
   /**
    * Récupère une valeur de préférence de type float.
-   * 
+   *
    * @param key une clé de type Pref à rechercher
    * @return la valeur de cette clé (nombre réel de type float)
    */
@@ -226,7 +235,7 @@ public class PrefsManager {
 
   /**
    * Mémorise une valeur de type float.
-   * 
+   *
    * @param key une clé de type Pref à rechercher
    * @param value une valeur réelle (float) à mettre à jour
    */
@@ -237,7 +246,7 @@ public class PrefsManager {
 
   /**
    * Récupére les propriétés de connexion stockées dans les préférences.
-   * 
+   *
    * @return une liste de propriétés de connexion
    */
   public static Properties getConnectionProperties() {
@@ -281,7 +290,7 @@ public class PrefsManager {
 
   /**
    * Récupère la dimension préférée pour une image.
-   * 
+   *
    * @return la dimension préférée pour une image
    */
   public static Dimension getPrefPictureSize() {
@@ -301,7 +310,7 @@ public class PrefsManager {
 
   /**
    * Récupère le ratio des DPI, 1.0 étant le 100%.
-   * 
+   *
    * @return le ratio des DPI
    */
   public static float getDpiRatio() {
@@ -388,7 +397,7 @@ public class PrefsManager {
    * Permet de tester s'il faut initialiser l'un des paramètres par défaut
    * de l'application. Cela est certainement nécessaire au démarrage de l'application
    * lors de la première exécution du logiciel.
-   * 
+   *
    * @param appTitle le titre de l'application
    */
   public static void initPrefsDefaults(String appTitle) {
@@ -401,7 +410,7 @@ public class PrefsManager {
         keys.add(key);
       }
       Collections.sort(keys);
-      
+
       // boucle pour créer les clés par défaut
       for (String key : keys) {
         String lcKey = key.toLowerCase();
@@ -425,11 +434,11 @@ public class PrefsManager {
 //          System.out.println(lcKey+"="+value);
           setValue(lcKey, value);
         }
-        
+
       }
-      
+
     }
-    
+
   }
 
 }
