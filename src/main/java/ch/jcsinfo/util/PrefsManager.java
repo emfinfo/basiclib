@@ -80,7 +80,7 @@ public class PrefsManager {
    * @param keyName un nom de clé pour rechercher une préférence
    * @return la valeur de la clé sous la forme d'un String
    */
-  public static String getValue( String keyName ) {
+  public static String getValue(String keyName) {
     String pr = "";
     Preferences prefs = getPrefs();
     if (prefs != null) {
@@ -95,10 +95,10 @@ public class PrefsManager {
   /**
    * Récupère une valeur de préférence de type "String".
    *
-   * @param key une clé de type Pref à retrouver
+   * @param key une clé de n'importe quel type à retrouver
    * @return la valeur de la clé sous la forme d'un String
    */
-  public static String getValue(Pref key) {
+  public static String getValue(Object key) {
     return getValue(key.toString());
   }
 
@@ -106,9 +106,9 @@ public class PrefsManager {
    * Mémorise une valeur de préférence de type "String".
    *
    * @param keyName un nom de clé pour mettre à jour une préférence
-   * @param value la valeur de la clé à mettre à jour
+   * @param value   la valeur de la clé à mettre à jour
    */
-  public static void setValue( String keyName, String value ) {
+  public static void setValue(String keyName, String value) {
     Preferences prefs = getPrefs();
     prefs.put(keyName.toLowerCase(), value);
   }
@@ -116,10 +116,10 @@ public class PrefsManager {
   /**
    * Mémorise une valeur de préférence de type "String".
    *
-   * @param key une clé de type Pref à mettre à jour
+   * @param key   une clé de type Pref à mettre à jour
    * @param value une valeur String à mettre à jour pour la clé donnée
    */
-  public static void setValue(Pref key, String value) {
+  public static void setValue(Object key, String value) {
     setValue(key.toString(), value);
   }
 
@@ -137,10 +137,10 @@ public class PrefsManager {
   /**
    * Récupère une valeur de préférence de type "boolean".
    *
-   * @param key une clé de type Pref à retrouver
+   * @param key une clé de n'importe quel type à retrouver
    * @return la valeur de cette clé sous la forme d'un booléen
    */
-  public static boolean getBoolean(Pref key) {
+  public static boolean getBoolean(Object key) {
     return getBoolean(key.toString());
   }
 
@@ -148,7 +148,7 @@ public class PrefsManager {
    * Mémorise une valeur de préférence de type "boolean".
    *
    * @param keyName le nom d'une clé à rechercher
-   * @param value une valeur booléenne à mettre à jour
+   * @param value   une valeur booléenne à mettre à jour
    */
   public static void setBoolean(String keyName, boolean value) {
     setValue(keyName, value ? "true" : "false");
@@ -157,10 +157,10 @@ public class PrefsManager {
   /**
    * Mémorise une valeur de préférence de type "boolean".
    *
-   * @param key une clé de type Pref à rechercher
+   * @param key   une clé de de n'importe quel type à rechercher
    * @param value une valeur booléenne à mettre à jour
    */
-  public static void setBoolean(Pref key, boolean value) {
+  public static void setBoolean(Object key, boolean value) {
     setBoolean(key.toString(), value);
   }
 
@@ -180,7 +180,7 @@ public class PrefsManager {
    * @param key une clé de type Pref à rechercher
    * @return la valeur de cette clé qui doit contenir un entier
    */
-  public static int getInt(Pref key) {
+  public static int getInt(Object key) {
     return getInt(key.toString());
   }
 
@@ -188,19 +188,19 @@ public class PrefsManager {
    * Mémorise une valeur de type int (Integer).
    *
    * @param keyName un nom de clé à rechercher
-   * @param value une valeur de type Integer à mettre à jour
+   * @param value   une valeur de type Integer à mettre à jour
    */
   public static void setInt(String keyName, int value) {
-    setValue(keyName, ""+value);
+    setValue(keyName, "" + value);
   }
 
   /**
    * Mémorise une valeur de type "int" (Integer).
    *
-   * @param key une clé de type Pref à rechercher
+   * @param key   une clé de de n'importe quel type à rechercher
    * @param value une valeur de type Integer à mettre à jour
    */
-  public static void setInt(Pref key, int value) {
+  public static void setInt(Object key, int value) {
     setInt(key.toString(), value);
   }
 
@@ -220,29 +220,29 @@ public class PrefsManager {
    * @param key une clé de type Pref à rechercher
    * @return la valeur de cette clé (nombre réel de type float)
    */
-  public static float getFloat(Pref key) {
+  public static float getFloat(Object key) {
     return getFloat(key.toString());
   }
 
   /**
    * Mémorise une valeur de type float.
+   *
    * @param keyName un nom de clé à rechercher
-   * @param value une valeur réelle (float) à mettre à jour
+   * @param value   une valeur réelle (float) à mettre à jour
    */
   public static void setFloat(String keyName, float value) {
-    setValue(keyName, ""+value);
+    setValue(keyName, "" + value);
   }
 
   /**
    * Mémorise une valeur de type float.
    *
-   * @param key une clé de type Pref à rechercher
+   * @param key   une clé de de n'importe quel type à rechercher
    * @param value une valeur réelle (float) à mettre à jour
    */
-  public static void setFloat(Pref key, float value) {
+  public static void setFloat(Object key, float value) {
     setFloat(key.toString(), value);
   }
-
 
   /**
    * Récupére les propriétés de connexion stockées dans les préférences.
@@ -332,7 +332,7 @@ public class PrefsManager {
    * @param key une clé sous la forme d'un String
    * @return un objet "imprimante" de type Printer
    */
-  public static Printer getPrinter (String key) {
+  public static Printer getPrinter(String key) {
     PrintService prtSrv = PrintHelper.findPrintService(getValue(key));
 //    System.out.println("key: "+ key + " value: "+getValue(key) + "prtSrv: "+prtSrv);
     return new Printer(prtSrv);
@@ -345,7 +345,7 @@ public class PrefsManager {
    * @param key une clé de la classe Pref
    * @return un objet "imprimante" de type Printer
    */
-  public static Printer getPrinter (Pref key) {
+  public static Printer getPrinter(Object key) {
     return getPrinter(key.toString());
   }
 
@@ -354,7 +354,7 @@ public class PrefsManager {
    * d'impression pour une copie spécialisée sur une imprimante.
    *
    * @param id un identificateur de la copie (de 1 à 4)
-   * @return  un objet "PrinterCopy"
+   * @return un objet "PrinterCopy"
    */
   public static PrinterCopy getPrinterCopy(int id) {
     String PREFIX = "COPY" + id + "_";
@@ -388,7 +388,7 @@ public class PrefsManager {
   public static PrinterCopy[] getPrinterCopies() {
     PrinterCopy prtCopies[] = new PrinterCopy[4];
     for (int i = 0; i < 4; i++) {
-      prtCopies[i] = getPrinterCopy(i+1);
+      prtCopies[i] = getPrinterCopy(i + 1);
     }
     return prtCopies;
   }
@@ -406,7 +406,7 @@ public class PrefsManager {
     if (!props.isEmpty()) {
       // tri sur les noms des propriétés
       List<String> keys = new ArrayList<>();
-      for(String key : props.stringPropertyNames()) {
+      for (String key : props.stringPropertyNames()) {
         keys.add(key);
       }
       Collections.sort(keys);
