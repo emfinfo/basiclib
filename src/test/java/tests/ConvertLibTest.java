@@ -14,7 +14,7 @@ import org.junit.runners.MethodSorters;
 
 /**
  * Test des méthodes principales de la classe correspondante.
- * 
+ *
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -206,7 +206,6 @@ public class ConvertLibTest {
   @Test
   public void test09_stringToFloat() {
     StackTracer.printCurrentTestMethod();
-    float SMALLEST_FLOAT = 3.4e-38f;
     String t[] = {"-3.14159f", "1", "+3.4e+38"};
     float f1 = -3.14159f;
     float f2 = +3.4e+38f;
@@ -226,7 +225,6 @@ public class ConvertLibTest {
   public void test10_stringToDouble() {
     StackTracer.printCurrentTestMethod();
     String t[] = {"-3.14159d", "1.", "1.7e+308"};
-    double SMALLEST_DOUBLE = 1.7e-308d;
     double d1 = -3.14159d;
     double d2 = +1.7e+308d;
     double expected[] = {d1, 1d, d2};
@@ -240,6 +238,33 @@ public class ConvertLibTest {
       System.out.println("  - stringToDouble(" + t[i] + ") = " + results[i]);
     }
     assertTrue(ok[0] && ok[1] && ok[2]);
+  }
+
+
+ @Test
+  public void test11_getString1() {
+    StackTracer.printCurrentTestMethod();
+
+    // le résultat attendu
+    String expResult = "00000";
+
+    // on convertit et on affiche le résultat
+    String result = ConvertLib.fillString(5, '0');
+    StackTracer.printTestResult(expResult, result);
+    assertEquals(expResult, result);
+  }
+
+  @Test
+  public void test12_getString2() {
+    StackTracer.printCurrentTestMethod();
+
+    // le résultat attendu
+    String expResult = "Help000000";
+
+    // on convertit et on affiche le résultat
+    String result = ConvertLib.fillString(10, '0', "Help");
+    StackTracer.printTestResult(expResult, result);
+    assertEquals(expResult, result);
   }
 
 }

@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -417,13 +418,40 @@ public class ConvertLib {
   }
 
   /**
+   * Prépare un string d'une certaine longueur avec un caractère spécifié.
+   *
+   * @param len la longueur à obtenir
+   * @param ch le caractère qui remplira la chaine
+   * @return le String avec les caractères demandés
+   */
+  public static String fillString(int len, char ch) {
+    char[] array = new char[len];
+    Arrays.fill(array, ch);
+    return new String(array);
+  }
+
+  /**
+   * Prépare un string avec un paramètre à gauche et le caractère demandé
+   * à droite si la longueur spécifiée n'est pas atteinte.
+   *
+   * @param len la longueur à obtenir
+   * @param ch le caractère qui remplira la chaine
+   * @param param le paramètre String à mettre à gauche
+   * @return le String avec les caractères demandés
+   */
+  public static String fillString(int len, char ch, String param) {
+    return (param + ConvertLib.fillString(len, ch)).substring(0, len);
+//    return String.format(strFmt(len), param, ch).substring(0, len);
+  }
+
+  /**
    * Prépare un string avec des espaces sur la longueur spécifiée.
    *
    * @param len la longueur à obtenir
    * @return le String avec les espaces désirés
    */
   public static String getBlankString(int len) {
-    return String.format(strFmt(len), " ");
+    return ConvertLib.fillString(len, ' ');
   }
 
   /**
@@ -435,8 +463,7 @@ public class ConvertLib {
    * @return le String avec le paramètre à gauche et les espaces à droite
    */
   public static String getBlankString(int len, String param) {
-    String s = String.format(strFmt(len), param, " ").substring(0, len);
-    return s;
+    return fillString(len, ' ', param);
   }
 
   /**
@@ -468,7 +495,7 @@ public class ConvertLib {
 
   /**
    * Permet de hâcher un string avec SHA-256.
-   * 
+   *
    * @param toHash une chaîne de caractère à hâcher avec SHA-256
    * @return la chaîne hâchée
    */
@@ -489,7 +516,7 @@ public class ConvertLib {
    * Cette clé est composée comme suit :<br>
    * sel1 + motDePasse + sel2<br>
    * 48c  + 64c        + 16c = 128c<br>
-   * 
+   *
    * @param key la clé contenant le mot de passe déjà pré-hâché et un double sel
    * @param params éventuellement la clé de la BD pour y récupérer les sels
    * @return la clé rehâchée pouvant être considérée comme le mot de passe final
@@ -511,13 +538,13 @@ public class ConvertLib {
 //    System.out.println("result: " + result);
     return result;
   }
-  
+
   /**
    * Hache une nouvelle combinaison (nom de login + mot de passe).
-   * 
+   *
    * @param loginName un String avec un nom de login (username)
    * @param pwd un String avec un mot de passe
-   * 
+   *
    * @return le mot de passe haché sur 128 car.
    */
   public static String hashNewKey(String loginName, String pwd) {
@@ -525,7 +552,7 @@ public class ConvertLib {
     String s2 = getHexString(MathLib.randomStr('A', 'z', 8));
     String key = s1 + hashWithSHA256(loginName + hashWithSHA256(pwd)) + s2;
     return rehashKeyWithSalt(key);
-  }  
+  }
 
   /**
    * Convertit une Map en un set de type Properties.
