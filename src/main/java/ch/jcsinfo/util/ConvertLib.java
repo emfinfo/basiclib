@@ -164,6 +164,8 @@ public class ConvertLib {
     return true;
   }
 
+
+
   /**
    * Convertit un string contenant un nombre entier en nombre entier de type
    * "int".
@@ -239,6 +241,19 @@ public class ConvertLib {
   }
 
   /**
+   * Convertit un nombre flottant contenu dans un string en type "float".
+   *
+   * @param line une ligne de caractères où se trouve le nombre
+   * @param pos  la position du début du nombre
+   * @param len  la longueur totale de caractères représentant le nombre
+   * @return le nombre sous la forme d'un flottant de type "float"
+   */
+  public static float stringToFloat(String line, int pos, int len) {
+    String s = line.substring(pos, pos + len).trim();
+    return stringToFloat(s);
+  }
+
+  /**
    * Convertit un string contenant un nombre décimal en nombre flottant de type
    * "double".
    *
@@ -255,6 +270,19 @@ public class ConvertLib {
   }
 
   /**
+   * Convertit un nombre flottant contenu dans un string en type "double".
+   *
+   * @param line une ligne de caractères où se trouve le nombre
+   * @param pos  la position du début du nombre
+   * @param len  la longueur totale de caractères représentant le nombre
+   * @return le nombre sous la forme d'un flottant de type "double"
+   */
+  public static double stringToDouble(String line, int pos, int len) {
+    String s = line.substring(pos, pos + len).trim();
+    return stringToDouble(s);
+  }
+
+  /**
    * Convertit un nombre (un prix par ex.) contenu dans un string en BigDecimal.
    *
    * @param line une ligne de caractères où se trouve le nombre
@@ -266,6 +294,8 @@ public class ConvertLib {
     String s = line.substring(pos, pos + len).trim();
     return BigDecimal.valueOf(stringToDouble(s));
   }
+
+
 
   /**
    * Retourne les symboles pour le point décimal et le séparateur
@@ -303,6 +333,8 @@ public class ConvertLib {
   public static String formatRating(Object rating) {
     return formatNumber(rating, "0.##");
   }
+
+
 
   /**
    * Convertit un object en String s'il est différent de null.
@@ -383,39 +415,7 @@ public class ConvertLib {
     return dValue;
   }
 
-  /**
-   * Remplace une chaîne par une autre, mais seulement les "n" premières.
-   *
-   * @param s          la chaîne originale
-   * @param findStr    la sous-chaîne à chercher et remplacer
-   * @param replaceStr la sous-chaîne de remplacement
-   * @param howMany    le nombre de remplacement à faire
-   * @return la chaîne modifiée avce les remplacements
-   */
-  public static String replace(String s, String findStr, String replaceStr, int howMany) {
-    StringBuffer sb = new StringBuffer();
-    Pattern p = Pattern.compile(findStr);
-    Matcher m = p.matcher(s);
-    int count = 0;
-    while (m.find()) {
-      if (count++ < howMany) {
-        m.appendReplacement(sb, replaceStr);
-      }
-    }
-    m.appendTail(sb);
-    // System.out.println(sb);
-    return sb.toString();
-  }
 
-  /**
-   * Prépare un format pour un String en précisant la longueur.
-   *
-   * @param len la longueur pour le format
-   * @return un format de String utilisable avec la méthode "String.format".
-   */
-  private static String strFmt(int len) {
-    return "%-" + len + "s";
-  }
 
   /**
    * Prépare un string d'une certaine longueur avec un caractère spécifié.
@@ -440,8 +440,7 @@ public class ConvertLib {
    * @return le String avec les caractères demandés
    */
   public static String fillString(int len, char ch, String param) {
-    return (param + ConvertLib.fillString(len, ch)).substring(0, len);
-//    return String.format(strFmt(len), param, ch).substring(0, len);
+    return (param + fillString(len, ch)).substring(0, len);
   }
 
   /**
@@ -451,7 +450,7 @@ public class ConvertLib {
    * @return le String avec les espaces désirés
    */
   public static String getBlankString(int len) {
-    return ConvertLib.fillString(len, ' ');
+    return fillString(len, ' ');
   }
 
   /**
@@ -466,6 +465,32 @@ public class ConvertLib {
     return fillString(len, ' ', param);
   }
 
+  /**
+   * Remplace une chaîne par une autre, mais seulement les "n" premières.
+   *
+   * @param s          la chaîne originale
+   * @param findStr    la sous-chaîne à chercher et remplacer
+   * @param replaceStr la sous-chaîne de remplacement
+   * @param howMany    le nombre de remplacement à faire
+   * @return la chaîne modifiée avce les remplacements
+   */
+  public static String replace(String s, String findStr, String replaceStr, int howMany) {
+    StringBuffer sb = new StringBuffer();
+    Pattern p = Pattern.compile(findStr);
+    Matcher m = p.matcher(s);
+    int count = 0;
+    while (m.find()) {
+      if (count++ < howMany) {
+        m.appendReplacement(sb, replaceStr);
+      }
+    }
+    m.appendTail(sb);
+    // System.out.println(sb);
+    return sb.toString();
+  }
+
+
+  
   /**
    * Convertit un tableau d'octets en une chaine de caractères représentant les
    * valeurs
@@ -553,6 +578,8 @@ public class ConvertLib {
     String key = s1 + hashWithSHA256(loginName + hashWithSHA256(pwd)) + s2;
     return rehashKeyWithSalt(key);
   }
+
+
 
   /**
    * Convertit une Map en un set de type Properties.

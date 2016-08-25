@@ -1,4 +1,4 @@
-package ch.jcsinfo.datetime; 
+package ch.jcsinfo.datetime;
 
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -14,7 +14,7 @@ import java.util.Locale;
  * facilitées entre date, heure et chaînes de caractères (String).
  *
  * @author Jean-Claude Stritt
- * 
+ *
  */
 public class DateTimeLib {
   public final static String DATE_FORMAT_STANDARD = "d.M.yyyy";
@@ -70,7 +70,7 @@ public class DateTimeLib {
       // retourne la date
     Date date = cal.getTime();
     return date;
-  } 
+  }
 
   /**
    * Crée une date en fournissant le jour, le mois et l'année.<br>
@@ -84,8 +84,8 @@ public class DateTimeLib {
   public static Date createDate(int day, int month, int year) {
     return createDate(day, month, year, 0, 0, 0);
   }
-  
-  
+
+
   /**
    * Complète une date donnée en fournissant l'heure, les minutes, les secondes.
    *
@@ -101,7 +101,7 @@ public class DateTimeLib {
     int year = getYear(date);
     return createDate(day, month, year, hour, min, sec);
   }
-  
+
   /**
    * Efface les informations de temps (HH:MM:SS:mm) dans une date donnée.
    *
@@ -112,11 +112,11 @@ public class DateTimeLib {
     return setTime(date, 0, 0, 0);
   }
 
-  
+
   /**
-   * Retourne une date augmentée ou diminuée d'un certain nombre de jours ou de mois spécifié. 
+   * Retourne une date augmentée ou diminuée d'un certain nombre de jours ou de mois spécifié.
    * Le type doit être spécifié). Toute les informations sur l'heure sont mises à zéro.
-   * 
+   *
    * @param d la date d'origine
    * @param type le type de décalage (Calendar.DAY_OF_MONTH ou Calendar.MONTH)
    * @param nb le nombre de jours ou de mois à décaler
@@ -127,7 +127,7 @@ public class DateTimeLib {
     c.setTime(d);
     c.add(type, nb);
     return eraseTime(c.getTime());
-  }  
+  }
 
   /**
    * Retourne une date augmentée ou diminuée d'un certain nombre de jours spécifié. Toutes
@@ -140,8 +140,8 @@ public class DateTimeLib {
   public static Date moveDate(Date d, int days) {
     return moveDate(d, Calendar.DAY_OF_MONTH, days);
   }
-  
-  
+
+
   /**
    * Retourne la date du jour (avec heure, minutes, secondes, ms aussi).
    *
@@ -163,7 +163,7 @@ public class DateTimeLib {
     return moveDate(getDate(), days);
   }
 
-  
+
   /**
    * Retourne la date de début d'une période.
    *
@@ -215,11 +215,11 @@ public class DateTimeLib {
     cal.setTime(date);
     return cal.get(Calendar.MONTH) + 1;
   }
-  
+
   /**
    * Retourne le nombre de jours maximal dans un mois en tenant compte des années
    * bissextiles.
-   * 
+   *
    * @param date la date dont il faut examiner le mois
    * @return le nombre de jours maximal dans le mois extrait de la date
    */
@@ -252,7 +252,7 @@ public class DateTimeLib {
   }
 
   /**
-   * Retourne un tableau d'entiers avec le jour, le mois et l'année 
+   * Retourne un tableau d'entiers avec le jour, le mois et l'année
    * extraits de la date spécifiée en paramètre.
    *
    * @param date une date de type java.util.Date
@@ -267,11 +267,11 @@ public class DateTimeLib {
     info[2] = c.get(Calendar.YEAR);
     return info;
   }
-  
+
   /**
    * Retourne un tableau avec 2 dates qui correspondent au 1.1 et au 31.12 de l'année civile
    * extraite de la date courante fournie.
-   * 
+   *
    * @param curDate une date courante spécifiée
    * @return un tableau avec 2 dates
    */
@@ -285,13 +285,13 @@ public class DateTimeLib {
 
   /**
    * Retourne un tableau avec 2 dates qui correspondent au 1.1 et au 31.12 de l'année civile en cours.
-   * 
+   *
    * @return un tableau avec 2 dates
    */
   public static Date[] getCalendarYearDates() {
     return getCalendarYearDates(getDate());
   }
-  
+
   /**
    * Retourne un tableau avec 2 dates qui correspondent à :<br>
    * date[0] : la date de début du mois d'une année auparavant (12 mois)<br>
@@ -299,26 +299,26 @@ public class DateTimeLib {
    * Si la date courante est avant le mois d'avril, les premiers mois de l'année
    * précédente sont également inclus dans date[0]. Donc, au final date[0]
    * correspond à 12 jusqu'à 15 mois antérieurs à date[1].
-   * 
+   *
    * @param curDate une date courante spécifiée
    * @return un tableau avec 2 dates
    */
   public static Date[] getOneYearDates(Date curDate) {
      Date retDates[] = new Date[2];
-     
+
      // date courante (spécifiée)
      int curDateinfo[] = extractDateInfo(curDate);
      int nbMonths = (curDateinfo[1]<4)?12+curDateinfo[1]:12;
-     
+
      // date correspondante à 12 jusqu'à 15 mois avant la date spécifiée
      Date oldDate = moveDate(curDate, Calendar.MONTH, -nbMonths + 1);
      int oldDateInfo[] = extractDateInfo(oldDate);
-     
+
      // préparation des 2 dates
      retDates[0] = createDate(1, oldDateInfo[1], oldDateInfo[2]);
      retDates[1] = createDate(getMonthMaxDay(curDate), curDateinfo[1], curDateinfo[2]);
      return retDates;
-  }  
+  }
 
   /**
    * Retourne un tableau avec 2 dates qui correspondent à :<br>
@@ -327,7 +327,7 @@ public class DateTimeLib {
    * Si la date courante est avant le mois d'avril, les premiers mois de l'année
    * précédente sont également inclus dans date[0]. Donc, au final date[0]
    * correspond à 12 jusqu'à 15 mois antérieurs à date[1].
-   * 
+   *
    * @return un tableau avec 2 dates
    */
   public static Date[] getOneYearDates() {
@@ -480,6 +480,8 @@ public class DateTimeLib {
     return info;
   }
 
+
+
   /**
    * Convertit une chaîne de caractères (String) représentant une date en une date de la
    * classe java.util.Date. Cette version accepte les années avec ou sans le siècle et
@@ -512,7 +514,7 @@ public class DateTimeLib {
     }
     return date;
   }
-  
+
   /**
    * Convertit une chaîne de caractères (String) représentant une date en une date de la
    * classe java.util.Date. Cette version accepte les années avec ou sans le siècle et
@@ -533,13 +535,13 @@ public class DateTimeLib {
       if (lastDayOfMonth) {
         d = createDate(getMonthMaxDay(d), getMonth(d), getYear(d));
       }
-    } 
+    }
     return d;
   }
-  
+
   /**
    * Convertit une chaîne de caractères (String) représentant une date au format
-   * ISO 8601 (ex 2015-12-31) en une date de la classe java.util.Date. 
+   * ISO 8601 (ex 2015-12-31) en une date de la classe java.util.Date.
    *
    * @param sDate la chaîne ISO8601 contenant une date
    * @return une date de la classe java.util.Date
@@ -555,6 +557,27 @@ public class DateTimeLib {
     return d;
   }
 
+  /**
+   * Convertit un temps journalier au format hh:mm:ss en une date Java standard.
+   * Le temps est complété avec une date fournie.
+   *
+   * @param sTime une chaine de caractères au format hh:mm:ss
+   * @param d     une date pour compléter le temps
+   * @return une date Java standard
+   */
+  public static Date timeStringToDate(String sTime, Date d) {
+    Date nDate = null;
+    if (sTime.length() == 8) {
+      int hh = Integer.parseInt(sTime.substring(0, 2));
+      int mm = Integer.parseInt(sTime.substring(3, 5));
+      int ss = Integer.parseInt(sTime.substring(6));
+      nDate = setTime(d, hh, mm, ss);
+    }
+    return nDate;
+  }
+
+
+  
   /**
    * Convertit une date (java.util.Date) vers une représentation String construite avec le
    * format demandé.
@@ -592,15 +615,6 @@ public class DateTimeLib {
     return dateToString(dateTime, DATE_TIME_FORMAT_STANDARD);
   }
 
-//  /**
-//   * Retourne la date du jour au format ISO8601, soit "yyyy-MM-dd".
-//   *
-//   * @return la date du jour au format ISO8601
-//   */
-//  public static String getCurrentIso8601Date() {
-//    return getCurrentDate(DATE_FORMAT_ISO8601);
-//  }
-
   /**
    * Retourne la date du jour avec le mois en clair.
    *
@@ -615,28 +629,6 @@ public class DateTimeLib {
             + " " + getMonthName(month) + " " + String.valueOf(annee);
   }
 
-//  /**
-//   * Retourne l'heure du jour sous la forme d'un string.<br>
-//   * Le format est définit dans getLocaleTimeFormat avec la locale du pays.
-//   *
-//   * @return l'heure du jour sous la forme d'un string
-//   */
-//  public static String getTime() {
-//    SimpleDateFormat ldf = getLocaleFormat(TIME_FORMAT_STANDARD);
-//    return ldf.format(getDate());
-//  }
-
-//  /**
-//   * Retourne l'heure du jour sous la forme d'un string.<br>
-//   * Le format doit être fourni (ex: "hh:mm").
-//   *
-//   * @param format un format de temps sous la forme d'un String
-//   * @return l'heure du jour sous la forme d'un string
-//   */
-//  public static String getCurrentTime(String format) {
-//    SimpleDateFormat ldf = getLocaleFormat(format);
-//    return ldf.format(getDate());
-//  }
 
 
   /**
@@ -677,32 +669,7 @@ public class DateTimeLib {
     return sqlDate;
   }
 
-//  /**
-//   * Convertit une date dans le format String Iso8601.<br>
-//   * C'est un format de type "YYYY-MM-DD HH:MM:SS".
-//   *
-//   * @param date une date de la classe java.util.Date
-//   * @return une chaîne avec une date au format Iso8601
-//   */
-//  public static String dateToIso8601(Date date) {
-//    return dateToString(date, DATE_TIME_FORMAT_ISO8601);
-//  }
-//
-//  /**
-//   * Convertit une date (java.util.Date) vers une chaîne de caractères
-//   * de l'année à la seconde (idéal pour les noms de fichiers d'impression).
-//   *
-//   * @param date une date de la classe java.util.Date
-//   * @return une chaîne avec une date au format Iso8601
-//   */
-//  public static String dateToFileName(Date date) {
-//    String sDate = "";
-//    if (date != null) {
-//      SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HHmmss");
-//      sDate = sdf.format(date);
-//    }
-//    return sDate;
-//  }
+
 
   /**
    * Teste si une date au format string est valide.
@@ -782,6 +749,8 @@ public class DateTimeLib {
     }
     return ok;
   }
+
+
 
   /**
    * Reset du chnonomètre interne de cette classe.
