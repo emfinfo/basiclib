@@ -539,6 +539,15 @@ public class DateTimeLib {
     return d;
   }
 
+  private static int stringToInt(String sValue) {
+    int value = 0;
+    try {
+      value = Integer.parseInt(sValue);
+    } catch (NumberFormatException ex) {
+    }
+    return value;
+  }
+
   /**
    * Convertit une chaîne de caractères (String) représentant une date au format
    * ISO 8601 (ex 2015-12-31) en une date de la classe java.util.Date.
@@ -549,9 +558,9 @@ public class DateTimeLib {
   public static Date isoStringToDate(String sDate) {
     Date d = null;
     if (sDate.length() == 10) {
-      int year = Integer.parseInt(sDate.substring(0, 4));
-      int month = Integer.parseInt(sDate.substring(5, 7));
-      int day = Integer.parseInt(sDate.substring(8));
+      int year = stringToInt(sDate.substring(0, 4));
+      int month = stringToInt(sDate.substring(5, 7));
+      int day = stringToInt(sDate.substring(8));
       d = createDate(day, month, year);
     }
     return d;
@@ -568,16 +577,16 @@ public class DateTimeLib {
   public static Date timeStringToDate(String sTime, Date d) {
     Date nDate = null;
     if (sTime.length() == 8) {
-      int hh = Integer.parseInt(sTime.substring(0, 2));
-      int mm = Integer.parseInt(sTime.substring(3, 5));
-      int ss = Integer.parseInt(sTime.substring(6));
+      int hh = stringToInt(sTime.substring(0, 2));
+      int mm = stringToInt(sTime.substring(3, 5));
+      int ss = stringToInt(sTime.substring(6));
       nDate = setTime(d, hh, mm, ss);
     }
     return nDate;
   }
 
 
-  
+
   /**
    * Convertit une date (java.util.Date) vers une représentation String construite avec le
    * format demandé.
