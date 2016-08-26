@@ -575,14 +575,10 @@ public class DateTimeLib {
    * @return une date Java standard
    */
   public static Date timeStringToDate(String sTime, Date d) {
-    Date nDate = null;
-    if (sTime.length() == 8) {
-      int hh = stringToInt(sTime.substring(0, 2));
-      int mm = stringToInt(sTime.substring(3, 5));
-      int ss = stringToInt(sTime.substring(6));
-      nDate = setTime(d, hh, mm, ss);
-    }
-    return nDate;
+    int hh = (sTime.length() >= 2) ? stringToInt(sTime.substring(0, 2)) : 0;
+    int mm = (sTime.length() >= 5) ? stringToInt(sTime.substring(3, 5)) : 0;
+    int ss = (sTime.length() >= 8) ? stringToInt(sTime.substring(6, 8)) : 0;
+    return setTime(d, hh, mm, ss);
   }
 
 
