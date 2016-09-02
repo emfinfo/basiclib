@@ -20,7 +20,7 @@ public class MathLib {
 
   /**
    * Trouve un entier au hasard entre un minimum et un maximum.
-   * 
+   *
    * @param min la valeur minimale de l'entier à trouver
    * @param max la valeur maximale de l'entier à trouver
    * @return l'entier trouvé
@@ -108,10 +108,10 @@ public class MathLib {
   public static boolean randomBoolean() {
     return randomInt(0, 1) == 1;
   }
-  
+
   /**
    * Convertit un boolean en nombre (0=false, 1=true).
-   * 
+   *
    * @param value la valeur booléenne àconvertir
    * @return un 0 ou un 1 suivant la valeur du booléen
    */
@@ -124,12 +124,36 @@ public class MathLib {
    *
    * @param value la valeur à arrondir
    * @param nbOfDecs le nombre de décimales
+   * @return le nombre arrondi de type BigDecimal
+   */
+  public static BigDecimal roundValueToBigDecimal(double value, int nbOfDecs) {
+    BigDecimal bd = BigDecimal.valueOf(value);
+    bd = bd.setScale(nbOfDecs, BigDecimal.ROUND_HALF_UP);
+//    System.out.println("value: "+value+" nbOfDecs: "+nbOfDecs+ " scale: "+bd.scale()+ " value: " + bd.doubleValue());
+    return bd;
+  }
+
+  /**
+   * Arrondit une valeur "double" à un multiple donné.
+   *
+   * @param value la valeur à arrondir
+   * @param multiple le multiple pour l'arrondi (0.5 par exemple)
+   * @return la valeur arrondie de type BigDecimal
+   */
+  public static BigDecimal roundValueToBigDecimal(double value, double multiple) {
+    BigDecimal a = new BigDecimal(String.valueOf(multiple));
+    return roundValueToBigDecimal(Math.round(value / multiple) * multiple, a.scale());
+  }
+
+  /**
+   * Arrondit un nombre réel de type "double" à un certain nb de décimales.
+   *
+   * @param value la valeur à arrondir
+   * @param nbOfDecs le nombre de décimales
    * @return le nombre arrondi
    */
   public static double roundValue(double value, int nbOfDecs) {
-    BigDecimal bd = BigDecimal.valueOf(value);
-    bd = bd.setScale(nbOfDecs, BigDecimal.ROUND_HALF_UP);
-    return bd.doubleValue();
+    return roundValueToBigDecimal(value, nbOfDecs).doubleValue();
   }
 
   /**
@@ -140,10 +164,7 @@ public class MathLib {
    * @return le nombre arrondi
    */
   public static float roundValue(float value, int nbOfDecs) {
-    BigDecimal bd = BigDecimal.valueOf(value);
-    bd = bd.setScale(nbOfDecs, BigDecimal.ROUND_HALF_UP);
-//    System.out.println("value: "+value+" nbOfDecs: "+nbOfDecs+ " scale: "+bd.scale()+ " value: " + bd.floatValue());
-    return bd.floatValue();
+    return roundValueToBigDecimal(value, nbOfDecs).floatValue();
   }
 
   /**
@@ -169,10 +190,10 @@ public class MathLib {
     BigDecimal a = new BigDecimal(String.valueOf(multiple));
     return roundValue(Math.round(value / multiple) * multiple, a.scale());
   }
-  
+
   /**
    * Retourne le nombre de digits d'un nombre entier de type Integer
-   * 
+   *
    * @param number le nombre entier à tester
    * @return un entier représentant le nombre de digits du nombre
    */
@@ -308,5 +329,5 @@ public class MathLib {
     }
     return value;
   }
-  
+
 }
