@@ -2,6 +2,8 @@ package tests;
 
 import ch.jcsinfo.datetime.DateTimeLib;
 import ch.jcsinfo.system.StackTracer;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import org.junit.AfterClass;
@@ -124,5 +126,18 @@ public class DateTimeLibTest {
 
     assertTrue(ok[0] && ok[1] && ok[2] && ok[3]);
   }
+
+  @Test
+  public void test07_dateToLocalDate() {
+    StackTracer.printCurrentTestMethod();
+    Date d = DateTimeLib.getDate();
+
+    LocalDate ld = DateTimeLib.dateToLocalDate(d);
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    System.out.println("  - to convert : " + DateTimeLib.dateToString(d, "dd.MM.yyyy HH:mm:ss"));
+    System.out.println("  - result     : " + ld.format(dtf));
+    assertTrue(ld != null);
+  }
+
 
 }

@@ -4,6 +4,9 @@ import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -672,6 +675,40 @@ public class DateTimeLib {
       sqlDate = new java.sql.Date(d.getTime());
     }
     return sqlDate;
+  }
+
+
+  
+  /**
+   * Cette méthode transforme un objet Date en un objet LocalDate (Java 8).
+   * On définit la zone horaire de l'objet LocalDate à la zone horaire du système.
+   *
+   * @param date l'objet Date à transformer en LocalDate
+   * @return l'objet LocalDate correspondant à la date de type Date.
+   */
+  public static LocalDate dateToLocalDate(Date date) {
+    if (date != null) {
+      return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//      return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+    } else {
+      return null;
+    }
+  }
+
+
+  /**
+   * Cette méthode transforme un objet LocalDate (Java 8) en un objet Date.
+   * L'objet LocalDate ne possédant pas d'heure, on lui donne minuit et la zone horaire du système.
+   *
+   * @param localDate l'objet LocalDate à transformer en Date
+   * @return l'objet Date correspondant à l'objet LocalDate
+   */
+  public static Date localDateToDate(LocalDate localDate) {
+    if (localDate != null) {
+      return Date.from(Instant.from(localDate.atStartOfDay(ZoneId.systemDefault())));
+    } else {
+      return null;
+    }
   }
 
 
