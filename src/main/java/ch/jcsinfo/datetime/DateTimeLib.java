@@ -678,7 +678,7 @@ public class DateTimeLib {
   }
 
 
-  
+
   /**
    * Cette méthode transforme un objet Date en un objet LocalDate (Java 8).
    * On définit la zone horaire de l'objet LocalDate à la zone horaire du système.
@@ -688,8 +688,7 @@ public class DateTimeLib {
    */
   public static LocalDate dateToLocalDate(Date date) {
     if (date != null) {
-      return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//      return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+      return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
     } else {
       return null;
     }
