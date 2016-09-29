@@ -207,9 +207,10 @@ public class PrefsManager {
    * Récupère une valeur de préférence de type float.
    *
    * @param keyName un nom de clé à rechercher
+   * @param nbOfDecs le nombre de décimales où arrondir
    * @return la valeur de cette clé (nombre réel de type float)
    */
-  public static float getFloat(String keyName) {
+  public static float getFloat(String keyName, int nbOfDecs) {
     return ConvertLib.stringToFloat(getValue(keyName));
   }
 
@@ -217,10 +218,11 @@ public class PrefsManager {
    * Récupère une valeur de préférence de type float.
    *
    * @param key une clé de type Pref à rechercher
+   * @param nbOfDecs le nombre de décimales où arrondir
    * @return la valeur de cette clé (nombre réel de type float)
    */
-  public static float getFloat(Object key) {
-    return getFloat(key.toString());
+  public static float getFloat(Object key, int nbOfDecs) {
+    return getFloat(key.toString(), nbOfDecs);
   }
 
   /**
