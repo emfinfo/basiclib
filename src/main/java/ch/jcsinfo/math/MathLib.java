@@ -129,7 +129,7 @@ public class MathLib {
   public static BigDecimal roundValueToBigDecimal(double value, int nbOfDecs) {
     BigDecimal bd = BigDecimal.valueOf(value);
     bd = bd.setScale(nbOfDecs, BigDecimal.ROUND_HALF_UP);
-    System.out.println("value: "+value+" nbOfDecs: "+nbOfDecs+ " scale: "+bd.scale()+ " value: " + bd.doubleValue());
+//    System.out.println("value: "+value+" nbOfDecs: "+nbOfDecs+ " scale: "+bd.scale()+ " value: " + bd.doubleValue());
     return bd;
   }
 
