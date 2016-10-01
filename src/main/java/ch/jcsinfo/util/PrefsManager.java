@@ -1,6 +1,7 @@
 package ch.jcsinfo.util;
 
 import ch.jcsinfo.file.FileHelper;
+import ch.jcsinfo.math.MathLib;
 import ch.jcsinfo.models.Printer;
 import ch.jcsinfo.models.PrinterCopy;
 import ch.jcsinfo.printing.PrintHelper;
@@ -207,22 +208,27 @@ public class PrefsManager {
    * Récupère une valeur de préférence de type float.
    *
    * @param keyName un nom de clé à rechercher
-   * @param nbOfDecs le nombre de décimales où arrondir
    * @return la valeur de cette clé (nombre réel de type float)
    */
-  public static float getFloat(String keyName, int nbOfDecs) {
-    return ConvertLib.stringToFloat(getValue(keyName));
+  public static float getFloat(String keyName) {
+    String s = getValue(keyName);
+    int dot = s.indexOf('.');
+    int nbOfDecs = 0;
+    if (dot >= 0) {
+      nbOfDecs = s.length() - dot - 1;
+    }
+    float value = ConvertLib.stringToFloat(s);
+    return MathLib.roundValue(value, nbOfDecs);
   }
 
   /**
    * Récupère une valeur de préférence de type float.
    *
    * @param key une clé de type Pref à rechercher
-   * @param nbOfDecs le nombre de décimales où arrondir
    * @return la valeur de cette clé (nombre réel de type float)
    */
-  public static float getFloat(Object key, int nbOfDecs) {
-    return getFloat(key.toString(), nbOfDecs);
+  public static float getFloat(Object key) {
+    return getFloat(key.toString());
   }
 
   /**
