@@ -218,7 +218,7 @@ public class PrefsManager {
       nbOfDecs = s.length() - dot - 1;
     }
     float value = ConvertLib.stringToFloat(s);
-    return MathLib.roundValue(value, nbOfDecs);
+    return MathLib.roundFloatValue(value, nbOfDecs);
   }
 
   /**

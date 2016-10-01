@@ -11,7 +11,7 @@ import org.junit.runners.MethodSorters;
 
 /**
  * Test des méthodes principales de la classe correspondante.
- * 
+ *
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -26,47 +26,47 @@ public class MathLibTest {
   public static void tearDownClass() throws Exception {
     System.out.println();
   }
-  
+
   @Test
   public void test01_roundValue() {
     StackTracer.printCurrentTestMethod();
     final double delta = 1e-15;
 
-    final double p1 = 0.25;
+    final float p1 = 0.25f;
     final double v1a = 4.62499999;
     final double v1b = 4.625;
     final double r1a = 4.50;
     final double r1b = 4.75;
 
-    final double p2 = 0.5;
+    final float p2 = 0.5f;
     final double v2a = 4.74999999;
     final double v2b = 4.75;
     final double r2a = 4.5;
     final double r2b = 5.0;
 
-    final double p3 = 10;
+    final float p3 = 10f;
     final double v3a = 104.499999;
     final double v3b = 105;
     final double r3a = 100;
     final double r3b = 110;
 
-    System.out.println("  - " + v1a + " rounded to " + p1 + " = " + MathLib.roundValue(v1a, p1));
-    System.out.println("  - " + v1b + " rounded to " + p1 + " = " + MathLib.roundValue(v1b, p1));
+    System.out.println("  - " + v1a + " rounded to " + p1 + " = " + MathLib.roundDoubleValue(v1a, p1));
+    System.out.println("  - " + v1b + " rounded to " + p1 + " = " + MathLib.roundDoubleValue(v1b, p1));
 
-    System.out.println("  - " + v2a + " rounded to " + p2 + " = " + MathLib.roundValue(v2a, p2));
-    System.out.println("  - " + v2b + " rounded to " + p2 + " = " + MathLib.roundValue(v2b, p2));
+    System.out.println("  - " + v2a + " rounded to " + p2 + " = " + MathLib.roundDoubleValue(v2a, p2));
+    System.out.println("  - " + v2b + " rounded to " + p2 + " = " + MathLib.roundDoubleValue(v2b, p2));
 
-    System.out.println("  - " + v3a + " rounded to " + p3 + " = " + MathLib.roundValue(v3a, p3));
-    System.out.println("  - " + v3b + " rounded to " + p3 + " = " + MathLib.roundValue(v3b, p3));
+    System.out.println("  - " + v3a + " rounded to " + p3 + " = " + MathLib.roundDoubleValue(v3a, p3));
+    System.out.println("  - " + v3b + " rounded to " + p3 + " = " + MathLib.roundDoubleValue(v3b, p3));
 
-    assertEquals(MathLib.roundValue(v1a, p1), r1a, delta);
-    assertEquals(MathLib.roundValue(v1b, p1), r1b, delta);
+    assertEquals(MathLib.roundDoubleValue(v1a, p1), r1a, delta);
+    assertEquals(MathLib.roundDoubleValue(v1b, p1), r1b, delta);
 
-    assertEquals(MathLib.roundValue(v2a, p2), r2a, delta);
-    assertEquals(MathLib.roundValue(v2b, p2), r2b, delta);
+    assertEquals(MathLib.roundDoubleValue(v2a, p2), r2a, delta);
+    assertEquals(MathLib.roundDoubleValue(v2b, p2), r2b, delta);
 
-    assertEquals(MathLib.roundValue(v3a, p3), r3a, delta);
-    assertEquals(MathLib.roundValue(v3b, p3), r3b, delta);
+    assertEquals(MathLib.roundDoubleValue(v3a, p3), r3a, delta);
+    assertEquals(MathLib.roundDoubleValue(v3b, p3), r3b, delta);
 
   }
 

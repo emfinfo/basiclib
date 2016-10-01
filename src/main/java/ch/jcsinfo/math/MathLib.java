@@ -120,40 +120,30 @@ public class MathLib {
   }
 
   /**
-   * Arrondit un nombre réel de type "double" à un certain nb de décimales.
+   * Arrondit un nombre réel à un certain nb de décimales.
    *
-   * @param value la valeur à arrondir
+   * @param value la valeur "float" à arrondir
    * @param nbOfDecs le nombre de décimales
    * @return le nombre arrondi de type BigDecimal
    */
-  public static BigDecimal roundValueToBigDecimal(double value, int nbOfDecs) {
+  public static BigDecimal convertToBigDecimal(double value, int nbOfDecs) {
     BigDecimal bd = BigDecimal.valueOf(value);
     bd = bd.setScale(nbOfDecs, BigDecimal.ROUND_HALF_UP);
-//    System.out.println("value: "+value+" nbOfDecs: "+nbOfDecs+ " scale: "+bd.scale()+ " value: " + bd.doubleValue());
+    //  ligne suivante éventuellement importante à afficher si problème d'arrondi
+//    System.out.println("valueToBigDecimal, value: " + value + ", result: " + bd);
     return bd;
   }
 
   /**
-   * Arrondit une valeur "double" à un multiple donné.
+   * Arrondit un nombre réel à un certain nb de décimales.
    *
    * @param value la valeur à arrondir
    * @param multiple le multiple pour l'arrondi (0.5 par exemple)
    * @return la valeur arrondie de type BigDecimal
    */
-  public static BigDecimal roundValueToBigDecimal(double value, double multiple) {
+  public static BigDecimal convertToBigDecimal(double value, float multiple) {
     BigDecimal a = new BigDecimal(String.valueOf(multiple));
-    return roundValueToBigDecimal(Math.round(value / multiple) * multiple, a.scale());
-  }
-
-  /**
-   * Arrondit un nombre réel de type "double" à un certain nb de décimales.
-   *
-   * @param value la valeur à arrondir
-   * @param nbOfDecs le nombre de décimales
-   * @return le nombre arrondi
-   */
-  public static double roundValue(double value, int nbOfDecs) {
-    return roundValueToBigDecimal(value, nbOfDecs).doubleValue();
+    return MathLib.convertToBigDecimal(Math.round(value / multiple) * multiple, a.scale());
   }
 
   /**
@@ -163,8 +153,31 @@ public class MathLib {
    * @param nbOfDecs le nombre de décimales
    * @return le nombre arrondi
    */
-  public static float roundValue(float value, int nbOfDecs) {
-    return roundValueToBigDecimal(value, nbOfDecs).floatValue();
+  public static float roundFloatValue(float value, int nbOfDecs) {
+    return MathLib.convertToBigDecimal(value, nbOfDecs).floatValue();
+  }
+
+  /**
+   * Arrondit une valeur "float" à un multiple donné.
+   *
+   * @param value la valeur à arrondir
+   * @param multiple le multiple pour l'arrondi (0.5 par exemple)
+   * @return la valeur arrondie
+   */
+  public static float roundFloatValue(float value, float multiple) {
+    BigDecimal a = new BigDecimal(String.valueOf(multiple));
+    return roundFloatValue(Math.round(value / multiple) * multiple, a.scale());
+  }
+
+  /**
+   * Arrondit un nombre réel de type "double" à un certain nb de décimales.
+   *
+   * @param value la valeur à arrondir
+   * @param nbOfDecs le nombre de décimales
+   * @return le nombre arrondi
+   */
+  public static double roundDoubleValue(double value, int nbOfDecs) {
+    return MathLib.convertToBigDecimal(value, nbOfDecs).doubleValue();
   }
 
   /**
@@ -174,21 +187,9 @@ public class MathLib {
    * @param multiple le multiple pour l'arrondi (0.5 par exemple)
    * @return la valeur arrondie
    */
-  public static double roundValue(double value, double multiple) {
+  public static double roundDoubleValue(double value, float multiple) {
     BigDecimal a = new BigDecimal(String.valueOf(multiple));
-    return roundValue(Math.round(value / multiple) * multiple, a.scale());
-  }
-
-  /**
-   * Arrondit une valeur "double" à un multiple donné.
-   *
-   * @param value la valeur à arrondir
-   * @param multiple le multiple pour l'arrondi (0.5 par exemple)
-   * @return la valeur arrondie
-   */
-  public static float roundValue(float value, float multiple) {
-    BigDecimal a = new BigDecimal(String.valueOf(multiple));
-    return roundValue(Math.round(value / multiple) * multiple, a.scale());
+    return roundDoubleValue(Math.round(value / multiple) * multiple, a.scale());
   }
 
   /**
@@ -254,7 +255,7 @@ public class MathLib {
    * @return des twips convertis en [cm]
    */
   public static double twipsToCm(int twips, int nbOfDecs) {
-    return roundValue((double) twips / TWIPS_PER_CM, nbOfDecs);
+    return roundDoubleValue((double) twips / TWIPS_PER_CM, nbOfDecs);
   }
 
   /**
@@ -266,7 +267,7 @@ public class MathLib {
    * @return des twips convertis en [mm]
    */
   public static double twipsToMm(int twips, int nbOfDecs) {
-    return roundValue((double) twips / TWIPS_PER_CM * 100, nbOfDecs);
+    return roundDoubleValue((double) twips / TWIPS_PER_CM * 100, nbOfDecs);
   }
 
   /**
@@ -277,7 +278,7 @@ public class MathLib {
    * @return le résultat de la conversion en [twips]
    */
   public static int cmToTwips(double cm) {
-    return (int) roundValue(cm * TWIPS_PER_CM, 0);
+    return (int) roundDoubleValue(cm * TWIPS_PER_CM, 0);
   }
 
   /**
@@ -288,7 +289,7 @@ public class MathLib {
    * @return le résultat de la conversion en [pt]
    */
   public static int cmToPt(double cm) {
-    return (int) roundValue(cm / ONE_PT_CM, 0);
+    return (int) roundDoubleValue(cm / ONE_PT_CM, 0);
   }
 
   /**
@@ -300,7 +301,7 @@ public class MathLib {
    */
   public static float ptToCm(float pt, int nbOfDecs) {
     float f = pt * (float) ONE_PT_CM;
-    return roundValue(f, nbOfDecs);
+    return roundFloatValue(f, nbOfDecs);
   }
 
   /**

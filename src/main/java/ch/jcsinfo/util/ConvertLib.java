@@ -394,9 +394,9 @@ public class ConvertLib {
    * @param p      la précision désirée (multiple)
    * @return la valeur convertie en BigDecimal
    */
-  public static BigDecimal objectToBigDecimal(Object aValue, double p) {
+  public static BigDecimal objectToBigDecimal(Object aValue, float p) {
     double d = objectToDouble(aValue);
-    return BigDecimal.valueOf(MathLib.roundValue(d, p));
+    return BigDecimal.valueOf(MathLib.roundDoubleValue(d, p));
   }
 
   /**
@@ -490,7 +490,7 @@ public class ConvertLib {
   }
 
 
-  
+
   /**
    * Convertit un tableau d'octets en une chaine de caractères représentant les
    * valeurs

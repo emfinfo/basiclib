@@ -18,7 +18,7 @@ public abstract class CallbackAdapter implements CallbackHandler {
 //    int cStep = Math.max((int)MathLib.roundValue((float)nb / 10, 1f), 1);
 //    System.out.println("CallbackAdapter: size="+nb + ", step="+cStep);
 //    return cStep;
-    return Math.max((int)MathLib.roundValue((float)nb / 10, 1f), 1);
+    return Math.max((int)MathLib.roundFloatValue((float)nb / 10, 1f), 1);
   }
 
   public void setTitle(String title) {
