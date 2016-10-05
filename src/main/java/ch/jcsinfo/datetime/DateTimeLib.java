@@ -118,7 +118,7 @@ public class DateTimeLib {
 
   /**
    * Retourne une date augmentée ou diminuée d'un certain nombre de jours ou de mois spécifié.
-   * Le type doit être spécifié). Toute les informations sur l'heure sont mises à zéro.
+   * Le type doit être spécifié. Toute les informations sur l'heure sont mises à zéro.
    *
    * @param d la date d'origine
    * @param type le type de décalage (Calendar.DAY_OF_MONTH ou Calendar.MONTH)
@@ -171,7 +171,6 @@ public class DateTimeLib {
    * Retourne la date de début d'une période.
    *
    * @param period un objet de type Period (avec des dates et des heures de début et fin)
-   * et fin
    * @return une date de début de période
    */
   public static Date getStartDate(Period period) {
@@ -185,7 +184,6 @@ public class DateTimeLib {
    * Retourne la date de fin d'une période.
    *
    * @param period un objet de type Period (avec des dates et des heures de début et fin)
-   * et fin
    * @return une date de début de période
    */
   public static Date getEndDate(Period period) {
