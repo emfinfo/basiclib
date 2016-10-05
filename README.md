@@ -1,20 +1,25 @@
-# BasicLib
-A Java library with some basic methods (most are static methods) for all your needs when you are starting an application. Comments are in french in the source code. You find classes and methods for :
-- some date and time methods (see DateTimeLib class)
-- some classes & methods to read files (see files in ch.jcsinfo.file package)
-- some mathematical methods (see MathLib class)
-- some generic model classes (see files in ch.jcsinfo.models)
-- some printer classes & methods (see files in ch.jcsinfo.printing package)
-- some system classes & methods (see files in ch.jcsinfo.system package)
-- some util classes & methods (callback, simple cypher, conversion types, prefs manager, screen info, etc)
+# BasicLib 1.0.3
+A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
+- manage date and time (see DateTimeLib class);
+- read files (see files in ch.jcsinfo.file package);
+- make mathematical operations (see MathLib class);
+- use generic model classes (see files in ch.jcsinfo.models);
+- manage system printers (see files in ch.jcsinfo.printing package);
+- use some system operations (see files in ch.jcsinfo.system package);
+- use callback, simple cypher, conversion types, prefs manager, screen info, etc.
 
 You can download and open this project in NetBeans 8.1. It's a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
 
 In MacOS terminal or Windows console, you can start the "test" suite with a Maven command :
 - mvn test
- 
+
 You can check a specific test with (for example) :
 - mvn test -Dtest=BinaryFileReaderTest
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.0.3 :
+* "roundValueToBigDecimal" is now named "convertToBigDecimal"
+* Change release numbering from MAJOR.MINOR to MAJOR.MINOR.PATCH
+
