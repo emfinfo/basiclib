@@ -21,7 +21,7 @@ Documentation :<br>
 
 New in release 1.0.4 (11.10.2016) :
 * "findMethod", "callMethod" are moved from "SystemLib" to new class "InObject" (introspection into an object)
-* new "callMethod" in "InObject", only for "getter" (no parameter)
+* new "callGetter" in "InObject", only for "getter" methods (methods without parameter)
 * new "fieldsToString" method in "InObject" can retrieve all private fields of an entity bean object (ex. of output: localite={pkLoc: 1, npa: 1700, localite: Fribourg, canton: FR} )
 * DATE_TIME_FORMAT_STANDARD in DateTimeLib is now ""d.M.yy HH:mm:ss"
 
