@@ -13,10 +13,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Jean-Claude Stritt
  */
-public class MethodHelper {
-  private static Logger logger = LoggerFactory.getLogger(MethodHelper.class);
+public class InObject {
+  private static Logger logger = LoggerFactory.getLogger(InObject.class);
 
-  private MethodHelper() {
+  private InObject() {
   }
 
   /**

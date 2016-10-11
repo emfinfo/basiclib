@@ -1,4 +1,4 @@
-# BasicLib 1.0.3 - october 2016
+# BasicLib 1.0.4 - october 2016
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -20,9 +20,9 @@ Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
 New in release 1.0.4 :
-* "findMethod", "callMethod" are moved from "SystemLib" to new class "MethodHelper"
-* new "callMethod" method in "MethodHelper", only for "getter" methods with no parameter
-* new "fieldsToString" method in "MethodHelper" that can retrieve all private fields of an entity bean object (ex. of output: localite={pkLoc: 1, npa: 1700, localite: Fribourg, canton: FR} )
+* "findMethod", "callMethod" are moved from "SystemLib" to new class "InObject" (introspection into an object)
+* new "callMethod" in "InObject", only for "getter" (no parameter)
+* new "fieldsToString" method in "InObject" can retrieve all private fields of an entity bean object (ex. of output: localite={pkLoc: 1, npa: 1700, localite: Fribourg, canton: FR} )
 
 New in release 1.0.3 :
 * "roundValueToBigDecimal" is now named "convertToBigDecimal"

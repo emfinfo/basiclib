@@ -1,7 +1,7 @@
 package tests;
 
 import beans.Localite;
-import ch.jcsinfo.system.MethodHelper;
+import ch.jcsinfo.system.InObject;
 import ch.jcsinfo.system.StackTracer;
 import java.lang.reflect.Method;
 import org.junit.AfterClass;
@@ -19,7 +19,7 @@ import org.junit.runners.MethodSorters;
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class MethodHelperTest {
+public class InObjectTest {
   private static String TEST_STRING = "BONJOUR";
   private static String TEST_METHOD1 = "replace";
   private static String TEST_METHOD2 = "getLocalite";
@@ -38,7 +38,7 @@ public class MethodHelperTest {
   public void test01_findMethod() {
     StackTracer.printCurrentTestMethod();
     StringBuilder source = new StringBuilder(TEST_STRING);
-    Method m = MethodHelper.findMethod(source, TEST_METHOD1, int.class, int.class, String.class);
+    Method m = InObject.findMethod(source, TEST_METHOD1, int.class, int.class, String.class);
     StackTracer.printTestInfo("« " + TEST_METHOD1 + " » in " + StringBuilder.class.getSimpleName(), m);
     assertTrue(m != null);
   }
@@ -47,10 +47,10 @@ public class MethodHelperTest {
   public void test02_callMethod() { // n'importe quelle méthode de la classe
     StackTracer.printCurrentTestMethod(" « " + TEST_METHOD1 + " »");
     StringBuilder source = new StringBuilder(TEST_STRING);
-    Method method = MethodHelper.findMethod(source, TEST_METHOD1, int.class, int.class, String.class);
+    Method method = InObject.findMethod(source, TEST_METHOD1, int.class, int.class, String.class);
     boolean ok = method != null;
     if (ok) {
-      Object result = MethodHelper.callMethod(source, method, 0, 3, "SE");
+      Object result = InObject.callMethod(source, method, 0, 3, "SE");
       ok = result != null;
       if (ok) {
         String strResult = ((StringBuilder) result).toString();
@@ -64,7 +64,7 @@ public class MethodHelperTest {
   public void test03_callMethod() { // un getter d'une classe entité
     StackTracer.printCurrentTestMethod(" « " + TEST_METHOD2 + " »");
     Localite source = new Localite(1, 3000, "Berne", "BE");
-    Object result = MethodHelper.callMethod(source, TEST_METHOD2);
+    Object result = InObject.callMethod(source, TEST_METHOD2);
     boolean ok = result != null;
     if (ok) {
        StackTracer.printTestInfo("un objet Localite Berne", result);
@@ -76,7 +76,7 @@ public class MethodHelperTest {
   public void test04_fieldsToString() { //
     StackTracer.printCurrentTestMethod();
     Localite source = new Localite(1, 1700, "Fribourg", "FR");
-    String result = MethodHelper.fieldsToString(source);
+    String result = InObject.fieldsToString(source);
     boolean ok = !result.isEmpty();
     if (ok) {
        StackTracer.printTestInfo("un objet Localite Fribourg", result);

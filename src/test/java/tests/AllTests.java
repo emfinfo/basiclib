@@ -16,7 +16,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses(value = {
   JavaLibTest.class,
   SystemLibTest.class,
-  MethodHelperTest.class,
+  InObjectTest.class,
   MathLibTest.class,
   CypherTest.class,
   ConvertLibTest.class,
