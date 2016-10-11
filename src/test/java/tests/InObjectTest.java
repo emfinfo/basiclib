@@ -64,7 +64,7 @@ public class InObjectTest {
   public void test03_callMethod() { // un getter d'une classe entité
     StackTracer.printCurrentTestMethod(" « " + TEST_METHOD2 + " »");
     Localite source = new Localite(1, 3000, "Berne", "BE");
-    Object result = InObject.callMethod(source, TEST_METHOD2);
+    Object result = InObject.callGetter(source, TEST_METHOD2);
     boolean ok = result != null;
     if (ok) {
        StackTracer.printTestInfo("un objet Localite Berne", result);

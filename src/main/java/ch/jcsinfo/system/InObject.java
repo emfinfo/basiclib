@@ -92,15 +92,15 @@ public class InObject {
   }
 
   /**
-   * Récupère la valeur retournée par une méthode de type "getter" (sans paramètre).
+   * Appelle une méthode getter par introspection et récupère donc sa valeur.
    *
    * @param source l'objet où rechercher le getter (généralement un entity-bean)
-   * @param methodName le nom de la méthode à appeler
-   * @return un string contenant la valeur
+   * @param getterName le nom de la méthode à appeler
+   * @return un objet de tout type contenant la valeur
    */
-  public static Object callMethod(Object source, String methodName) {
+  public static Object callGetter(Object source, String getterName) {
     Object result = null;
-    Method method = findMethod(source, methodName);
+    Method method = findMethod(source, getterName);
     if (method != null) {
       result = callMethod(source, method);
     }
@@ -145,7 +145,7 @@ public class InObject {
         result.append(field.getName());
         result.append(": ");
         String methodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-        Object value = callMethod(source, methodName);
+        Object value = callGetter(source, methodName);
         result.append(value);
       }
     }
