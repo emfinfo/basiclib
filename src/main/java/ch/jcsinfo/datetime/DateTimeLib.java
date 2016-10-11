@@ -26,7 +26,7 @@ public class DateTimeLib {
   public final static String TIME_FORMAT_SHORT = "HH:mm";
   public final static String ISO8601_FORMAT_STANDARD = "yyyy-MM-dd HH:mm:ss";
   public final static String ISO8601_FORMAT_SHORT = "yyyy-MM-dd";
-  public final static String DATE_TIME_FORMAT_STANDARD = "d.M.yy - HH:mm:ss";
+  public final static String DATE_TIME_FORMAT_STANDARD = "d.M.yy HH:mm:ss";
   public final static String DATE_TIME_FORMAT_FILENAME = "yyyy_MM_dd_HHmmss_SSS";
   public final static String DATE_TIME_FORMAT_SPECIAL = "dd-MM-yyyy HH:mm";
 

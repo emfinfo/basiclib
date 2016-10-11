@@ -19,12 +19,13 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
-New in release 1.0.4 :
+New in release 1.0.4 (11.10.2016) :
 * "findMethod", "callMethod" are moved from "SystemLib" to new class "InObject" (introspection into an object)
 * new "callMethod" in "InObject", only for "getter" (no parameter)
 * new "fieldsToString" method in "InObject" can retrieve all private fields of an entity bean object (ex. of output: localite={pkLoc: 1, npa: 1700, localite: Fribourg, canton: FR} )
+* DATE_TIME_FORMAT_STANDARD in DateTimeLib is now ""d.M.yy HH:mm:ss"
 
-New in release 1.0.3 :
+New in release 1.0.3 (1.10.2016):
 * "roundValueToBigDecimal" is now named "convertToBigDecimal"
 * Change release numbering from MAJOR.MINOR to MAJOR.MINOR.PATCH
 
