@@ -19,6 +19,11 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
+New in release 1.0.4 :
+* "findMethod", "callMethod" are moved from "SystemLib" to new class "MethodHelper"
+* new "callMethod" method in "MethodHelper", only for "getter" methods with no parameter
+* new "fieldsToString" method in "MethodHelper" that can retrieve all private fields of an entity bean object (ex. of output: localite={pkLoc: 1, npa: 1700, localite: Fribourg, canton: FR} )
+
 New in release 1.0.3 :
 * "roundValueToBigDecimal" is now named "convertToBigDecimal"
 * Change release numbering from MAJOR.MINOR to MAJOR.MINOR.PATCH
