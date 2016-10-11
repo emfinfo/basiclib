@@ -1,0 +1,157 @@
+package ch.jcsinfo.system;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Classe de méthodes statiques permettant l'introspection et des appels
+ * de méthodes programmés depuis un objet "source".
+ *
+ * @author Jean-Claude Stritt
+ */
+public class MethodHelper {
+  private static Logger logger = LoggerFactory.getLogger(MethodHelper.class);
+
+  private MethodHelper() {
+  }
+
+  /**
+   * Trouve une méthode par introspection dans la classe de l'objet "source"
+   * fourni. Si elle n'est pas trouvée, la méthode est encore recherchée
+   * dans la classe parente (classe mère).
+   *
+   * @param source l'objet où rechercher la méthode
+   * @param methodName le nom de la méthode recherchée
+   * @param parameterTypes un ou plusieurs types des paramètres de la méthode recherchée
+   * @return la méthode si elle a été trouvée, autrement null
+   */
+  // idem, mais on donne l'objet
+//  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
+  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
+    Method m = null;
+
+    // on recherche la méthode dans la classe de l'objet "source"
+    try {
+      Class<?> cl = source.getClass();
+//      Method[] methods = cl.getDeclaredMethods();
+//      for (Method method : methods) {
+//        System.out.println("  - "+method.getName());
+//      }
+      m = cl.getDeclaredMethod(methodName, parameterTypes);
+    } catch (NoSuchMethodException | SecurityException ex) {
+    }
+
+    // on recherche la méthode dans la classe parente
+    if (m == null) {
+      try {
+        Class<?> c = source.getClass();
+        Class<?> parent = c.getSuperclass();
+//        System.out.println("Class: " + c.getSimpleName());
+//        System.out.println("Parent: " + parent.getSimpleName());
+        m = parent.getDeclaredMethod(methodName);
+      } catch (NoSuchMethodException ex) {
+        logger.error("{} « {} »", StackTracer.getCurrentMethod(), methodName + " " + NoSuchMethodException.class.getSimpleName());
+      } catch (SecurityException ex) {
+        logger.error("{} « {} »", StackTracer.getCurrentMethod(), methodName + " " + SecurityException.class.getSimpleName());
+      }
+    }
+
+    // si pas trouvé, on met un message dans le fichier de log
+    if (m == null) {
+      logger.debug("{}(« {} ») not found !", StackTracer.getCurrentMethod(), methodName);
+    }
+    return m;
+  }
+
+  /**
+   * Appel d'une méthode contenue dans un objet source.
+   *
+   * @param source l'objet "source" où se trouve la méthode
+   * @param method la méthode à appeler
+   * @param parameters les éventuels paramètres de la méthode appelée
+   * @return un objet de retour éventuel (certaines méthodes retournent void)
+   */
+  public static Object callMethod(Object source, Method method, Object... parameters) {
+    final Method myMethod = method;
+    Object result = null;
+    try {
+      myMethod.setAccessible(true); // ajout JCS 9.2.2014
+      result = myMethod.invoke(source, parameters);
+    } catch (IllegalAccessException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalAccessException.class.getSimpleName());
+    } catch (IllegalArgumentException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalArgumentException.class.getSimpleName());
+    } catch (InvocationTargetException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + InvocationTargetException.class.getSimpleName());
+    }
+    return result;
+  }
+
+  /**
+   * Récupère la valeur retournée par une méthode de type "getter" (sans paramètre).
+   *
+   * @param source l'objet où rechercher le getter (généralement un entity-bean)
+   * @param methodName le nom de la méthode à appeler
+   * @return un string contenant la valeur
+   */
+  public static Object callMethod(Object source, String methodName) {
+    Object result = null;
+    Method method = findMethod(source, methodName);
+    if (method != null) {
+      result = callMethod(source, method);
+    }
+    return result;
+  }
+
+  /**
+   * Prépare une chaine de caractères avec tous les champs privés et leurs valeurs
+   * pour un objet source de type "entity-bean". Utile donc pour déboguer le contenu d'objets
+   * dans une classe de ce type.
+   * <br>Exemple :<br>
+   * <code>
+   * public String toString2() {
+   *   return fieldsToString(this);
+   *  }
+   * </code>
+   * <br>
+   *
+   * @param source l'objet source où rechercher les champs
+   * @return la chaîne avec tous les champs
+   */
+  public static String fieldsToString(Object source) {
+    StringBuilder result = new StringBuilder();
+
+    // débute par la classe simulant un objet
+    result.append(source.getClass().getSimpleName().toLowerCase());
+    result.append("={");
+
+    // détermine les champs déclarés dans la classe spécifiée
+    Field[] fields = source.getClass().getDeclaredFields();
+
+    // ajoute chaque champ (avec sa valeur) à la chaîne finale
+    int cnt = 0;
+    for (Field field : fields) {
+      boolean ok1 = (field.getModifiers() &  Modifier.STATIC) == 0;
+      boolean ok2 = (field.getModifiers() &  Modifier.PRIVATE) > 0;
+      if (ok1 && ok2) {
+        cnt++;
+        if (cnt > 1) {
+          result.append(", ");
+        }
+        result.append(field.getName());
+        result.append(": ");
+        String methodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
+        Object value = callMethod(source, methodName);
+        result.append(value);
+      }
+    }
+    result.append("}");
+    return result.toString();
+  }
+
+
+}

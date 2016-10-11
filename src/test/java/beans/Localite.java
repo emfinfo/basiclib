@@ -13,6 +13,16 @@ public class Localite implements Serializable {
   private String localite;
   private String canton;
 
+  public Localite() {
+  }
+
+  public Localite(long pkLoc, int npa, String localite, String canton) {
+    this.pkLoc = pkLoc;
+    this.npa = npa;
+    this.localite = localite;
+    this.canton = canton;
+  }
+
   public long getPkLoc() {
     return pkLoc;
   }
