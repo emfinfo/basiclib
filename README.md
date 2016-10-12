@@ -19,7 +19,8 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
-New in release 1.0.4 (11.10.2016) :
+New in release 1.0.4 (11-13.10.2016) :
+* class "Message" is renamed "OptionModel" and new class InfoModel is introducted for JOptionPane messages
 * "findMethod", "callMethod" are moved from "SystemLib" to new class "InObject" (introspection into an object)
 * new "callGetter" in "InObject", only for "getter" methods (methods without parameter)
 * new "fieldsToString" method in "InObject" can retrieve all private fields of an entity bean object (ex. of output: localite={pkLoc: 1, npa: 1700, localite: Fribourg, canton: FR} )
