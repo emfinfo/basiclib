@@ -3,17 +3,23 @@ package ch.jcsinfo.models;
 import java.io.Serializable;
 
 /**
- * Modèle pour stocker des messages avec un identificateur.
+ * Modèle pour stocker un identificateur et un message associé. Pratique pour simuler
+ * une table de base de données avec des données fixes. Ces données proviendraient
+ * plutôt d'un fichier de resources (resource bundle) liée à la langue.<br>
+ * Par exemple : <br>
+ * id  msg
+ * 0   tri par code article<br>
+ * 1   tri par nom article<br>
  *
  * @author Jean-Claude Stritt
  */
-public class Message implements Serializable {
+public class OptionModel implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private Integer id;
   private String msg;
 
-  public Message( int id, String msg) {
+  public OptionModel( int id, String msg) {
     this.id = id;
     this.msg = msg;
   }
@@ -49,7 +55,7 @@ public class Message implements Serializable {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final Message other = (Message) obj;
+    final OptionModel other = (OptionModel) obj;
     return !(this.id == null || !this.id.equals(other.id));
   }
 
