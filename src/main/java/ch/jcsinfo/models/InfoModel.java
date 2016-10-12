@@ -1,7 +1,7 @@
 package ch.jcsinfo.models;
 
 /**
- * Modèle pour stocker les informations d'affichage d'une message
+ * ModÃ¨le pour stocker les informations d'affichage d'une message
  * dans une popup (titre, message d'info, texte poour le bouton "oui"
  * et texte pour le bouton "non").
  *
