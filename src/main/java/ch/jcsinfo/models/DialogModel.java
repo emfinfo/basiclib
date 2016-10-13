@@ -43,4 +43,12 @@ public class DialogModel {
     return noTxt;
   }
 
+  public void setInfo(String info) {
+    this.info = info;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
 }
