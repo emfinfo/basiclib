@@ -8,18 +8,18 @@ package ch.jcsinfo.models;
  */
 public class ErrorModel {
   private int id;
-  private boolean ok;
-  private String title;
   private String msg;
+  private String title;
+  private boolean ok;
 
-  public ErrorModel( boolean ok, String title, String msg ) {
-    this.ok = ok;
-    this.title = title;
+  public ErrorModel( String msg, String title, boolean ok) {
     this.msg = msg;
+    this.title = title;
+    this.ok = ok;
   }
 
   public ErrorModel( ) {
-    this(true, "", "");
+    this("", "", true);
   }
 
   public int getId() {
@@ -28,14 +28,6 @@ public class ErrorModel {
 
   public void setId( int id ) {
     this.id = id;
-  }
-
-  public boolean isOk() {
-    return ok;
-  }
-
-  public void setOk( boolean ok ) {
-    this.ok = ok;
   }
 
   public String getMsg() {
@@ -54,9 +46,17 @@ public class ErrorModel {
     this.title = title;
   }
 
+  public boolean isOk() {
+    return ok;
+  }
+
+  public void setOk( boolean ok ) {
+    this.ok = ok;
+  }
+
   @Override
   public String toString() {
-    return "Id: " + getId() + " ok: " + isOk()+" msg: "+getMsg();
+    return "Id: " + getId() + ", ok: " + isOk()+", msg: "+getMsg();
   }
 
 }
