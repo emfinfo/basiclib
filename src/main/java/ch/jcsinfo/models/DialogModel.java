@@ -16,15 +16,15 @@ public class DialogModel {
   private String yesTxt;
   private String noTxt;
 
-  public DialogModel(String title, String message, String yesTxt, String noTxt) {
+  public DialogModel(String title, String msg, String yesTxt, String noTxt) {
     this.title = title;
-    this.msg = message;
+    this.msg = msg;
     this.yesTxt = yesTxt;
     this.noTxt = noTxt;
   }
 
-  public DialogModel(String title, String info) {
-    this(title, info, "yes", "no");
+  public DialogModel(String title, String msg) {
+    this(title, msg, "yes", "no");
   }
 
   public String getTitle() {
