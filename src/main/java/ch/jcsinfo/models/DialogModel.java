@@ -11,14 +11,14 @@ package ch.jcsinfo.models;
  * @author jcstritt
  */
 public class DialogModel {
-  private String info;
   private String title;
+  private String msg;
   private String yesTxt;
   private String noTxt;
 
-  public DialogModel(String title, String info, String yesTxt, String noTxt) {
-    this.info = info;
+  public DialogModel(String title, String message, String yesTxt, String noTxt) {
     this.title = title;
+    this.msg = message;
     this.yesTxt = yesTxt;
     this.noTxt = noTxt;
   }
@@ -31,8 +31,8 @@ public class DialogModel {
     return title;
   }
 
-  public String getInfo() {
-    return info;
+  public String getMsg() {
+    return msg;
   }
 
   public String getYesTxt() {
@@ -47,8 +47,8 @@ public class DialogModel {
     this.title = title;
   }
 
-  public void setInfo(String info) {
-    this.info = info;
+  public void setMsg(String msg) {
+    this.msg = msg;
   }
 
 }
