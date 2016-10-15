@@ -19,7 +19,7 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
-New in release 1.0.4 (11-14.10.2016) :
+New in release 1.0.4 (11-15.10.2016) :
 * class "Message" is renamed "Option" and new class DialogModel is introducted for JOptionPane messages
 * "findMethod", "callMethod" are moved from "SystemLib" to new class "InObject" (introspection into an object)
 * new "callGetter" in "InObject", only for "getter" methods (methods without parameter)
