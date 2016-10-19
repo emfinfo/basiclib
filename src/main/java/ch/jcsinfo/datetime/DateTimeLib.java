@@ -21,7 +21,7 @@ import java.util.Locale;
  */
 public class DateTimeLib {
   public final static String DATE_FORMAT_STANDARD = "d.M.yyyy";
-  public final static String DATE_FORMAT_SHORT = "d.M.yy";
+  public final static String DATE_FORMAT_SHORT = "dd.MM.yy";
   public final static String TIME_FORMAT_STANDARD = "HH:mm:ss";
   public final static String TIME_FORMAT_SHORT = "HH:mm";
   public final static String ISO8601_FORMAT_STANDARD = "yyyy-MM-dd HH:mm:ss";
@@ -270,13 +270,50 @@ public class DateTimeLib {
   }
 
   /**
+   * Retourne un tableau avec les dates de début et de fin de mois pour la date spécifiée.
+   * On peut également fournir un offset en mois pour décaler cette date.
+   *
+   * @param curDate la date courante
+   * @param monthsOffset un offset en nombre de mois (positif ou négatif)
+   * @return un tableau avec les deux dates calculées
+   */
+  public static Date[] getMonthDates(Date curDate, int monthsOffset) {
+    Date retDates[] = new Date[2];
+
+    // recalcule une date avec l'offset des mois fourni
+    Date newDate = moveDate(curDate, Calendar.MONTH, monthsOffset);
+
+    // extrait les infos de la date calculée
+    int info[] = extractDateInfo(newDate);
+
+    // retourne les dates de début et fin de mois
+    retDates[0] = createDate(1, info[1], info[2]);
+    retDates[1] = createDate(getMonthMaxDay(retDates[0]), info[1], info[2]);
+    return retDates;
+  }
+
+  /**
+   * Retourne un tableau avec les dates de début et de fin de mois par rapport
+   * à la date courante du jour.
+   *
+   * On peut également fournir un offset en mois pour décaler cette date.
+   *
+   * @param monthsOffset un offset en nombre de mois (positif ou négatif)
+   * @return un tableau avec les deux dates calculées
+   */
+  public static Date[] getMonthDates(int monthsOffset) {
+    return getMonthDates(getDate(), monthsOffset);
+  }
+
+
+  /**
    * Retourne un tableau avec 2 dates qui correspondent au 1.1 et au 31.12 de l'année civile
    * extraite de la date courante fournie.
    *
    * @param curDate une date courante spécifiée
    * @return un tableau avec 2 dates
    */
-  public static Date[] getCalendarYearDates(Date curDate) {
+  public static Date[] getYearDates(Date curDate) {
      Date retDates[] = new Date[2];
      int curDateInfo[] = extractDateInfo(curDate);
      retDates[0] = createDate(1,   1, curDateInfo[2]);
@@ -285,54 +322,56 @@ public class DateTimeLib {
   }
 
   /**
-   * Retourne un tableau avec 2 dates qui correspondent au 1.1 et au 31.12 de l'année civile en cours.
+   * Retourne un tableau avec 2 dates qui correspondent au 1.1 et au 31.12
+   * de l'année civile en cours.
    *
-   * @return un tableau avec 2 dates
+   * @return un tableau avec les 2 dates calculées
    */
-  public static Date[] getCalendarYearDates() {
-    return getCalendarYearDates(getDate());
+  public static Date[] getYearDates() {
+    return getYearDates(getDate());
   }
 
   /**
    * Retourne un tableau avec 2 dates qui correspondent à :<br>
-   * date[0] : la date de début du mois d'une année auparavant (12 mois)<br>
+   * date[0] : la date de début du mois d'une année auparavant (-12 mois) par rapport à la date fournie<br>
    * date[1] : la date de fin de mois de la date courante spécifiée<br>
-   * Si la date courante est avant le mois d'avril, les premiers mois de l'année
+   * <br>
+   * Si la date fournie est avant le mois d'avril, les premiers mois de l'année
    * précédente sont également inclus dans date[0]. Donc, au final date[0]
    * correspond à 12 jusqu'à 15 mois antérieurs à date[1].
    *
    * @param curDate une date courante spécifiée
-   * @return un tableau avec 2 dates
+   * @return un tableau avec les 2 dates calculées
    */
-  public static Date[] getOneYearDates(Date curDate) {
-     Date retDates[] = new Date[2];
+  public static Date[] getWorkYearDates(Date curDate) {
+    Date retDates[] = new Date[2];
 
-     // date courante (spécifiée)
-     int curDateinfo[] = extractDateInfo(curDate);
-     int nbMonths = (curDateinfo[1]<4)?12+curDateinfo[1]:12;
+    // date courante (spécifiée)
+    int curDateinfo[] = extractDateInfo(curDate);
+    int nbMonths = (curDateinfo[1] < 4) ? 12 + curDateinfo[1] : 12;
 
-     // date correspondante à 12 jusqu'à 15 mois avant la date spécifiée
-     Date oldDate = moveDate(curDate, Calendar.MONTH, -nbMonths + 1);
-     int oldDateInfo[] = extractDateInfo(oldDate);
+    // date correspondante à 12 jusqu'à 15 mois avant la date spécifiée
+    Date oldDate = moveDate(curDate, Calendar.MONTH, -nbMonths + 1);
+    int oldDateInfo[] = extractDateInfo(oldDate);
 
-     // préparation des 2 dates
-     retDates[0] = createDate(1, oldDateInfo[1], oldDateInfo[2]);
-     retDates[1] = createDate(getMonthMaxDay(curDate), curDateinfo[1], curDateinfo[2]);
-     return retDates;
+    // préparation des 2 dates
+    retDates[0] = createDate(1, oldDateInfo[1], oldDateInfo[2]);
+    retDates[1] = createDate(getMonthMaxDay(curDate), curDateinfo[1], curDateinfo[2]);
+    return retDates;
   }
 
   /**
    * Retourne un tableau avec 2 dates qui correspondent à :<br>
-   * date[0] : la date de début du mois d'une année auparavant (12 mois)<br>
-   * date[1] : la date de fin de mois de la date courante<br>
-   * Si la date courante est avant le mois d'avril, les premiers mois de l'année
-   * précédente sont également inclus dans date[0]. Donc, au final date[0]
-   * correspond à 12 jusqu'à 15 mois antérieurs à date[1].
+   * date[0] : la date de début du mois d'une année auparavant (-12 mois) par rapport à la date courante du jour<br>
+   * date[1] : la date de fin de mois pour cette même date courante du jour<br>
+   * <br>
+   * Si la date est avant le mois d'avril, les premiers mois de l'année précédente sont également inclus dans date[0].
+   * Donc, au final date[0] correspond à 12 jusqu'à 15 mois antérieurs à la date finale (date[1]).
    *
-   * @return un tableau avec 2 dates
+   * @return un tableau avec les 2 dates calculées
    */
-  public static Date[] getOneYearDates() {
-    return DateTimeLib.getOneYearDates(getDate());
+  public static Date[] getWorkYearDates() {
+    return getWorkYearDates(getDate());
   }
 
   /**

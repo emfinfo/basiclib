@@ -95,33 +95,36 @@ public class DateTimeLibTest {
     assertTrue(okDate && okTime);
   }
 
-  private String[] checkOneDate(String sDate) {
+  private String[] checkOneDate(String sDate, boolean last) {
     Date d = DateTimeLib.isoStringToDate(sDate);
-    Date dates[] = DateTimeLib.getOneYearDates(d);
+    Date dates[] = DateTimeLib.getWorkYearDates(d);
     String res[] = new String[2];
     res[0] = DateTimeLib.dateToString(dates[0], DateTimeLib.ISO8601_FORMAT_SHORT);
     res[1] = DateTimeLib.dateToString(dates[1], DateTimeLib.ISO8601_FORMAT_SHORT);
     System.out.println("  - date[0] : " + res[0]);
-    System.out.println("  - date[1] : " + res[1] + "\n");
+    System.out.println("  - date[1] : " + res[1]);
+    if (!last) {
+      System.out.println();
+    }
     return res;
   }
 
   @Test
-  public void test06_getExtendedCalendarYearDates() {
+  public void test06_getWorkYearDates() {
     StackTracer.printCurrentTestMethod();
     String r[];
     boolean ok[] = new boolean[4];
 
-    r = checkOneDate ("2016-01-28");
+    r = checkOneDate ("2016-01-28", false);
     ok[0] = r[0].equals("2015-01-01") && r[1].equals("2016-01-31");
 
-    r = checkOneDate ("2016-02-28");
+    r = checkOneDate ("2016-02-28", false);
     ok[1] = r[0].equals("2015-01-01") && r[1].equals("2016-02-29");
 
-    r = checkOneDate ("2016-03-28");
+    r = checkOneDate ("2016-03-28", false);
     ok[2] = r[0].equals("2015-01-01") && r[1].equals("2016-03-31");
 
-    r = checkOneDate ("2016-04-28");
+    r = checkOneDate ("2016-04-28", true);
     ok[3] = r[0].equals("2015-05-01") && r[1].equals("2016-04-30");
 
     assertTrue(ok[0] && ok[1] && ok[2] && ok[3]);
@@ -139,5 +142,43 @@ public class DateTimeLibTest {
     assertTrue(ld != null);
   }
 
+  @Test
+  public void test08_getMonthDates() {
+    StackTracer.printCurrentTestMethod();
+    Date dSource = DateTimeLib.createDate(1, 1, 2017);
+    int year = DateTimeLib.getYear(dSource) - 1;
+    int monthsOffset = -11;
+    Date d[] = DateTimeLib.getMonthDates(dSource, monthsOffset);
+
+    int iDebut[] = DateTimeLib.extractDateInfo(d[0]);
+    int iFin[] = DateTimeLib.extractDateInfo(d[1]);
+    boolean ok1 = iDebut[0] == 1 && iDebut[1] == 2 && iDebut[2] == year;
+    boolean ok2 = iFin[0] == 29 && iFin[1] == 2 && iFin[2] == year;
+
+    System.out.println("  - source   : " + DateTimeLib.dateToString(dSource) + ", offset: " + monthsOffset + " months");
+    System.out.println("  - result 1 : " + DateTimeLib.dateToString(d[0], DateTimeLib.DATE_FORMAT_SHORT) + ", ok1: " + ok1);
+    System.out.println("  - result 2 : " + DateTimeLib.dateToString(d[1], DateTimeLib.DATE_FORMAT_SHORT) + ", ok2: " + ok2);
+
+    assertTrue(ok1 && ok2);
+  }
+
+  @Test
+  public void test09_getYearDates() {
+    StackTracer.printCurrentTestMethod();
+    Date dSource = DateTimeLib.getDate();
+    int year = DateTimeLib.getYear(dSource);
+    Date d[] = DateTimeLib.getYearDates();
+
+    int iDebut[] = DateTimeLib.extractDateInfo(d[0]);
+    int iFin[] = DateTimeLib.extractDateInfo(d[1]);
+    boolean ok1 = iDebut[0] == 1 && iDebut[1] == 1 && iDebut[2] == year;
+    boolean ok2 = iFin[0] == 31 && iFin[1] == 12 && iFin[2] == year;
+
+    System.out.println("  - source   : " + DateTimeLib.dateToString(dSource));
+    System.out.println("  - result 1 : " + DateTimeLib.dateToString(d[0], DateTimeLib.DATE_FORMAT_SHORT) + ", ok1: " + ok1);
+    System.out.println("  - result 2 : " + DateTimeLib.dateToString(d[1], DateTimeLib.DATE_FORMAT_SHORT) + ", ok2: " + ok2);
+
+    assertTrue(ok1 && ok2);
+  }
 
 }
