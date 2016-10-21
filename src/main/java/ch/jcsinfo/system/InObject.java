@@ -144,7 +144,9 @@ public class InObject {
         }
         result.append(field.getName());
         result.append(": ");
-        String methodName = "get" + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
+//        System.out.println("Field: "+field.getName()+", type: " + field.getType().getSimpleName());
+        String getType = (field.getType().getSimpleName().equalsIgnoreCase("boolean"))?"is":"get";
+        String methodName = getType + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
         Object value = callGetter(source, methodName);
         result.append(value);
       }
