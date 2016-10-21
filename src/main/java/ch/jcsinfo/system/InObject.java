@@ -1,9 +1,11 @@
 package ch.jcsinfo.system;
 
+import ch.jcsinfo.datetime.DateTimeLib;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,9 +147,19 @@ public class InObject {
         result.append(field.getName());
         result.append(": ");
 //        System.out.println("Field: "+field.getName()+", type: " + field.getType().getSimpleName());
-        String getType = (field.getType().getSimpleName().equalsIgnoreCase("boolean"))?"is":"get";
+        String sType = field.getType().getSimpleName().toLowerCase();
+        String getType = (sType.equals("boolean"))?"is":"get";
         String methodName = getType + field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
         Object value = callGetter(source, methodName);
+        if (sType.equals("date") && value != null) {
+          Date d1 = (Date) value;
+          Date d2 = DateTimeLib.eraseTime(d1);
+          if (d1.getTime() == d2.getTime()) {
+            value = DateTimeLib.dateToString(d1, DateTimeLib.DATE_FORMAT_SHORT);
+          } else {
+            value = DateTimeLib.dateTimeToString(d1);
+          }
+        }
         result.append(value);
       }
     }
