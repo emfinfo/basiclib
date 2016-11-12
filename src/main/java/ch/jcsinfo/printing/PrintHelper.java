@@ -60,7 +60,7 @@ public class PrintHelper {
 
   /**
    * Retourne un tableau de toutes les imprimantes installées.
-   * 
+   *
    * @return un tableau des imprimantes installées
    */
   public static Printer[] getArrayOfPrinters() {
@@ -72,19 +72,19 @@ public class PrintHelper {
     }
     return printers;
   }
-  
+
   /**
    * Retourne une liste de toutes les imprimantes.
-   * 
+   *
    * @return une liste des imprimantes installées
    */
   public static List<Printer> getListOfPrinters() {
     return new ArrayList<>(Arrays.asList(getArrayOfPrinters()));
-  }  
+  }
 
   /**
    * Retourne un tableau avec les noms de chaque imprimante dans le système.
-   * 
+   *
    * @return un tableau avec les noms d'imprimante
    */
   public static String[] getArrayOfPrinterNames() {
@@ -95,21 +95,21 @@ public class PrintHelper {
 //      System.out.println("PRINTER: " + printers[i]);
     }
     return printers;
-  }  
-  
+  }
+
   /**
    * Retourne une liste des noms d'imprimantes dans le système.
-   * 
+   *
    * @return Une liste des noms d'imprimantes
    */
   public static List<String> getListOfPrinterNames() {
     return new ArrayList<>(Arrays.asList(getArrayOfPrinterNames()));
   }
-  
-  
+
+
   /**
    * Trouve le gestionnaire de l'imprimante par défaut.
-   * 
+   *
    * @return un objet de type PrintService (gestionnaire d'impression)
    */
   public static PrintService findDefaultPrintService() {
@@ -139,7 +139,7 @@ public class PrintHelper {
     return printService;
   }
 
-  
+
   /**
    * Trouve un set d'attributs d'une imprimante spécifiée par son service disponible.
    *
