@@ -92,7 +92,7 @@ public class PrintHelper {
     String printers[] = new String[services.length];
     for (int i = 0; i < services.length; i++) {
       printers[i] = services[i].getName();
-      System.out.println("PRINTER: " + printers[i]);
+//      System.out.println("PRINTER: " + printers[i]);
     }
     return printers;
   }
