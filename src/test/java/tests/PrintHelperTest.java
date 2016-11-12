@@ -37,7 +37,7 @@ public class PrintHelperTest {
   @BeforeClass
   public static void setUpClass() {
     System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
-//    System.setProperty("sun.java2d.print.polling", "false");
+//    System.setProperty("sun.java2d.print.polling", "true");
 
 //    docURL = FileLib.filePathToURL(RESULTS_FOLDER + File.separator + TEST_DOCUMENT_NAME);
 //    pdfURL = FileLib.replaceFileExt(docURL, ".pdf");
@@ -54,7 +54,7 @@ public class PrintHelperTest {
     StackTracer.printCurrentTestMethod();
     List<Printer> printers = PrintHelper.getListOfPrinters();
     boolean ok = printers.size() > 0;
-    StackTracer.printTestInfo("System", printers.size());
+    StackTracer.printTestInfo("OS", printers.size());
     if (ok) {
       System.out.println();
       int n = 1;
@@ -71,6 +71,7 @@ public class PrintHelperTest {
     StackTracer.printCurrentTestMethod();
     PrintService ps = PrintHelper.findDefaultPrintService();
     boolean ok = ps != null && !ps.getName().isEmpty();
+    StackTracer.printTestInfo("OS", ok);
     if (ok) {
       System.out.println("  - defaut print service: " + ps.getName());
       TEST_PRINTER_NAME = ps.getName();
@@ -80,9 +81,10 @@ public class PrintHelperTest {
 
   @Test
   public void test03_findPrintService() {
-    StackTracer.printCurrentTestMethod(" for " + TEST_PRINTER_NAME + " ...");
+    StackTracer.printCurrentTestMethod();
     PrintService ps = PrintHelper.findPrintService(TEST_PRINTER_NAME);
     boolean ok = ps != null && ps.getName().contains(TEST_PRINTER_NAME);
+    StackTracer.printTestInfo(TEST_PRINTER_NAME, ok);
     if (ok) {
       System.out.println("  - print service found: " + ps.getName());
     }
@@ -139,6 +141,7 @@ public class PrintHelperTest {
         System.out.println("    " + ConvertLib.formatNumber(i + 1, "00") + ". " + media);
       }
     }
+    assertTrue(ok);
   }
 
 }

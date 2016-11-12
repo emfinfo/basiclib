@@ -92,7 +92,7 @@ public class PrintHelper {
     String printers[] = new String[services.length];
     for (int i = 0; i < services.length; i++) {
       printers[i] = services[i].getName();
-//      System.out.println("PRINTER: " + printers[i]);
+      System.out.println("PRINTER: " + printers[i]);
     }
     return printers;
   }
@@ -150,25 +150,28 @@ public class PrintHelper {
   public static Set<Attribute> getPrinterAttributes( PrintService printer ) {
     Set<Attribute> set = new LinkedHashSet<>();
 
-    //get the supported docflavors, categories and attributes
-    Class<? extends Attribute>[] categories = (Class<? extends Attribute>[]) printer.getSupportedAttributeCategories();
-    DocFlavor[] flavors = printer.getSupportedDocFlavors();
-    AttributeSet attributes = printer.getAttributes();
+    if (printer != null) {
 
-    //get all the avaliable attributes
-    for (Class<? extends Attribute> category : categories) {
-      for (DocFlavor flavor : flavors) {
-        //get the value
-        Object value = printer.getSupportedAttributeValues(category, flavor, attributes);
+      //get the supported docflavors, categories and attributes
+      Class<? extends Attribute>[] categories = (Class<? extends Attribute>[]) printer.getSupportedAttributeCategories();
+      DocFlavor[] flavors = printer.getSupportedDocFlavors();
+      AttributeSet attributes = printer.getAttributes();
 
-        //check if it's something
-        if (value != null) {
-          //if it's a SINGLE attribute...
-          if (value instanceof Attribute) {
-            set.add((Attribute) value); //...then add it
-          } //if it's a SET of attributes...
-          else if (value instanceof Attribute[]) {
-            set.addAll(Arrays.asList((Attribute[]) value)); //...then add its childs
+      //get all the avaliable attributes
+      for (Class<? extends Attribute> category : categories) {
+        for (DocFlavor flavor : flavors) {
+          //get the value
+          Object value = printer.getSupportedAttributeValues(category, flavor, attributes);
+
+          //check if it's something
+          if (value != null) {
+            //if it's a SINGLE attribute...
+            if (value instanceof Attribute) {
+              set.add((Attribute) value); //...then add it
+            } //if it's a SET of attributes...
+            else if (value instanceof Attribute[]) {
+              set.addAll(Arrays.asList((Attribute[]) value)); //...then add its childs
+            }
           }
         }
       }
@@ -227,11 +230,13 @@ public class PrintHelper {
    * @return la liste recherchée
    */
   public static List<Media> getPaperFormats( PrintService ps ) {
-    Media[] medias = (Media[]) ps.getSupportedAttributeValues(Media.class, null, null);
     List<Media> list = new ArrayList<>();
-    for (Media media : medias) {
-      if (media instanceof MediaSizeName) {
-        list.add(media);
+    if (ps != null) {
+      Media[] medias = (Media[]) ps.getSupportedAttributeValues(Media.class, null, null);
+      for (Media media : medias) {
+        if (media instanceof MediaSizeName) {
+          list.add(media);
+        }
       }
     }
     return list;
@@ -278,11 +283,13 @@ public class PrintHelper {
    * @return la liste recherchée
    */
   public static List<Media> getPaperTrays( PrintService ps ) {
-    Media[] medias = (Media[]) ps.getSupportedAttributeValues(Media.class, null, null);
     List<Media> list = new ArrayList<>();
-    for (Media media : medias) {
-      if (media instanceof MediaTray) {
-        list.add(media);
+    if (ps != null) {
+      Media[] medias = (Media[]) ps.getSupportedAttributeValues(Media.class, null, null);
+      for (Media media : medias) {
+        if (media instanceof MediaTray) {
+          list.add(media);
+        }
       }
     }
     return list;
