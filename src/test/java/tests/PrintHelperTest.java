@@ -1,7 +1,7 @@
 package tests;
 
-import ch.jcsinfo.printing.PrintHelper;
 import ch.jcsinfo.models.Printer;
+import ch.jcsinfo.printing.PrintHelper;
 import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.ConvertLib;
 import java.util.Arrays;
@@ -37,6 +37,8 @@ public class PrintHelperTest {
   @BeforeClass
   public static void setUpClass() {
     System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
+//    System.setProperty("sun.java2d.print.polling", "false");
+
 //    docURL = FileLib.filePathToURL(RESULTS_FOLDER + File.separator + TEST_DOCUMENT_NAME);
 //    pdfURL = FileLib.replaceFileExt(docURL, ".pdf");
 //    odtURL = FileLib.replaceFileExt(docURL, ".odt");

@@ -68,7 +68,7 @@ public class PrintHelper {
     Printer printers[] = new Printer[services.length];
     for (int i = 0; i < services.length; i++) {
       printers[i] = new Printer(services[i]);
-//      System.out.println("PRINTER: "+printers[i].getPrintService().getName());
+//      System.out.println("PRINTER: " + printers[i].getPrintService().getName());
     }
     return printers;
   }
