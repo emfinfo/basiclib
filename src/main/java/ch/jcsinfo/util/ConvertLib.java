@@ -406,7 +406,7 @@ public class ConvertLib {
    * @return une java.util.date
    */
   public static Date objectToDate(Object aValue) {
-    Date dValue = new Date();
+    Date dValue = null;
     try {
       dValue = (Date) aValue;
     } catch (Exception ex) {
