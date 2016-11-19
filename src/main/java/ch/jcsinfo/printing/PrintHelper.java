@@ -2,7 +2,11 @@ package ch.jcsinfo.printing;
 
 import ch.jcsinfo.math.MathLib;
 import ch.jcsinfo.models.Printer;
+import ch.jcsinfo.system.SystemLib;
 import java.awt.print.Paper;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -58,17 +62,42 @@ public class PrintHelper {
     DINA5 = paper;
   }
 
+  private static void wakeUpPrintServices() {
+    if (SystemLib.isMacOS()) {
+      String[] args = new String[]{"/bin/bash", "-c", "lpstat", "-v"};
+      try {
+        Process proc = new ProcessBuilder(args).start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+//          System.out.print("lpstat: " + line + "\n");
+        }
+        proc.waitFor();
+      } catch (IOException ex) {
+        System.out.println("wakeUpPrintServices: " + ex.getMessage());
+      } catch (InterruptedException ex) {
+        System.out.println("wakeUpPrintServices: " + ex.getMessage());
+      }
+    } else if (SystemLib.isWindows()) {
+
+    }
+  }
+
   /**
    * Retourne un tableau de toutes les imprimantes installées.
    *
    * @return un tableau des imprimantes installées
    */
   public static Printer[] getArrayOfPrinters() {
+
+    // parce que la liste des imprimantes disparaît au bout de 4-5 minutes sur MacOS Sierra
+    wakeUpPrintServices();
+
+    // récupère la liste des imprimantes
     PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
     Printer printers[] = new Printer[services.length];
     for (int i = 0; i < services.length; i++) {
       printers[i] = new Printer(services[i]);
-//      System.out.println("PRINTER: " + printers[i].getPrintService().getName());
     }
     return printers;
   }
@@ -88,6 +117,11 @@ public class PrintHelper {
    * @return un tableau avec les noms d'imprimante
    */
   public static String[] getArrayOfPrinterNames() {
+
+    // parce que la liste des imprimantes disparaît au bout de 4-5 minutes sur MacOS Sierra
+    wakeUpPrintServices();
+
+    // récupère la liste des imprimantes
     PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
     String printers[] = new String[services.length];
     for (int i = 0; i < services.length; i++) {
@@ -113,6 +147,7 @@ public class PrintHelper {
    * @return un objet de type PrintService (gestionnaire d'impression)
    */
   public static PrintService findDefaultPrintService() {
+    wakeUpPrintServices();
     return PrintServiceLookup.lookupDefaultPrintService();
   }
 
@@ -123,6 +158,11 @@ public class PrintHelper {
    * @return le gestionnaire d'imprimante trouvé (ou null)
    */
   public static PrintService findPrintService( String printerName ) {
+
+    // parce que la liste des imprimantes disparaît au bout de 4-5 minutes sur MacOS Sierra
+    wakeUpPrintServices();
+
+    // trouve le gestionnaire d'imprimante demandé
     PrintService printService = null;
     if (printerName == null || printerName.isEmpty()) {
       printService = PrintServiceLookup.lookupDefaultPrintService();
