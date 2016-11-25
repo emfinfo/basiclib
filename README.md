@@ -1,4 +1,4 @@
-# BasicLib 1.0.5 - october 2016
+# BasicLib 1.0.6 - november 2016
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -18,6 +18,9 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.0.6 (24.11.2016) :
+* In method "getWorkYearDates" of DateTimLib, you can now specify a "monthsOffset" to compute last date of a period.
 
 New in release 1.0.5 (19-21.10.2016) :
 * DateTimeLib methods "getCalendarYearDates" are renamed "getYearDates"

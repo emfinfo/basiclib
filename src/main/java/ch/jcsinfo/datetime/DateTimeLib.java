@@ -338,25 +338,35 @@ public class DateTimeLib {
    * <br>
    * Si la date fournie est avant le mois d'avril, les premiers mois de l'année
    * précédente sont également inclus dans date[0]. Donc, au final date[0]
-   * correspond à 12 jusqu'à 15 mois antérieurs à date[1].
+   * correspond à 12 jusqu'à 15 mois antérieurs à date[1].<br>
+   * <br>
+   * On peut également rajouter un certain nombre de mois pour calculer la date finale
    *
    * @param curDate une date courante spécifiée
+   * @param monthsOffset le nombre de mois à prendre en compte pour calculer la date de fin (0=défaut)
    * @return un tableau avec les 2 dates calculées
    */
-  public static Date[] getWorkYearDates(Date curDate) {
+  public static Date[] getWorkYearDates(Date curDate, int monthsOffset) {
     Date retDates[] = new Date[2];
 
     // date courante (spécifiée)
-    int curDateinfo[] = extractDateInfo(curDate);
-    int nbMonths = (curDateinfo[1] < 4) ? 12 + curDateinfo[1] : 12;
+    int newDateInfo[] = extractDateInfo(curDate);
+    int nbMonths = (newDateInfo[1] < 4) ? 12 + newDateInfo[1] : 12;
 
     // date correspondante à 12 jusqu'à 15 mois avant la date spécifiée
     Date oldDate = moveDate(curDate, Calendar.MONTH, -nbMonths + 1);
     int oldDateInfo[] = extractDateInfo(oldDate);
 
+    // éventuellement déplacement de la date de fin vers le futur
+    if (monthsOffset < 0) {
+      monthsOffset = 0;
+    }
+    Date newDate = moveDate(curDate, Calendar.MONTH, monthsOffset);
+    newDateInfo = extractDateInfo(newDate);
+
     // préparation des 2 dates
     retDates[0] = createDate(1, oldDateInfo[1], oldDateInfo[2]);
-    retDates[1] = createDate(getMonthMaxDay(curDate), curDateinfo[1], curDateinfo[2]);
+    retDates[1] = createDate(getMonthMaxDay(newDate), newDateInfo[1], newDateInfo[2]);
     return retDates;
   }
 
@@ -368,11 +378,14 @@ public class DateTimeLib {
    * Si la date est avant le mois d'avril, les premiers mois de l'année précédente sont également inclus dans date[0].
    * Donc, au final date[0] correspond à 12 jusqu'à 15 mois antérieurs à la date finale (date[1]).
    *
+   * @param monthsOffset le nombre de mois à prendre en compte pour calculer la date de fin (0=défaut)
    * @return un tableau avec les 2 dates calculées
    */
-  public static Date[] getWorkYearDates() {
-    return getWorkYearDates(getDate());
+  public static Date[] getWorkYearDates(int monthsOffset) {
+    return getWorkYearDates(getDate(), monthsOffset);
   }
+
+
 
   /**
    * Extrait le jour de la semaine (0=dimanche à 7 samedi).

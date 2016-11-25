@@ -97,7 +97,7 @@ public class DateTimeLibTest {
 
   private String[] checkOneDate(String sDate, boolean last) {
     Date d = DateTimeLib.isoStringToDate(sDate);
-    Date dates[] = DateTimeLib.getWorkYearDates(d);
+    Date dates[] = DateTimeLib.getWorkYearDates(d, +1); // +1 mois dans le futur
     String res[] = new String[2];
     res[0] = DateTimeLib.dateToString(dates[0], DateTimeLib.ISO8601_FORMAT_SHORT);
     res[1] = DateTimeLib.dateToString(dates[1], DateTimeLib.ISO8601_FORMAT_SHORT);
@@ -116,16 +116,16 @@ public class DateTimeLibTest {
     boolean ok[] = new boolean[4];
 
     r = checkOneDate ("2016-01-28", false);
-    ok[0] = r[0].equals("2015-01-01") && r[1].equals("2016-01-31");
+    ok[0] = r[0].equals("2015-01-01") && r[1].equals("2016-02-29");
 
     r = checkOneDate ("2016-02-28", false);
-    ok[1] = r[0].equals("2015-01-01") && r[1].equals("2016-02-29");
+    ok[1] = r[0].equals("2015-01-01") && r[1].equals("2016-03-31");
 
     r = checkOneDate ("2016-03-28", false);
-    ok[2] = r[0].equals("2015-01-01") && r[1].equals("2016-03-31");
+    ok[2] = r[0].equals("2015-01-01") && r[1].equals("2016-04-30");
 
     r = checkOneDate ("2016-04-28", true);
-    ok[3] = r[0].equals("2015-05-01") && r[1].equals("2016-04-30");
+    ok[3] = r[0].equals("2015-05-01") && r[1].equals("2016-05-31");
 
     assertTrue(ok[0] && ok[1] && ok[2] && ok[3]);
   }
