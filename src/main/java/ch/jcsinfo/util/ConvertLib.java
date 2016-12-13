@@ -324,7 +324,7 @@ public class ConvertLib {
   }
 
   /**
-   * Convertit une date contenu dans un texte en une vraie date java.util.Date.
+   * Convertit une date contenue dans un texte en une vraie date java.util.Date.
    * Si la date ne peut être lue, retourne le 1.1.1970 comme date.
    *
    * @param text un texte dans lequel se trouve la date
@@ -354,7 +354,7 @@ public class ConvertLib {
   }
 
   /**
-   * Convertit une heure contenu dans un texte en une vraie date java.util.Date
+   * Convertit une heure contenue dans un texte en une vraie date java.util.Date
    * avec l'heure.
    *
    * @param text un texte dans lequel se trouve l'heure
@@ -375,7 +375,7 @@ public class ConvertLib {
       int hh = getInt(s, posHH, 2);
       int mm = getInt(s, posMM, 2);
       int ss = getInt(s, posSS, 2);
-      date2 = DateTimeLib.setTime(date, hh, mm, ss);;
+      date2 = DateTimeLib.setTime(date, hh, mm, ss);
     }
     return date2;
   }
