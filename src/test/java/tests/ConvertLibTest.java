@@ -21,7 +21,8 @@ import org.junit.runners.MethodSorters;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ConvertLibTest {
-  static String TEST_LINE = "0 103814 091216 07:23:48 A0 M  002095KERASTONE SA                            ENTREPRISE                              KERASTONE SA                            RTE DE FORMANGUEIRES 9                  1782 BELFAUX                              026/475 36 46    026 475 38 08   001409FRANCO:PAUDEX                                000810 005GCN lavÇ 0/8 10%              01.4285000 T 000227FR 151689 Sallin Transports        4 essieux benne moser    E0Ö facturer               1franco 2 00061.00 Fr/m3          013280 0009.300 0009.300 M  00025.20 00028.00  00061.00 00567.30                                                   ";
+  static final String TEST_LINE1 = "0 103814 091216 07:23:48 A0 M  002095KERASTONE SA                            ENTREPRISE                              KERASTONE SA                            RTE DE FORMANGUEIRES 9                  1782 BELFAUX                              026/475 36 46    026 475 38 08   001409FRANCO:PAUDEX                                000810 005GCN lavÇ 0/8 10%              01.4285000 T 000227FR 151689 Sallin Transports        4 essieux benne moser    E0Ö facturer               1franco 2 00061.00 Fr/m3          013280 0009.300 0009.300 M  00025.20 00028.00  00061.00 00567.30                                                   ";
+  static final String TEST_LINE2 = "0020100378820003870000000000573200501550000163075110289042916110216110216110200000000000000000000000                          ";
 
   @BeforeClass
   public static void setUpClass() throws Exception {
@@ -278,7 +279,7 @@ public class ConvertLibTest {
     String expResult = "07:23:48";
 
     // on convertit et on affiche le résultat
-    String result = ConvertLib.getString(TEST_LINE, 17, 8);
+    String result = ConvertLib.getString(TEST_LINE1, 17, 8);
     StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
   }
@@ -291,7 +292,7 @@ public class ConvertLibTest {
     int expResult = 103814;
 
     // on convertit et on affiche le résultat
-    int result = ConvertLib.getInt(TEST_LINE, 3, 6);
+    int result = ConvertLib.getInt(TEST_LINE1, 3, 6);
     StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
   }
@@ -304,7 +305,7 @@ public class ConvertLibTest {
     long expResult = 103814;
 
     // on convertit et on affiche le résultat
-    long result = ConvertLib.getLong(TEST_LINE, 3, 6);
+    long result = ConvertLib.getLong(TEST_LINE1, 3, 6);
     StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
   }
@@ -317,7 +318,7 @@ public class ConvertLibTest {
     Date expResult = DateTimeLib.createDate(9, 12, 2016);
 
     // on convertit et on affiche le résultat
-    Date result = ConvertLib.getDate(TEST_LINE, 10, "DDMMYY");
+    Date result = ConvertLib.getDate(TEST_LINE1, 10, "DDMMYY");
 
     StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
@@ -331,8 +332,8 @@ public class ConvertLibTest {
     Date expResult = DateTimeLib.createDate(9, 12, 2016, 7, 23, 48);
 
     // on convertit et on affiche le résultat
-    Date date = ConvertLib.getDate(TEST_LINE, 10, "DDMMYY");
-    Date result = ConvertLib.getHour(TEST_LINE, 17, "HH:MM:SS", date);
+    Date date = ConvertLib.getDate(TEST_LINE1, 10, "DDMMYY");
+    Date result = ConvertLib.getHour(TEST_LINE1, 17, "HH:MM:SS", date);
 
     StackTracer.printTestResult(expResult, result);
     assertEquals(expResult, result);
@@ -346,7 +347,7 @@ public class ConvertLibTest {
     float expResult = 1.4285000f;
 
     // on convertit et on affiche le résultat
-    float result = ConvertLib.getFloat(TEST_LINE, 364, 10);
+    float result = ConvertLib.getFloat(TEST_LINE1, 364, 10);
     StackTracer.printTestResult(expResult, result);
     assertTrue(result == expResult);
   }
@@ -359,22 +360,36 @@ public class ConvertLibTest {
     double expResult = 1.4285000d;
 
     // on convertit et on affiche le résultat
-    double result = ConvertLib.getDouble(TEST_LINE, 364, 10);
+    double result = ConvertLib.getDouble(TEST_LINE1, 364, 10);
     StackTracer.printTestResult(expResult, result);
     assertTrue(result == expResult);
   }
 
   @Test
-  public void test20_getBigDecimal() {
+  public void test20_getBigDecimal1() {
     StackTracer.printCurrentTestMethod();
 
     // le résultat attendu
     BigDecimal expResult = new BigDecimal("25.20");
 
     // on convertit et on affiche le résultat
-    BigDecimal result = ConvertLib.getBigDecimal(TEST_LINE, 532, 8);
+    BigDecimal result = ConvertLib.getBigDecimal(TEST_LINE1, 532, 8);
     StackTracer.printTestResult(expResult, result);
     assertTrue(result.compareTo(expResult) == 0);
   }
+
+  @Test
+  public void test21_getBigDecimal2() {
+    StackTracer.printCurrentTestMethod();
+
+    // le résultat attendu
+    BigDecimal expResult = new BigDecimal("1630.75");
+
+    // on convertit et on affiche le résultat
+    BigDecimal result = ConvertLib.getBigDecimal(TEST_LINE2, 40, 10);
+    StackTracer.printTestResult(expResult, result);
+    assertTrue(result.compareTo(expResult) == 0);
+  }
+
 
 }

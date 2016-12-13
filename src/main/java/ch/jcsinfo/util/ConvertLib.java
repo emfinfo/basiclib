@@ -301,7 +301,14 @@ public class ConvertLib {
    * @return le nombre sous la forme d'un BigDecimal
    */
   public static BigDecimal getBigDecimal(String text, int pos, int len) {
-    return new BigDecimal(getString(text, pos, len));
+    String s = getString(text, pos, len);
+    int p = s.lastIndexOf(".");
+    if (p < 0) {
+      String frs = getString(text, pos, len-2);
+      String cts = getString(text, pos+frs.length(), 2);
+      s = frs + "." + cts;
+    }
+    return new BigDecimal(s);
 //    return BigDecimal.valueOf(stringToDouble(getString(line, pos, len)));
   }
 
