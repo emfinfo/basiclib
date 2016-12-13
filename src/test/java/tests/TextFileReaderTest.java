@@ -45,7 +45,7 @@ public class TextFileReaderTest {
     StackTracer.printCurrentTestMethod();
     Class<Localite> cl = Localite.class;
     TextFileReader<Localite> fileDao = new TextFileReader<>(new LocaliteExtracter("\t"));
-    List<Localite> list = fileDao.textFileRead(PATH + "/" + LOC_FILE);
+    List<Localite> list = fileDao.read(PATH + "/" + LOC_FILE);
     boolean ok = list != null && list.size() > 0;
     StackTracer.printTestResult(LOC_FILE, list.size());
     if (ok && SHOW_DETAILS) {
@@ -66,7 +66,7 @@ public class TextFileReaderTest {
     StackTracer.printCurrentTestMethod();
     Class<Departement> cl = Departement.class;
     TextFileReader<Departement> fileDao = new TextFileReader<>(new DepartementExtracter(";"));
-    List<Departement> list = fileDao.textFileRead(PATH + "/" + DEP_FILE);
+    List<Departement> list = fileDao.read(PATH + "/" + DEP_FILE);
     boolean ok = list != null && list.size() > 0;
     StackTracer.printTestResult(DEP_FILE, list.size());
     assertTrue(ok);

@@ -66,7 +66,7 @@ public class TextFileReader<E> {
    * @param csName   un nom de "charset" (exemple: "Windows-1250")
    * @return une liste de bean "E" extraits avec l'objet "extracter"
    */
-  public List<E> textFileRead(String fileName, String csName) {
+  public List<E> read(String fileName, String csName) {
     List<E> ar = null;
     BufferedReader br = null;
     try {
@@ -99,8 +99,8 @@ public class TextFileReader<E> {
    * @param fileName un nom de fichier avec son chemin
    * @return une liste de bean "E" extraits avec l'objet "extracter"
    */
-  public List<E> textFileRead(String fileName) {
-    return textFileRead(fileName, "UTF-8");
+  public List<E> read(String fileName) {
+    return TextFileReader.this.read(fileName, "UTF-8");
   }
 
   /**
@@ -109,7 +109,7 @@ public class TextFileReader<E> {
    * @param inputStream un objet "fichier" de type "InputStream"
    * @return une liste de bean "E" extraits avec l'objet "extracter"
    */
-  public List<E> textFileRead(InputStream inputStream) {
+  public List<E> read(InputStream inputStream) {
     List<E> ar = null;
     BufferedReader br = null;
     try {

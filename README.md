@@ -21,6 +21,7 @@ Documentation :<br>
 
 New in release 1.0.7 (13.12.2016) :
 * Class "TextFileExtracter" has been renamed "BeanExtracter" and abstract method "extract" has been renamed "textToBean" .
+* Methode "textFileRead" in TextFileRead has been renamed "read".
 * New methods "getXXX" in ConvertLib to extract information from a text line.
 
 New in release 1.0.6 (24.11.2016) :
