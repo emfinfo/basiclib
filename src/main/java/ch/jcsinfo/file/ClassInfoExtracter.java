@@ -4,8 +4,8 @@ import ch.jcsinfo.models.ClassInfo;
 
 
 /**
- * Implémentation de l'interface TextFileExtracter. Elle contient une méthode
- * "extract" qui permet d'extraire d'une chaîne de caractères passée en
+ * Implémentation de l'interface BeanExtracter. Elle contient une méthode
+ * "textToBean" qui permet d'extraire d'une chaîne de caractères passée en
  * paramètre, un bean de type "ClassInfo". Exemple de lignes de texte où
  * l'information à extraire se trouve en 2ème position :<br>
  * <pre>
@@ -23,7 +23,7 @@ import ch.jcsinfo.models.ClassInfo;
  *
  * @author Jean-Claude Stritt
  */
-public class ClassInfoExtracter implements TextFileExtracter<ClassInfo> {
+public class ClassInfoExtracter implements BeanExtracter<ClassInfo> {
 
   private String sep;
 
@@ -42,12 +42,12 @@ public class ClassInfoExtracter implements TextFileExtracter<ClassInfo> {
    * depuis une ligne de texte passée en paramètre. L'information recherchée
    * se trouve en 2ème position.
    *
-   * @param line ligne de texte à traiter
+   * @param text une ligne de texte dont il faut extraire un bean
    * @return un bean de type ClassInfo avec le nom d'une classe
    */
   @Override
-  public ClassInfo extract(String line, int lineNbr) {
-    String[] tab = line.split(sep);
+  public ClassInfo textToBean(String text) {
+    String[] tab = text.split(sep);
     ClassInfo ci = new ClassInfo();
     if (tab.length > 3) {
       ci.setClassName(tab[1]);

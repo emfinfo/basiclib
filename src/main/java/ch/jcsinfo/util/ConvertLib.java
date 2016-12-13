@@ -1,5 +1,6 @@
 package ch.jcsinfo.util;
 
+import ch.jcsinfo.datetime.DateTimeLib;
 import ch.jcsinfo.math.MathLib;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -149,6 +150,8 @@ public class ConvertLib {
     return c.getTime();
   }
 
+
+
   /**
    * Teste si une chaîne spécifiée contient un code numérique entier.
    *
@@ -164,11 +167,8 @@ public class ConvertLib {
     return true;
   }
 
-
-
   /**
-   * Convertit un string contenant un nombre entier en nombre entier de type
-   * "int".
+   * Convertit un string contenant un nombre entier en nombre entier de type "int".
    *
    * @param sValue la valeur string représentant un nombre entier
    * @return la valeur convertie en entier de type "int"
@@ -183,21 +183,7 @@ public class ConvertLib {
   }
 
   /**
-   * Convertit un nombre entier contenu dans un string en Integer.
-   *
-   * @param line une ligne de caractères où se trouve le nombre
-   * @param pos  la position du début du nombre
-   * @param len  la longueur totale de caractères représentant le nombre
-   * @return le nombre sous la forme d'un entier
-   */
-  public static int stringToInt(String line, int pos, int len) {
-    String s = line.substring(pos, pos + len).trim();
-    return stringToInt(s);
-  }
-
-  /**
-   * Convertit un string contenant un nombre entier en nombre entier de type
-   * "long".
+   * Convertit un string contenant un nombre entier en nombre entier de type "long".
    *
    * @param sValue la valeur string représentant un nombre entier
    * @return la valeur convertie en entier de type "long"
@@ -212,21 +198,7 @@ public class ConvertLib {
   }
 
   /**
-   * Convertit un nombre entier contenu dans un string en type Long.
-   *
-   * @param line une ligne de caractères où se trouve le nombre
-   * @param pos  la position du début du nombre
-   * @param len  la longueur totale de caractères représentant le nombre
-   * @return le nombre sous la forme d'un entier de type long
-   */
-  public static long stringToLong(String line, int pos, int len) {
-    String s = line.substring(pos, pos + len).trim();
-    return stringToLong(s);
-  }
-
-  /**
-   * Convertit un string contenant un nombre décimal en nombre flottant de type
-   * "float".
+   * Convertit un string contenant un nombre décimal en nombre flottant de type "float".
    *
    * @param sValue la valeur string représentant un nombre décimal
    * @return un nombre de type "float"
@@ -241,21 +213,7 @@ public class ConvertLib {
   }
 
   /**
-   * Convertit un nombre flottant contenu dans un string en type "float".
-   *
-   * @param line une ligne de caractères où se trouve le nombre
-   * @param pos  la position du début du nombre
-   * @param len  la longueur totale de caractères représentant le nombre
-   * @return le nombre sous la forme d'un flottant de type "float"
-   */
-  public static float stringToFloat(String line, int pos, int len) {
-    String s = line.substring(pos, pos + len).trim();
-    return stringToFloat(s);
-  }
-
-  /**
-   * Convertit un string contenant un nombre décimal en nombre flottant de type
-   * "double".
+   * Convertit un string contenant un nombre décimal en nombre flottant de type "double".
    *
    * @param sValue la valeur string représentant un nombre décimal
    * @return un nombre de type "double"
@@ -269,30 +227,150 @@ public class ConvertLib {
     return value;
   }
 
+
+
+
+
+  /**
+   * Extrait une sous-chaîne de caractères depuis une position et une longueur données.
+   *
+   * @param text un texte dans lequel on extrait la sous-chaîne
+   * @param pos  la position du début du nombre (base 1)
+   * @param len  la longueur totale de caractères représentant le nombre
+   * @return la sous-chaîne extraite
+   */
+  public static String getString(String text, int pos, int len) {
+    int j = pos - 1;
+    return text.substring(j, j + len).trim();
+  }
+
+  /**
+   * Convertit un nombre entier contenu dans un string en Integer.
+   *
+   * @param text un texte dans lequel se trouve le nombre
+   * @param pos  la position du début du nombre (base 1)
+   * @param len  la longueur totale de caractères représentant le nombre
+   * @return le nombre sous la forme d'un entier
+   */
+  public static int getInt(String text, int pos, int len) {
+    return stringToInt(getString(text, pos, len));
+  }
+
+  /**
+   * Convertit un nombre entier contenu dans un string en type Long.
+   *
+   * @param text un texte dans lequel se trouve le nombre
+   * @param pos  la position du début du nombre (base 1)
+   * @param len  la longueur totale de caractères représentant le nombre
+   * @return le nombre sous la forme d'un entier de type long
+   */
+  public static long getLong(String text, int pos, int len) {
+    return stringToLong(getString(text, pos, len));
+  }
+
+  /**
+   * Convertit un nombre flottant contenu dans un string en type "float".
+   *
+   * @param text un texte dans lequel se trouve le nombre
+   * @param pos  la position du début du nombre (base 1)
+   * @param len  la longueur totale de caractères représentant le nombre
+   * @return le nombre sous la forme d'un flottant de type "float"
+   */
+  public static float getFloat(String text, int pos, int len) {
+    return stringToFloat(getString(text, pos, len));
+  }
+
   /**
    * Convertit un nombre flottant contenu dans un string en type "double".
    *
-   * @param line une ligne de caractères où se trouve le nombre
-   * @param pos  la position du début du nombre
+   * @param text un texte dans lequel se trouve le nombre
+   * @param pos  la position du début du nombre (base 1)
    * @param len  la longueur totale de caractères représentant le nombre
    * @return le nombre sous la forme d'un flottant de type "double"
    */
-  public static double stringToDouble(String line, int pos, int len) {
-    String s = line.substring(pos, pos + len).trim();
-    return stringToDouble(s);
+  public static double getDouble(String text, int pos, int len) {
+    return stringToDouble(getString(text, pos, len));
   }
 
   /**
    * Convertit un nombre (un prix par ex.) contenu dans un string en BigDecimal.
    *
-   * @param line une ligne de caractères où se trouve le nombre
-   * @param pos  la position du début du nombre
+   * @param text un texte dans lequel se trouve le nombre
+   * @param pos  la position du début du nombre (base 1)
    * @param len  la longueur totale de caractères représentant le nombre
    * @return le nombre sous la forme d'un BigDecimal
    */
-  public static BigDecimal stringToBigDecimal(String line, int pos, int len) {
-    String s = line.substring(pos, pos + len).trim();
-    return BigDecimal.valueOf(stringToDouble(s));
+  public static BigDecimal getBigDecimal(String text, int pos, int len) {
+    return new BigDecimal(getString(text, pos, len));
+//    return BigDecimal.valueOf(stringToDouble(getString(line, pos, len)));
+  }
+
+  /**
+   * Extrait "1" ou "0" d'une chaine de caractères et le convertit en booléen.
+   *
+   * @param text un texte dans lequel se trouve le booléen
+   * @param pos  la position du booléen (base 1)
+   * @return true si la valeur est un "1" autrement false
+   */
+  public static boolean getBoolean(String text, int pos) {
+    return getString(text, pos, 1).equals("1");
+  }
+
+  /**
+   * Convertit une date contenu dans un texte en une vraie date java.util.Date.
+   * Si la date ne peut être lue, retourne le 1.1.1970 comme date.
+   *
+   * @param text un texte dans lequel se trouve la date
+   * @param pos  la position du début de la date (base 1)
+   * @param fmt  le format de la date (ex: "YYMMDD" ou "DDMMYY")
+   * @return la date au format java.util.Date
+   */
+  public static Date getDate(String text, int pos, String fmt) {
+    Date date = DateTimeLib.createDate(1, 1, 1970);
+    String s = getString(text, pos, fmt.length());
+    String fmt2 = fmt.toUpperCase();
+    int posDD = fmt2.indexOf("DD") + 1;
+    int posMM = fmt2.indexOf("MM") + 1;
+    int posYY = fmt2.indexOf("YY") + 1;
+    if (posDD >= 1 && posMM >= 1 && posYY >= 1) {
+      int yearDigits = fmt2.length() - fmt2.replace("Y", "").length();
+      int dd = getInt(s, posDD, 2);
+      int mm = getInt(s, posMM, 2);
+      int yy = getInt(s, posYY, yearDigits);
+      if (yearDigits == 2) {
+        int siecle = DateTimeLib.getYear(DateTimeLib.getDate()) / 100;
+        yy = siecle * 100 + yy;
+      }
+      date = DateTimeLib.createDate(dd, mm, yy);
+    }
+    return date;
+  }
+
+  /**
+   * Convertit une heure contenu dans un texte en une vraie date java.util.Date
+   * avec l'heure.
+   *
+   * @param text un texte dans lequel se trouve l'heure
+   * @param pos  la position du début de l'heure (base 1)
+   * @param fmt  le format de l'heure (ex: "HH:MM:SS")
+   * @param date une date qui complète l'heure
+   * @return la date avec l'heure au format java.util.Date
+   */
+  public static Date getHour(String text, int pos, String fmt, Date date) {
+    Date date2 = DateTimeLib.setTime(date, 0, 0, 0);
+    String s = getString(text, pos, fmt.length());
+
+    String fmt2 = fmt.toUpperCase();
+    int posHH = fmt2.indexOf("HH") + 1;
+    int posMM = fmt2.indexOf("MM") + 1;
+    int posSS = fmt2.indexOf("SS") + 1;
+    if (posHH >= 1 && posMM >= 1 && posSS >= 1) {
+      int hh = getInt(s, posHH, 2);
+      int mm = getInt(s, posMM, 2);
+      int ss = getInt(s, posSS, 2);
+      date2 = DateTimeLib.setTime(date, hh, mm, ss);;
+    }
+    return date2;
   }
 
 

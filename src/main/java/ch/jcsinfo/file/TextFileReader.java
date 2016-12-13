@@ -19,17 +19,17 @@ import org.slf4j.LoggerFactory;
  * @param <E> le type de classe-entité à extraire
  */
 public class TextFileReader<E> {
-  private TextFileExtracter<E> extracter;
+  private BeanExtracter<E> extracter;
   private Logger logger;
 
   /**
    * Constructeur.
    *
-   * @param extracter l'extracteur à appliquer à chaque ligne de données
+   * @param extracter l'extracteur de bean à appliquer à chaque ligne de données
    */
-  public TextFileReader(TextFileExtracter<E> extracter) {
+  public TextFileReader(BeanExtracter<E> extracter) {
     this.extracter = extracter;
-    this.logger = LoggerFactory.getLogger(getClass());   
+    this.logger = LoggerFactory.getLogger(getClass());
   }
 
   /**
@@ -50,7 +50,7 @@ public class TextFileReader<E> {
       int i = 0;
       while ((line = br.readLine()) != null) {
         i++;
-        E e = extracter.extract(line, i);
+        E e = extracter.textToBean(line);
         if (e != null) {
           ar.add(e);
         }

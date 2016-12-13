@@ -1,17 +1,17 @@
 package helpers;
 
 import beans.Departement;
-import ch.jcsinfo.file.TextFileExtracter;
+import ch.jcsinfo.file.BeanExtracter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Extracteur d'un département à partir d'une ligne de texte.
  *
  * @author Jean-Claude Stritt
- * @version 1.0 / 11-OCT-2009
  */
-public class DepartementExtracter implements TextFileExtracter<Departement> {
+public class DepartementExtracter implements BeanExtracter<Departement> {
   private String sep;
 
   public DepartementExtracter( String sep ) {
@@ -19,8 +19,8 @@ public class DepartementExtracter implements TextFileExtracter<Departement> {
   }
 
   @Override
-  public Departement extract( String line, int lineNbr ) {
-    String[] tab = line.split(sep);
+  public Departement textToBean( String text ) {
+    String[] tab = text.split(sep);
     Departement d = new Departement();
     if (tab.length > 2) {
       d.setDepartement(tab[0]);
