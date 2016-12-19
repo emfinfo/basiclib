@@ -181,4 +181,16 @@ public class DateTimeLibTest {
     assertTrue(ok1 && ok2);
   }
 
+  @Test
+  public void test10_getDaysBetweenTwoDates() {
+    StackTracer.printCurrentTestMethod();
+    Date theLaterDate = DateTimeLib.createDate(20, 10, 2016);
+    Date theEarlierDate = DateTimeLib.createDate(3, 11, 2016);
+
+    int days = DateTimeLib.getDaysBetweenTwoDates(theLaterDate, theEarlierDate);
+    System.out.println("  - laterDate   : " + DateTimeLib.dateToString(theLaterDate));
+    System.out.println("  - earlierDate : " + DateTimeLib.dateToString(theEarlierDate));
+    System.out.println("  - days between= " + days);
+    assertTrue(days==14);
+  }
 }

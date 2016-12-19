@@ -29,6 +29,7 @@ public class DateTimeLib {
   public final static String DATE_TIME_FORMAT_STANDARD = "d.M.yy HH:mm:ss";
   public final static String DATE_TIME_FORMAT_FILENAME = "yyyy_MM_dd_HHmmss_SSS";
   public final static String DATE_TIME_FORMAT_SPECIAL = "dd-MM-yyyy HH:mm";
+  public final static long MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
 
   private static long timeStamp = 0;
 
@@ -402,17 +403,19 @@ public class DateTimeLib {
   /**
    * Calcule le nombre de jours entre 2 dates en tenant compte de l'heure d'été.
    *
-   * @param oldDate la date la plus vieille
-   * @param newDate la date la plus récente
+   * @param theLaterDate la date la plus vieille
+   * @param theEarlierDate la date la plus récente
    * @return int le nombre de jours entre les deux dates
    */
-  public static int getDaysBetweenTwoDates(Date oldDate, Date newDate) {
-    Calendar cal = new GregorianCalendar();
-    cal.setTime(oldDate);
-    long dayBefore = oldDate.getTime() + cal.get(Calendar.DST_OFFSET);
-    cal.setTime(newDate);
-    long dayAfter = newDate.getTime() + cal.get(Calendar.DST_OFFSET);
-    return (int) ((dayBefore - dayAfter) / (1000L * 60 * 60 * 24));
+  public static int getDaysBetweenTwoDates(Date theLaterDate, Date theEarlierDate) {
+//    Calendar cal = new GregorianCalendar();
+//    cal.setTime(oldDate);
+//    long dayBefore = oldDate.getTime() + cal.get(Calendar.DST_OFFSET);
+//    cal.setTime(newDate);
+//    long dayAfter = newDate.getTime() + cal.get(Calendar.DST_OFFSET);
+//    return (int) ((dayBefore - dayAfter) / (MILLISECONDS_PER_DAY));
+   long delta = theEarlierDate.getTime() - theLaterDate.getTime();
+   return (int) (delta / (MILLISECONDS_PER_DAY));
   }
 
   /**
