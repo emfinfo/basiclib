@@ -19,10 +19,11 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
-New in release 1.0.7 (13.12.2016) :
+New in release 1.0.7 (13-19.12.2016) :
 * Class "TextFileExtracter" has been renamed "BeanExtracter" and abstract method "extract" has been renamed "textToBean" .
 * Methode "textFileRead" in TextFileRead has been renamed "read".
 * New methods "getXXX" in ConvertLib to extract information from a text line.
+* change algorithm in "getDaysBetweenTwoDates" (DateTimeLib)
 
 New in release 1.0.6 (24.11.2016) :
 * In method "getWorkYearDates" of DateTimeLib, you can now specify a "monthsOffset" to compute last date of a period.
