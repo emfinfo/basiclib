@@ -45,7 +45,7 @@ public class AbstractModel {
   /**
    * Teste si la vue est actuellement verrouillée (pas de traitement d'événements supplémentaires).
    *
-   * @return vrai (true) si le verrouillage de la vue est actutuellement actif
+   * @return vrai (true) si le verrouillage de la vue est actuellement actif
    */
   public boolean isLock() {
     return lock;
@@ -63,8 +63,8 @@ public class AbstractModel {
   }
 
   /**
-   * Déverouille le traitement des événements d'une vue. Un laps de temps (800ms) est alloué
-   * avant que le verrou ne soit réellement supprimé. Cela laisse un peu temps à d'éventuels
+   * Déverrouille le traitement des événements d'une vue. Un laps de temps (800ms) est alloué
+   * avant que le verrou ne soit réellement supprimé. Cela laisse un peu de temps à d'éventuels
    * composants (ComboBox par exemple) de se remettre à jour avant le traitement d'un
    * prochain événement.
    */
