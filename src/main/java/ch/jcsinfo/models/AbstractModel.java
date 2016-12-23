@@ -7,7 +7,7 @@ import javax.swing.Timer;
 import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
- * Modèle abstrait à étendre et qui implémente quelques méthodes
+ * Modèle abstrait (à étendre) et qui implémente quelques méthodes
  * de base pour gérer un modèle accessible à un contrôleur ou à une vue.
  *
  * @author Jean-Claude Stritt
@@ -40,10 +40,21 @@ public class AbstractModel {
     lock = true;
   }
 
+
+
+  /**
+   * Teste si la vue est actuellement verrouillée (pas de traitement d'événements supplémentaires).
+   *
+   * @return vrai (true) si le verrouillage de la vue est actutuellement actif
+   */
   public boolean isLock() {
     return lock;
   }
 
+  /**
+   * Verrouille la vue pour une opération qui doit être prioritaire (aucun autre événement
+   * ne sera traité pendant que le verrouillage est actif).
+   */
   public void lock() {
     lock = true;
     if (timer.isRunning()) {
@@ -51,17 +62,17 @@ public class AbstractModel {
     }
   }
 
+  /**
+   * Déverouille le traitement des événements d'une vue. Un laps de temps (800ms) est alloué
+   * avant que le verrou ne soit réellement supprimé. Cela laisse un peu temps à d'éventuels
+   * composants (ComboBox par exemple) de se remettre à jour avant le traitement d'un
+   * prochain événement.
+   */
   public void unlock() {
     timer.start();
   }
 
 
-  /**
-   * Fixe le support pour la détection des changements dans une propriété Swing.
-   */
-//  public void setPropertyChangeSupport(SwingPropertyChangeSupport pcs) {
-//    this.pcs = pcs;
-//  }
 
   /**
    * Ajoute un écouteur pour "Better Beans Binding" (BBB).

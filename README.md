@@ -19,7 +19,8 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
-New in release 1.0.7 (13-19.12.2016) :
+New in release 1.0.7 (13-23.12.2016) :
+* Adding "lock" & "unlock" methods in AbstractModel to manage "locking" operations on View.
 * Class "TextFileExtracter" has been renamed "BeanExtracter" and abstract method "extract" has been renamed "textToBean" .
 * Methode "textFileRead" in TextFileRead has been renamed "read".
 * New methods "getXXX" in ConvertLib to extract information from a text line.
