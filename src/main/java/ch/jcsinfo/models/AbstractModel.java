@@ -1,7 +1,9 @@
 package ch.jcsinfo.models;
 
 import ch.jcsinfo.system.StackTracer;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
+import javax.swing.Timer;
 import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
@@ -11,14 +13,48 @@ import javax.swing.event.SwingPropertyChangeSupport;
  * @author Jean-Claude Stritt
  */
 public class AbstractModel {
+  private final SwingPropertyChangeSupport pcs;
+  private boolean lock;
+  private Timer timer;
 
   /**
    * Modes possibles lors des opérations CRUD.
    */
   public static enum CRUD {NONE, CREATE, READ, UPDATE, DELETE, DELETE_IMPOSSIBLE};
 
-  private final SwingPropertyChangeSupport pcs = new SwingPropertyChangeSupport(this, true);
-//   private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+  /**
+   * Constructeur.
+   */
+  public AbstractModel() {
+    pcs = new SwingPropertyChangeSupport(this, true);
+
+    // crée une méthode de déverrouillage de la vue (pour le timer)
+    final ActionListener unlockMe = e -> {
+      lock = false;
+    };
+
+    // créer le timer pour le déverrouillage de la vue
+    timer = new Timer(800, unlockMe);
+    timer.setRepeats(false);
+    lock = true;
+  }
+
+  public boolean isLock() {
+    return lock;
+  }
+
+  public void lock() {
+    lock = true;
+    if (timer.isRunning()) {
+      timer.stop();
+    }
+  }
+
+  public void unlock() {
+    timer.start();
+  }
+
 
   /**
    * Fixe le support pour la détection des changements dans une propriété Swing.
@@ -29,7 +65,7 @@ public class AbstractModel {
 
   /**
    * Ajoute un écouteur pour "Better Beans Binding" (BBB).
-   * 
+   *
    * @param listener un écouteur à ajouter
    */
   public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -39,7 +75,7 @@ public class AbstractModel {
 
   /**
    * Supprime l'écouteur spécifié en paramètre.
-   * 
+   *
    * @param listener un écouteur à supprimer
    */
   public void removePropertyChangeListener(PropertyChangeListener listener) {
