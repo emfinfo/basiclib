@@ -167,6 +167,34 @@ public class DateTimeLib {
     return moveDate(getDate(), days);
   }
 
+  /**
+   * Retourne la date du lundi de la semaine pour une date de référence fournie.
+   *
+   * @param date une date qui identifie la semaine
+   * @return la date du lundi
+   */
+  public static Date getMonday(Date date) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    int dayInWeek = cal.get(Calendar.DAY_OF_WEEK);
+    int offset = (dayInWeek == 1) ? -6 : -dayInWeek + 2;
+    System.out.println("dayInWeek: " + dayInWeek + ", offset: " + offset);
+    return moveDate(date, offset);
+  }
+
+  /**
+   * Retourne la date du vendredi de la semaine pour une date de référence fournie.
+   *
+   * @param date une date qui identifie la semaine
+   * @return la date du lundi
+   */
+  public static Date getFriday(Date date) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    int dayInWeek = cal.get(Calendar.DAY_OF_WEEK);
+    int offset = (dayInWeek == 1) ? -2 : 6 - dayInWeek;
+    return moveDate(date, offset);
+  }
 
   /**
    * Retourne la date de début d'une période.

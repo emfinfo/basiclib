@@ -44,7 +44,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test02_stringToDateDebutDeMois() {
+  public void test02_stringToDateStartOfMonth() {
     StackTracer.printCurrentTestMethod();
     String sDate = "2.2015";
     Date d = DateTimeLib.stringToDate(sDate, false);
@@ -56,7 +56,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test03_stringToDateFinDeMois() {
+  public void test03_stringToDateEndOfMonth() {
     StackTracer.printCurrentTestMethod();
     String sDate = "2.2015";
     Date d = DateTimeLib.stringToDate(sDate, true);
@@ -193,4 +193,26 @@ public class DateTimeLibTest {
     System.out.println("  - days between= " + days);
     assertTrue(days==14);
   }
+
+  @Test
+  public void test11_getMonday() {
+    StackTracer.printCurrentTestMethod();
+    Date currentDate = DateTimeLib.getDate();
+    Date mondayDate = DateTimeLib.getMonday(currentDate);
+    System.out.println("  - source : " + DateTimeLib.dateToString(currentDate));
+    System.out.println("  - monday : " + DateTimeLib.dateToString(mondayDate));
+    assertTrue(DateTimeLib.getDayOfWeek(mondayDate) == 2);
+  }
+
+  @Test
+  public void test12_getFriday() {
+    StackTracer.printCurrentTestMethod();
+    Date currentDate = DateTimeLib.getDate();
+    Date fridayDate = DateTimeLib.getFriday(currentDate);
+    System.out.println("  - source : " + DateTimeLib.dateToString(currentDate));
+    System.out.println("  - friday : " + DateTimeLib.dateToString(fridayDate));
+    assertTrue(DateTimeLib.getDayOfWeek(fridayDate) == 6);
+  }
+
+
 }
