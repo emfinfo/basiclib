@@ -465,7 +465,7 @@ public class DateTimeLib {
    * @param date une date spécifiée
    * @return int la position de la date dans la semaine 0..4 (LU..VE)
    */
-  public int getDatePosInWorkingWeek(Date date) {
+  public static int getDatePosInWorkingWeek(Date date) {
     int pos = -1;
     int dayOfWeek = DateTimeLib.getDayOfWeek(date);
     if (dayOfWeek >= 2 && dayOfWeek <= 6) {
