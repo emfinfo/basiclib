@@ -196,6 +196,20 @@ public class DateTimeLib {
   }
 
   /**
+   * Retourne un tableau avec les dates du lundi et du vendredi
+   * calculées d'après une date de référence fournie.
+   *
+   * @param date une date de référence
+   * @return un tableau avec les deux dates du lundi et du vendredi
+   */
+  public static Date[] getMondayFriday(Date date) {
+    Date[] dates = new Date[2];
+    dates[0] = getMonday(date);
+    dates[1] = getFriday(date);
+    return dates;
+  }
+
+  /**
    * Retourne les dates de travail (du LU au VE) du jour en cours (si weekOffset=0).
    * On peut aussi donc avancer ou reculer de 0 à plusieurs semaines.
    *

@@ -20,9 +20,8 @@ Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
 New in release 1.0.8 (3-4.1.2017) :
-* new "getMonday" and "getFriday" methods in DateTimeLib class.
-* new "getWeekWorkingDates" method that retrieve an array of 5 working dates of the week
-* getWorkYearDates has been renamed "getYearWorkingDates"
+* new methods "getMonday", "getFriday", "getMondayFriday" and "getWeekWorkingDates" in DateTimeLib class.
+* "getWorkYearDates" has been renamed "getYearWorkingDates"
 
 New in release 1.0.7 (13-23.12.2016) :
 * New "lock" & "unlock" methods in AbstractModel to manage "locking" operations on View.

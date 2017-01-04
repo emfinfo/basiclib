@@ -197,31 +197,46 @@ public class DateTimeLibTest {
   @Test
   public void test11_getMonday() {
     StackTracer.printCurrentTestMethod();
-    Date currentDate = DateTimeLib.getDate();
-    Date mondayDate = DateTimeLib.getMonday(currentDate);
-    System.out.println("  - source : " + DateTimeLib.dateToString(currentDate));
-    System.out.println("  - monday : " + DateTimeLib.dateToString(mondayDate));
+    Date refDate = DateTimeLib.getDate();
+    Date mondayDate = DateTimeLib.getMonday(refDate);
+    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
+    System.out.println("  - monday    : " + DateTimeLib.dateToString(mondayDate));
     assertTrue(DateTimeLib.getDayOfWeek(mondayDate) == 2);
   }
 
   @Test
   public void test12_getFriday() {
     StackTracer.printCurrentTestMethod();
-    Date currentDate = DateTimeLib.getDate();
-    Date fridayDate = DateTimeLib.getFriday(currentDate);
-    System.out.println("  - source : " + DateTimeLib.dateToString(currentDate));
-    System.out.println("  - friday : " + DateTimeLib.dateToString(fridayDate));
+    Date refDate = DateTimeLib.getDate();
+    Date fridayDate = DateTimeLib.getFriday(refDate);
+    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
+    System.out.println("  - friday    : " + DateTimeLib.dateToString(fridayDate));
     assertTrue(DateTimeLib.getDayOfWeek(fridayDate) == 6);
   }
 
   @Test
-  public void test13_getWeekWorkingDates() {
+  public void test13_getMondayFriday() {
+    StackTracer.printCurrentTestMethod();
+    Date refDate = DateTimeLib.getDate();
+    Date monday = DateTimeLib.getMonday(refDate);
+    Date friday = DateTimeLib.getFriday(refDate);
+    Date mfDates[] = DateTimeLib.getMondayFriday(refDate);
+    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
+    for (int i = 0; i < mfDates.length; i++) {
+      System.out.println("  - day " + i + ": " + DateTimeLib.dateToString(mfDates[i]));
+    }
+    assertTrue(mfDates[0].getTime() == monday.getTime() && mfDates[1].getTime() == friday.getTime());
+  }
+
+  @Test
+  public void test14_getWeekWorkingDates() {
     StackTracer.printCurrentTestMethod();
     int weekOffset = +1;
-    Date monday = DateTimeLib.getMonday(DateTimeLib.getDate(weekOffset*7));
-    Date friday = DateTimeLib.getFriday(DateTimeLib.getDate(weekOffset*7));
+    Date refDate = DateTimeLib.getDate(weekOffset*7);
+    Date monday = DateTimeLib.getMonday(refDate);
+    Date friday = DateTimeLib.getFriday(refDate);
     Date wwDates[] = DateTimeLib.getWeekWorkingDates(weekOffset);
-    System.out.println("  - source : " + DateTimeLib.dateToString(monday));
+    System.out.println("  - refDate : " + DateTimeLib.dateToString(refDate));
     for (int i = 0; i < wwDates.length; i++) {
       System.out.println("  - day " + i + ": " + DateTimeLib.dateToString(wwDates[i]));
     }
