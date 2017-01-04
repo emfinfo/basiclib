@@ -247,7 +247,7 @@ public class DateTimeLibTest {
   public void test15_getDatePosInWorkingWeek() {
     StackTracer.printCurrentTestMethod();
     Date refDate = DateTimeLib.getDate();
-    int pos = DateTimeLib.getDatePosInWorkingWeek(refDate);
+    int pos = DateTimeLib.getDateIndex(refDate);
     System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     System.out.println("  - date pos. : " + pos);
 
