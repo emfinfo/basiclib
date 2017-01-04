@@ -223,7 +223,7 @@ public class DateTimeLibTest {
     Date mfDates[] = DateTimeLib.getMondayFriday(refDate);
     System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     for (int i = 0; i < mfDates.length; i++) {
-      System.out.println("  - day " + i + ": " + DateTimeLib.dateToString(mfDates[i]));
+      System.out.println("  - day " + i + " : " + DateTimeLib.dateToString(mfDates[i]));
     }
     assertTrue(mfDates[0].getTime() == monday.getTime() && mfDates[1].getTime() == friday.getTime());
   }
@@ -236,11 +236,27 @@ public class DateTimeLibTest {
     Date monday = DateTimeLib.getMonday(refDate);
     Date friday = DateTimeLib.getFriday(refDate);
     Date wwDates[] = DateTimeLib.getWeekWorkingDates(weekOffset);
-    System.out.println("  - refDate : " + DateTimeLib.dateToString(refDate));
+    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     for (int i = 0; i < wwDates.length; i++) {
-      System.out.println("  - day " + i + ": " + DateTimeLib.dateToString(wwDates[i]));
+      System.out.println("  - day " + i + " : " + DateTimeLib.dateToString(wwDates[i]));
     }
     assertTrue(wwDates[0].getTime() == monday.getTime() && wwDates[4].getTime() == friday.getTime());
+  }
+
+  @Test
+  public void test15_getDatePosInWorkingWeek() {
+    StackTracer.printCurrentTestMethod();
+    Date refDate = DateTimeLib.getDate();
+    int pos = DateTimeLib.getDatePosInWorkingWeek(refDate);
+    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
+    System.out.println("  - date pos. : " + pos);
+
+    Date mfDates[] = DateTimeLib.getMondayFriday(refDate);
+    boolean ok1 = pos >= 0
+      && refDate.getTime() >= mfDates[0].getTime()
+      && refDate.getTime() <= mfDates[1].getTime();
+    boolean ok2 = pos < 0;
+    assertTrue(ok1 || ok2 );
   }
 
 }
