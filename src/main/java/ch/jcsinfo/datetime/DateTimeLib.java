@@ -447,15 +447,31 @@ public class DateTimeLib {
 
 
   /**
-   * Extrait le jour de la semaine (0=dimanche à 7 samedi).
+   * Extrait le jour de la semaine (1=dimanche à 7 samedi).
    *
    * @param date une date au format java.util.Date
-   * @return int le jour dans la semaine de la date spécifiée (0=dimanche à 7 samedi)
+   * @return int le jour dans la semaine de la date spécifiée (1=dimanche à 7 samedi)
    */
   public static int getDayOfWeek(Date date) {
     Calendar cal = new GregorianCalendar();
     cal.setTime(date);
     return cal.get(Calendar.DAY_OF_WEEK);
+  }
+
+  /**
+   * Retourne la position 0..4 (LU..VE) d'une date dans la semaine
+   * de travail, -1 autrement.
+   *
+   * @param date une date spécifiée
+   * @return int la position de la date dans la semaine 0..4 (LU..VE)
+   */
+  public int getDatePosInWorkingWeek(Date date) {
+    int pos = -1;
+    int dayOfWeek = DateTimeLib.getDayOfWeek(date);
+    if (dayOfWeek >= 2 && dayOfWeek <= 6) {
+       pos = dayOfWeek - 2;
+    }
+    return pos;
   }
 
   /**
