@@ -178,7 +178,6 @@ public class DateTimeLib {
     cal.setTime(date);
     int dayInWeek = cal.get(Calendar.DAY_OF_WEEK);
     int offset = (dayInWeek == 1) ? -6 : -dayInWeek + 2;
-    System.out.println("dayInWeek: " + dayInWeek + ", offset: " + offset);
     return moveDate(date, offset);
   }
 
@@ -194,6 +193,23 @@ public class DateTimeLib {
     int dayInWeek = cal.get(Calendar.DAY_OF_WEEK);
     int offset = (dayInWeek == 1) ? -2 : 6 - dayInWeek;
     return moveDate(date, offset);
+  }
+
+  /**
+   * Retourne les dates de travail (du LU au VE) du jour en cours (si weekOffset=0).
+   * On peut aussi donc avancer ou reculer de 0 à plusieurs semaines.
+   *
+   * @param weekOffset un décalage positif ou négatif de semaines (0=semaine en cours)
+   * @return un tableau de 5 dates avec les dates de travail de la semaine
+   */
+  public static Date[] getWeekWorkingDates(int weekOffset) {
+    Date d = getDate(weekOffset * 7); // sans heure !!!
+    Date[] dates = new Date[5];
+    dates[0] = getMonday(d);
+    for (int i = 1; i < dates.length; i++) {
+      dates[i] = moveDate(dates[0], i);
+    }
+    return dates;
   }
 
   /**
@@ -375,7 +391,7 @@ public class DateTimeLib {
    * @param monthsOffset le nombre de mois à prendre en compte pour calculer la date de fin (0=défaut)
    * @return un tableau avec les 2 dates calculées
    */
-  public static Date[] getWorkYearDates(Date curDate, int monthsOffset) {
+  public static Date[] getYearWorkingDates(Date curDate, int monthsOffset) {
     Date retDates[] = new Date[2];
 
     // date courante (spécifiée)
@@ -410,8 +426,8 @@ public class DateTimeLib {
    * @param monthsOffset le nombre de mois à prendre en compte pour calculer la date de fin (0=défaut)
    * @return un tableau avec les 2 dates calculées
    */
-  public static Date[] getWorkYearDates(int monthsOffset) {
-    return getWorkYearDates(getDate(), monthsOffset);
+  public static Date[] getYearWorkingDates(int monthsOffset) {
+    return DateTimeLib.getYearWorkingDates(getDate(), monthsOffset);
   }
 
 
@@ -436,12 +452,6 @@ public class DateTimeLib {
    * @return int le nombre de jours entre les deux dates
    */
   public static int getDaysBetweenTwoDates(Date theLaterDate, Date theEarlierDate) {
-//    Calendar cal = new GregorianCalendar();
-//    cal.setTime(oldDate);
-//    long dayBefore = oldDate.getTime() + cal.get(Calendar.DST_OFFSET);
-//    cal.setTime(newDate);
-//    long dayAfter = newDate.getTime() + cal.get(Calendar.DST_OFFSET);
-//    return (int) ((dayBefore - dayAfter) / (MILLISECONDS_PER_DAY));
    long delta = theEarlierDate.getTime() - theLaterDate.getTime();
    return (int) (delta / (MILLISECONDS_PER_DAY));
   }

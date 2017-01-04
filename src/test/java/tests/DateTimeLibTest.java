@@ -97,7 +97,7 @@ public class DateTimeLibTest {
 
   private String[] checkOneDate(String sDate, boolean last) {
     Date d = DateTimeLib.isoStringToDate(sDate);
-    Date dates[] = DateTimeLib.getWorkYearDates(d, +1); // +1 mois dans le futur
+    Date dates[] = DateTimeLib.getYearWorkingDates(d, +1); // +1 mois dans le futur
     String res[] = new String[2];
     res[0] = DateTimeLib.dateToString(dates[0], DateTimeLib.ISO8601_FORMAT_SHORT);
     res[1] = DateTimeLib.dateToString(dates[1], DateTimeLib.ISO8601_FORMAT_SHORT);
@@ -110,7 +110,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test06_getWorkYearDates() {
+  public void test06_getYearWorkingDates() {
     StackTracer.printCurrentTestMethod();
     String r[];
     boolean ok[] = new boolean[4];
@@ -214,5 +214,18 @@ public class DateTimeLibTest {
     assertTrue(DateTimeLib.getDayOfWeek(fridayDate) == 6);
   }
 
+  @Test
+  public void test13_getWeekWorkingDates() {
+    StackTracer.printCurrentTestMethod();
+    int weekOffset = +1;
+    Date monday = DateTimeLib.getMonday(DateTimeLib.getDate(weekOffset*7));
+    Date friday = DateTimeLib.getFriday(DateTimeLib.getDate(weekOffset*7));
+    Date wwDates[] = DateTimeLib.getWeekWorkingDates(weekOffset);
+    System.out.println("  - source : " + DateTimeLib.dateToString(monday));
+    for (int i = 0; i < wwDates.length; i++) {
+      System.out.println("  - day " + i + ": " + DateTimeLib.dateToString(wwDates[i]));
+    }
+    assertTrue(wwDates[0].getTime() == monday.getTime() && wwDates[4].getTime() == friday.getTime());
+  }
 
 }
