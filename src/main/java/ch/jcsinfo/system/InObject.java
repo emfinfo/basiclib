@@ -122,9 +122,10 @@ public class InObject {
    * <br>
    *
    * @param source l'objet source où rechercher les champs
+   * @param dateFormat le format pour l'affichage des dates
    * @return la chaîne avec tous les champs
    */
-  public static String fieldsToString(Object source) {
+  public static String fieldsToString(Object source, String dateFormat) {
     StringBuilder result = new StringBuilder();
 
     // débute par la classe simulant un objet
@@ -138,7 +139,8 @@ public class InObject {
     int cnt = 0;
     for (Field field : fields) {
       boolean ok1 = (field.getModifiers() &  Modifier.STATIC) == 0;
-      boolean ok2 = (field.getModifiers() &  Modifier.PRIVATE) > 0;
+      boolean ok2 = ((field.getModifiers() &  Modifier.PRIVATE) > 0)
+                 && ((field.getModifiers() &  Modifier.TRANSIENT) == 0);
       if (ok1 && ok2) {
         cnt++;
         if (cnt > 1) {
@@ -155,7 +157,7 @@ public class InObject {
           Date d1 = (Date) value;
           Date d2 = DateTimeLib.eraseTime(d1);
           if (d1.getTime() == d2.getTime()) {
-            value = DateTimeLib.dateToString(d1, DateTimeLib.DATE_FORMAT_SHORT);
+            value = DateTimeLib.dateToString(d1, dateFormat);
           } else {
             value = DateTimeLib.dateTimeToString(d1);
           }
@@ -167,5 +169,8 @@ public class InObject {
     return result.toString();
   }
 
+   public static String fieldsToString(Object source) {
+     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD);
+   }
 
 }
