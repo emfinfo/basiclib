@@ -1,7 +1,9 @@
 package ch.jcsinfo.datetime;
 
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
+import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -606,6 +608,32 @@ public class DateTimeLib {
 
 
 
+
+  /**
+   * Retourne un tableau avec les informations sur le format standard des dates
+   * au format court.<br>
+   * [0] = séparateur des informations d'une date, normalement "."<br>
+   * [1] = séparateur sous la forme d'une expression regex, normalement "\."<br>
+   * [2] = le format d'une date, normalement "dd.MM.yy"<br>
+   *
+   * @return un tableau avec les trois informations sus-mentionnées
+   */
+  public static String[] getDatePatternInfo() {
+    String result[] = new String[3];
+    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+    FieldPosition yearPosition = new FieldPosition(DateFormat.YEAR_FIELD);
+
+    StringBuffer buffer = new StringBuffer();
+    StringBuffer format = dateFormat.format(getDate(), buffer, yearPosition);
+
+    int yearIdx = yearPosition.getBeginIndex() - 1;
+    result[0] = format.substring(yearIdx, yearIdx + 1);
+    result[1] = "\\" + result[0];
+    result[2] = (new SimpleDateFormat().toPattern()).substring(0, format.length());
+    return result;
+
+  }
+
   /**
    * Convertit une chaîne de caractères (String) représentant une date en une date de la
    * classe java.util.Date. Cette version accepte les années avec ou sans le siècle et
@@ -617,18 +645,22 @@ public class DateTimeLib {
   public static Date stringToDate(String sDate) {
     String nDate = sDate;
     Date date = null;
-    String t[] = nDate.split("\\.");
+    String info[] = getDatePatternInfo();
+    String t[] = nDate.split(info[1]);
     if (t.length == 2) {
-      nDate += "." + getYear(getDate());
-      t = nDate.split("\\.");
+      nDate += info[0] + getYear(getDate());
+      t = nDate.split(info[1]);
     }
     if (t.length == 3) {
       SimpleDateFormat ldf;
+      String s = new SimpleDateFormat().toPattern();
+
       if (t[2].length() == 2) {
-        ldf = getLocaleFormat(DATE_FORMAT_SHORT);
+        ldf = getLocaleFormat(info[2]);
       } else {
-        ldf = getLocaleFormat(DATE_FORMAT_STANDARD);
+        ldf = getLocaleFormat(info[2]+"yy");
       }
+
       ldf.setLenient(false);
       try {
         date = ldf.parse(nDate);
@@ -652,9 +684,10 @@ public class DateTimeLib {
   public static Date stringToDate(String sDate, boolean lastDayOfMonth) {
     String nDate = sDate;
     String t[] = nDate.split("\\.");
+    String sep = getDatePatternInfo()[0];
     Date d = stringToDate(nDate);
     if (t.length == 2) {
-      nDate = "1." + nDate;
+      nDate = "1" + sep + nDate;
       d = stringToDate(nDate);
       if (lastDayOfMonth) {
         d = createDate(getMonthMaxDay(d), getMonth(d), getYear(d));

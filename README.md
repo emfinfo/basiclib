@@ -1,4 +1,4 @@
-# BasicLib 1.0.8 - january 2017
+# BasicLib 1.0.9 - february 2017
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -8,7 +8,7 @@ A Java library with some basic methods (most are static) for all your needs when
 - use some system operations (see files in ch.jcsinfo.system package);
 - use callback, simple cypher, conversion types, prefs manager, screen info, etc.
 
-You can download and open this project in NetBeans 8.1. It's a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
+You can download and open this project in NetBeans 8.2. It's a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
 
 In MacOS terminal or Windows console, you can start the "test" suite with a Maven command :
 - mvn test
@@ -19,16 +19,20 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
+New in release 1.0.9 (2.2.2017) :
+* DateTimeLib: new getDatePatternInfo method.
+* DateTimeLib: better stringToDate method that use "getDatePatternInfo".
+
 New in release 1.0.8 (3-4.1.2017) :
-* new methods "getMonday", "getFriday", "getMondayFriday", "getWeekWorkingDates" && "getDateIndex" in DateTimeLib class.
-* "getWorkYearDates" has been renamed "getYearWorkingDates"
+* DateTimeLib: new methods "getMonday", "getFriday", "getMondayFriday", "getWeekWorkingDates" && "getDateIndex".
+* DateTimeLib: "getWorkYearDates" has been renamed "getYearWorkingDates".
 
 New in release 1.0.7 (13-23.12.2016) :
 * New "lock" & "unlock" methods in AbstractModel to manage "locking" operations on View.
 * Class "TextFileExtracter" has been renamed "BeanExtracter" and abstract method "extract" has been renamed "textToBean" .
 * Methode "textFileRead" in TextFileRead has been renamed "read".
 * New methods "getXXX" in ConvertLib to extract information from a text line.
-* change algorithm in "getDaysBetweenTwoDates" (DateTimeLib)
+* Change algorithm in "getDaysBetweenTwoDates" (DateTimeLib).
 
 New in release 1.0.6 (24.11.2016) :
 * In method "getWorkYearDates" of DateTimeLib, you can now specify a "monthsOffset" to compute last date of a period.
