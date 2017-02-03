@@ -345,7 +345,7 @@ public class ConvertLib {
       int mm = getInt(s, posMM, 2);
       int yy = getInt(s, posYY, yearDigits);
       if (yearDigits == 2) {
-        int siecle = DateTimeLib.getYear(DateTimeLib.getNow()) / 100;
+        int siecle = DateTimeLib.getYear(DateTimeLib.getToday()) / 100;
         yy = siecle * 100 + yy;
       }
       date = DateTimeLib.createDate(dd, mm, yy);
