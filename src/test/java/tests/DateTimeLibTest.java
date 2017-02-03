@@ -204,7 +204,7 @@ public class DateTimeLibTest {
   @Test
   public void test14_getYearDates() {
     StackTracer.printCurrentTestMethod();
-    Date dSource = DateTimeLib.getNow();
+    Date dSource = DateTimeLib.getToday();
     int year = DateTimeLib.getYear(dSource);
     Date d[] = DateTimeLib.getYearDates();
 
@@ -236,7 +236,7 @@ public class DateTimeLibTest {
   @Test
   public void test16_getMonday() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getNow();
+    Date refDate = DateTimeLib.getToday();
     Date mondayDate = DateTimeLib.getMonday(refDate);
     System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     System.out.println("  - monday    : " + DateTimeLib.dateToString(mondayDate));
