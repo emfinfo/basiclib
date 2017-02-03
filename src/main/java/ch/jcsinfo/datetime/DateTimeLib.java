@@ -396,7 +396,7 @@ public class DateTimeLib {
    * Le temps est complété avec une date fournie.
    *
    * @param sTime un temps au format local (ex: "12:01:00")
-   * @param d     une date pour compléter le temps
+   * @param date une date pour compléter le temps
    * @return une date Java standard
    */
   public static Date parseTime(String sTime, Date date) {
