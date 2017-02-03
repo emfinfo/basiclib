@@ -34,138 +34,155 @@ public class DateTimeLibTest {
   @Test
   public void test01_getDatePatternInfo() {
     StackTracer.printCurrentTestMethod();
-    String info[] = DateTimeLib.getDatePatternInfo();
+    String info[] = DateTimeLib.getLocalePatternInfo();
     System.out.println("  - date separator : " + info[0]);
     System.out.println("  - date sep regex : " + info[1]);
     System.out.println("  - date pattern   : " + info[2]);
+    System.out.println("  - time separator : " + info[3]);
+    System.out.println("  - time sep regex : " + info[4]);
+    System.out.println("  - time pattern   : " + info[5]);
     assertTrue(info[1].length() > 0);
   }
 
   @Test
-  public void test02_stringToDate() {
+  public void test02_getNow() {
     StackTracer.printCurrentTestMethod();
-    String sDate = "29.2.2016";
-    Date d = DateTimeLib.stringToDate(sDate);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(d);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(calendar.get(Calendar.YEAR)==2016 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==29);
+    Date d = DateTimeLib.getNow();
+    System.out.println("  - result : " + DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD));
+    assertTrue(d != null);
   }
 
   @Test
-  public void test03_stringToDate() {
+  public void test03_getToday() {
     StackTracer.printCurrentTestMethod();
-    String sDate = "29.02.16";
-    Date d = DateTimeLib.stringToDate(sDate);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(d);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(calendar.get(Calendar.YEAR)==2016 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==29);
+    Date d = DateTimeLib.getToday();
+    System.out.println("  - result : " + DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD));
+    assertTrue(d != null);
   }
 
   @Test
-  public void test04_stringToDateStartOfMonth() {
+  public void test04_getSmartToday() {
     StackTracer.printCurrentTestMethod();
-    String sDate = "2.2016";
-    Date d = DateTimeLib.stringToDate(sDate, false);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(d);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(calendar.get(Calendar.YEAR)==2016 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==1);
+    String smartToday = DateTimeLib.getSmartToday();
+    System.out.println("  - result : " + smartToday);
+    assertTrue(!smartToday.isEmpty());
   }
 
   @Test
-  public void test05_stringToDateEndOfMonth() {
-    StackTracer.printCurrentTestMethod();
-    String sDate = "2.2016";
-    Date d = DateTimeLib.stringToDate(sDate, true);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(d);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(calendar.get(Calendar.YEAR)==2016 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==29);
-  }
-
-  @Test
-  public void test06_isoStringToDate() {
+  public void test05_parseIsoDate() {
     StackTracer.printCurrentTestMethod();
     String sDate = "2016-02-29";
-    Date d = DateTimeLib.isoStringToDate(sDate);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(d);
+    Date d = DateTimeLib.parseIsoDate(sDate);
     System.out.println("  - to parse : " + sDate);
     System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(calendar.get(Calendar.YEAR)==2016 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==29);
+    assertTrue(DateTimeLib.isValidDate(d, 29, 2, 2016));
   }
 
   @Test
-  public void test07_timeStringToDate() {
+  public void test06_parseIsoDateWithTime() {
     StackTracer.printCurrentTestMethod();
-    String sDate = "2016-02-29";
-    String sTime = "13:48:12";
-    Date d1 = DateTimeLib.isoStringToDate(sDate);
-    Date d2 = DateTimeLib.timeStringToDate(sTime, d1);
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(d2);
-    System.out.println("  - to parse : " + sTime);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d2, "dd.MM.yyyy HH:mm:ss"));
-    boolean okDate = calendar.get(Calendar.YEAR)==2016 && calendar.get(Calendar.MONTH)==1 && calendar.get(Calendar.DAY_OF_MONTH)==29;
-    boolean okTime = calendar.get(Calendar.HOUR_OF_DAY)==13 && calendar.get(Calendar.MINUTE)==48 && calendar.get(Calendar.SECOND)==12;
+    String sDate = "2016-02-29 23:08:01";
+    Date d = DateTimeLib.parseIsoDate(sDate);
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d, "dd.MM.yyyy HH:mm:ss"));
+    boolean okDate = DateTimeLib.isValidDate(d, 29, 2, 2016);
+    boolean okTime = DateTimeLib.isValidTime(d, 23, 8, 1);
     assertTrue(okDate && okTime);
   }
 
-  private String[] checkOneDate(String sDate, boolean last) {
-    Date d = DateTimeLib.isoStringToDate(sDate);
-    Date dates[] = DateTimeLib.getYearWorkingDates(d, +1); // +1 mois dans le futur
-    String res[] = new String[2];
-    res[0] = DateTimeLib.dateToString(dates[0], DateTimeLib.ISO8601_FORMAT_SHORT);
-    res[1] = DateTimeLib.dateToString(dates[1], DateTimeLib.ISO8601_FORMAT_SHORT);
-    System.out.println("  - date[0] : " + res[0]);
-    System.out.println("  - date[1] : " + res[1]);
-    if (!last) {
-      System.out.println();
-    }
-    return res;
+  @Test
+  public void test07_parseDate() {
+    StackTracer.printCurrentTestMethod();
+    String sDate = "29.2.16";
+    Date d = DateTimeLib.parseDate(sDate);
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
+    assertTrue(DateTimeLib.isValidDate(d, 29, 2, 2016));
   }
 
   @Test
-  public void test08_getYearWorkingDates() {
+  public void test08_parseDate_startOfMonth() {
     StackTracer.printCurrentTestMethod();
-    String r[];
+    String sDate = "2.2016";
+    Date d = DateTimeLib.parseDate(sDate, false);
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
+    assertTrue(DateTimeLib.isValidDate(d, 1, 2, 2016));
+  }
+
+  @Test
+  public void test09_parseDate_endOfMonth() {
+    StackTracer.printCurrentTestMethod();
+    String sDate = "2.2016";
+    Date d = DateTimeLib.parseDate(sDate, true);
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(d);
+    System.out.println("  - to parse : " + sDate);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
+    assertTrue(DateTimeLib.isValidDate(d, 29, 2, 2016));
+  }
+
+  @Test
+  public void test10_parseTime() {
+    StackTracer.printCurrentTestMethod();
+    String sTime = "23:8:1";
+    Date d = DateTimeLib.parseTime(sTime);
+    System.out.println("  - to parse : " + sTime);
+    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d, "HH:mm:ss"));
+    assertTrue(DateTimeLib.isValidTime(d, 23, 8, 1));
+  }
+
+  private Date[] checkOneDate(String sDate, boolean last) {
+    Date d = DateTimeLib.parseIsoDate(sDate);
+    Date dates[] = DateTimeLib.getYearWorkingDates(d, +1); // +1 mois dans le futur
+    System.out.println("  - source  : " + DateTimeLib.dateToString(d, DateTimeLib.ISO8601_FORMAT_SHORT));
+    System.out.println("  - date[0] : " + DateTimeLib.dateToString(dates[0]));
+    System.out.println("  - date[1] : " + DateTimeLib.dateToString(dates[1]));
+    if (!last) {
+      System.out.println();
+    }
+    return dates;
+  }
+
+  @Test
+  public void test11_getYearWorkingDates() {
+    StackTracer.printCurrentTestMethod();
+    Date dates[];
     boolean ok[] = new boolean[4];
 
-    r = checkOneDate ("2016-01-28", false);
-    ok[0] = r[0].equals("2015-01-01") && r[1].equals("2016-02-29");
+    dates = checkOneDate("2016-01-28", false);
+    ok[0] = DateTimeLib.isValidDate(dates[0],  1, 1, 2015)
+         && DateTimeLib.isValidDate(dates[1], 29, 2, 2016);
 
-    r = checkOneDate ("2016-02-28", false);
-    ok[1] = r[0].equals("2015-01-01") && r[1].equals("2016-03-31");
+    dates = checkOneDate("2016-02-28", false);
+    ok[1] = DateTimeLib.isValidDate(dates[0],  1, 1, 2015)
+         && DateTimeLib.isValidDate(dates[1], 31, 3, 2016);
 
-    r = checkOneDate ("2016-03-28", false);
-    ok[2] = r[0].equals("2015-01-01") && r[1].equals("2016-04-30");
+    dates = checkOneDate("2016-03-28", false);
+    ok[2] = DateTimeLib.isValidDate(dates[0],  1, 1, 2015)
+         && DateTimeLib.isValidDate(dates[1], 30, 4, 2016);
 
-    r = checkOneDate ("2016-04-28", true);
-    ok[3] = r[0].equals("2015-05-01") && r[1].equals("2016-05-31");
+    dates = checkOneDate("2016-04-28", true);
+    ok[3] = DateTimeLib.isValidDate(dates[0],  1, 5, 2015)
+         && DateTimeLib.isValidDate(dates[1], 31, 5, 2016);
 
     assertTrue(ok[0] && ok[1] && ok[2] && ok[3]);
   }
 
   @Test
-  public void test09_dateToLocalDate() {
+  public void test12_dateToLocalDate() {
     StackTracer.printCurrentTestMethod();
-    Date d = DateTimeLib.getDate();
+    Date d = DateTimeLib.getNow();
+    LocalDate localDate = DateTimeLib.dateToLocalDate(d);
 
-    LocalDate ld = DateTimeLib.dateToLocalDate(d);
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     System.out.println("  - to convert : " + DateTimeLib.dateToString(d, "dd.MM.yyyy HH:mm:ss"));
-    System.out.println("  - result     : " + ld.format(dtf));
-    assertTrue(ld != null);
+    System.out.println("  - result     : " + localDate.format(dtf));
+    assertTrue(localDate != null);
   }
 
   @Test
-  public void test10_getMonthDates() {
+  public void test13_getMonthDates() {
     StackTracer.printCurrentTestMethod();
     Date dSource = DateTimeLib.createDate(1, 1, 2017);
     int year = DateTimeLib.getYear(dSource) - 1;
@@ -185,9 +202,9 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test11_getYearDates() {
+  public void test14_getYearDates() {
     StackTracer.printCurrentTestMethod();
-    Date dSource = DateTimeLib.getDate();
+    Date dSource = DateTimeLib.getNow();
     int year = DateTimeLib.getYear(dSource);
     Date d[] = DateTimeLib.getYearDates();
 
@@ -204,7 +221,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test12_getDaysBetweenTwoDates() {
+  public void test15_getDaysBetweenTwoDates() {
     StackTracer.printCurrentTestMethod();
     Date theLaterDate = DateTimeLib.createDate(20, 10, 2016);
     Date theEarlierDate = DateTimeLib.createDate(3, 11, 2016);
@@ -213,13 +230,13 @@ public class DateTimeLibTest {
     System.out.println("  - laterDate   : " + DateTimeLib.dateToString(theLaterDate));
     System.out.println("  - earlierDate : " + DateTimeLib.dateToString(theEarlierDate));
     System.out.println("  - days between= " + days);
-    assertTrue(days==14);
+    assertTrue(days == 14);
   }
 
   @Test
-  public void test13_getMonday() {
+  public void test16_getMonday() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getDate();
+    Date refDate = DateTimeLib.getNow();
     Date mondayDate = DateTimeLib.getMonday(refDate);
     System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     System.out.println("  - monday    : " + DateTimeLib.dateToString(mondayDate));
@@ -227,9 +244,9 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test14_getFriday() {
+  public void test17_getFriday() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getDate();
+    Date refDate = DateTimeLib.getToday();
     Date fridayDate = DateTimeLib.getFriday(refDate);
     System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     System.out.println("  - friday    : " + DateTimeLib.dateToString(fridayDate));
@@ -237,9 +254,9 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test15_getMondayFriday() {
+  public void test18_getMondayFriday() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getDate();
+    Date refDate = DateTimeLib.getToday();
     Date monday = DateTimeLib.getMonday(refDate);
     Date friday = DateTimeLib.getFriday(refDate);
     Date mfDates[] = DateTimeLib.getMondayFriday(refDate);
@@ -251,13 +268,13 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test16_getWeekWorkingDates() {
+  public void test19_getWeekDates() {
     StackTracer.printCurrentTestMethod();
     int weekOffset = +1;
-    Date refDate = DateTimeLib.getDate(weekOffset*7);
+    Date refDate = DateTimeLib.getDate(weekOffset * 7);
     Date monday = DateTimeLib.getMonday(refDate);
     Date friday = DateTimeLib.getFriday(refDate);
-    Date wwDates[] = DateTimeLib.getWeekWorkingDates(weekOffset);
+    Date wwDates[] = DateTimeLib.getWeekDates(weekOffset);
     System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     for (int i = 0; i < wwDates.length; i++) {
       System.out.println("  - day " + i + " : " + DateTimeLib.dateToString(wwDates[i]));
@@ -266,9 +283,9 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test17_getDatePosInWorkingWeek() {
+  public void test20_getDateIndex() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getDate();
+    Date refDate = DateTimeLib.getToday();
     int pos = DateTimeLib.getDateIndex(refDate);
     System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
     System.out.println("  - date pos. : " + pos);
@@ -278,7 +295,7 @@ public class DateTimeLibTest {
       && refDate.getTime() >= mfDates[0].getTime()
       && refDate.getTime() <= mfDates[1].getTime();
     boolean ok2 = pos < 0;
-    assertTrue(ok1 || ok2 );
+    assertTrue(ok1 || ok2);
   }
 
 }
