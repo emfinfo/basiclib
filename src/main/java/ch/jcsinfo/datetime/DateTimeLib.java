@@ -285,7 +285,7 @@ public class DateTimeLib {
   }
 
   /**
-   * Essaye de convertir une chaîne de caractères (String) représentant une date en une date de la
+   * Convertit une chaîne de caractères (String) représentant une date en une date de la
    * classe java.util.Date. Cette version accepte les années avec ou sans le siècle et
    * également les dates sans l'année (cela prend alors l'année en cours).
    *
@@ -340,10 +340,10 @@ public class DateTimeLib {
     String nDate = sDate;
     String t[] = nDate.split("\\.");
     String sep = getLocalePatternInfo()[0];
-    Date d = DateTimeLib.parseDate(nDate);
+    Date d = parseDate(nDate);
     if (t.length == 2) {
       nDate = "1" + sep + nDate;
-      d = DateTimeLib.parseDate(nDate);
+      d = parseDate(nDate);
       if (lastDayOfMonth) {
         d = createDate(getMonthMaxDay(d), getMonth(d), getYear(d));
       }
@@ -401,7 +401,7 @@ public class DateTimeLib {
    */
   public static Date parseTime(String sTime, Date date) {
     Date result = null;
-    Date time = DateTimeLib.parseTime(sTime);
+    Date time = parseTime(sTime);
     if (date != null && time != null) {
       int info[] =  extractTimeInfo(date);
       result = setTime(date, info[0], info[1], info[2]);
@@ -432,7 +432,7 @@ public class DateTimeLib {
    * @return true si la date est valide, false autrement
    */
   public static boolean isValidDate(String sDate) {
-    return DateTimeLib.parseDate(sDate) != null;
+    return parseDate(sDate) != null;
   }
 
   /**
@@ -450,6 +450,44 @@ public class DateTimeLib {
     return day == info[0] &&  month == info[1] && year == info[2];
   }
 
+  /**
+   * Teste si une date au format standard java.util.Date est valide, en testant si l'année
+   * est dans une fourchette de +- un nombre d'années spécifié par rapport à l'année
+   * courante.
+   *
+   * @param date une date au format java.util.Date à tester (null est accepté comme ok)
+   * @param minusYears un nb d'années en dessous que l'on accepte
+   * @param plusYears un nb d'années en dessus que l'on accepte
+   *
+   * @return true (vrai) si la date est dans la fourchette, false (faux) autrement
+   */
+  public static boolean isValidDate(Date date, int minusYears, int plusYears) {
+    boolean ok = date == null;
+    if (!ok) {
+      int currentYear = getYear(getToday());
+      int dateYear = getYear(date);
+      int limits[] = new int[2];
+      limits[0] = currentYear - minusYears;
+      limits[1] = currentYear + plusYears;
+      ok = dateYear >= limits[0] && dateYear <= limits[1];
+    }
+    return ok;
+  }
+
+  /**
+   * Teste si une date au format String est valide, en testant encore si l'année est dans
+   * une fourchette de +- un nombre d'années spécifié par rapport à l'année courante.
+   *
+   * @param sDate une date au format String à tester
+   * @param minusYears un nb d'années en dessous que l'on accepte
+   * @param plusYears un nb d'années en dessus que l'on accepte
+   *
+   * @return true (vrai) si la date est dans la fourchette, false (faux) autrement
+   */
+  public static boolean isValidDate(String sDate, int minusYears, int plusYears) {
+    Date d = parseDate(sDate);
+    return d != null && isValidDate(d, minusYears, plusYears);
+  }
 
   /**
    * Teste si un temps spécifié dans le format local est valide.
@@ -458,7 +496,7 @@ public class DateTimeLib {
    * @return true si le temps est valide, false autrement
    */
   public static boolean isValidTime(String sTime) {
-    return DateTimeLib.parseTime(sTime) != null;
+    return parseTime(sTime) != null;
   }
 
   /**
@@ -772,7 +810,7 @@ public class DateTimeLib {
    * @return un tableau avec les 2 dates calculées
    */
   public static Date[] getYearWorkingDates(int monthsOffset) {
-    return DateTimeLib.getYearWorkingDates(getToday(), monthsOffset);
+    return getYearWorkingDates(getToday(), monthsOffset);
   }
 
 
@@ -923,7 +961,7 @@ public class DateTimeLib {
    */
   public static int getDateIndex(Date date) {
     int idx = -1;
-    int dayOfWeek = DateTimeLib.getDayOfWeek(date);
+    int dayOfWeek = getDayOfWeek(date);
     if (dayOfWeek >= 2 && dayOfWeek <= 6) {
        idx = dayOfWeek - 2;
     }
@@ -1047,7 +1085,7 @@ public class DateTimeLib {
    */
   public static java.sql.Date stringToSqldate(String sDate) {
     java.sql.Date sqlDate = null;
-    Date d = DateTimeLib.parseDate(sDate);
+    Date d = parseDate(sDate);
     if (d != null) {
       sqlDate = new java.sql.Date(d.getTime());
     }
@@ -1089,49 +1127,6 @@ public class DateTimeLib {
       return null;
     }
   }
-
-
-
-  /**
-   * Teste si une date au format standard java.util.Date est valide, en testant si l'année
-   * est dans une fourchette de +- un nombre d'années spécifié par rapport à l'année
-   * courante.
-   *
-   * @param date une date au format java.util.Date à tester (null est accepté comme ok)
-   * @param minusYears un nb d'années en dessous que l'on accepte
-   * @param plusYears un nb d'années en dessus que l'on accepte
-   *
-   * @return true (vrai) si la date est dans la fourchette, false (faux) autrement
-   */
-  public static boolean isValidDateWithYear(Date date, int minusYears, int plusYears) {
-    boolean ok = date == null;
-    if (!ok) {
-      int currentYear = getYear(getToday());
-      int dateYear = getYear(date);
-      int limits[] = new int[2];
-      limits[0] = currentYear - minusYears;
-      limits[1] = currentYear + plusYears;
-      ok = dateYear >= limits[0] && dateYear <= limits[1];
-    }
-    return ok;
-  }
-
-  /**
-   * Teste si une date au format String est valide, en testant encore si l'année est dans
-   * une fourchette de +- un nombre d'années spécifié par rapport à l'année courante.
-   *
-   * @param sDate une date au format String à tester
-   * @param minusYears un nb d'années en dessous que l'on accepte
-   * @param plusYears un nb d'années en dessus que l'on accepte
-   *
-   * @return true (vrai) si la date est dans la fourchette, false (faux) autrement
-   */
-  public static boolean isValidDateWithYear(String sDate, int minusYears, int plusYears) {
-    Date d = DateTimeLib.parseDate(sDate);
-    return d != null && isValidDateWithYear(d, minusYears, plusYears);
-  }
-
-
 
 
 
