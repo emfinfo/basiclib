@@ -19,7 +19,7 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
-New in release 1.0.9 (2-3.2.2017) :
+New in release 1.0.9 (2-4.2.2017) :
 * DateTimeLib class has been completly restructured and tested.
 * New validation methods in this class (isValidDate, isValidTime, etc).
 * Some methods of this class have been renamed (see below).
@@ -29,6 +29,7 @@ New in release 1.0.9 (2-3.2.2017) :
 * new "getToday()" method returns current date without time
 * "getDate(int days)" remains the same
 * "getWeekWorkingDates" has been renamed "getWeekDates"
+* "isValidDateWithYear" methods have been renamed "isValidDate"
 
 New in release 1.0.8 (3-4.1.2017) :
 * DateTimeLib: new methods "getMonday", "getFriday", "getMondayFriday", "getWeekWorkingDates" && "getDateIndex".
