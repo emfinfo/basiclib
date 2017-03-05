@@ -39,7 +39,7 @@ public class PrefsManager {
    * dans tout logiciel de type Java.
    */
   public static enum Pref {
-    BG_PICTURE_FILENAME, CURRENT_LAF, CURRENT_DPI,
+    BG_PICTURE_FILENAME, CURRENT_LAF, CURRENT_DPI, SHOW_TOOLBAR,
     PICT_FOLDER, PICT_ZOOM_FACTOR, PICT_PREF_SIZE,
 
     PRINT_FOLDER_TEMPLATES, PRINT_FOLDER_RESULTS,
