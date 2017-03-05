@@ -1,4 +1,4 @@
-# BasicLib 1.0.9 - february 2017
+# BasicLib 1.0.10 - mars 2017
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -18,6 +18,9 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.0.10 (5.3.2017) :
+* New pref enum SHOW_TOOLBAR in PrefsManager.java
 
 New in release 1.0.9 (2-4.2.2017) :
 * DateTimeLib class has been completly restructured and tested.
