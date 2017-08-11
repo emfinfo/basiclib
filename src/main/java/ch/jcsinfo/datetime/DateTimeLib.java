@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -525,13 +526,22 @@ public class DateTimeLib {
    *
    * @param date une date de la classe java.util.Date
    * @param format un format de date (ou de temps) sous la forme d'un String
+   * @param objects paramètres facultatifs : 1 seul est permis = la valeur par défaut si la date est nulle (ex: "...")
    * @return la même date au format String
    */
-  public static String dateToString(Date date, String format) {
-    String sDate = "...";
+  public static String dateToString(Date date, String format, Object...objects) {
+    String sDate;
     if (date != null) {
       SimpleDateFormat ldf = getLocaleFormat(format);
       sDate = ldf.format(date);
+    } else {
+      if (objects.length > 0) {
+        sDate = (String) objects[0];
+      } else {
+        char[] array = new char[format.length()];
+        Arrays.fill(array, ' ');
+        sDate = new String(array);
+      }
     }
     return sDate;
   }

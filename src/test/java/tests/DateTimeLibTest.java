@@ -32,7 +32,22 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test01_getDatePatternInfo() {
+  public void test01_dateToString() {
+    StackTracer.printCurrentTestMethod();
+    Date d = null;
+
+    String result = DateTimeLib.dateToString(d, DateTimeLib.ISO8601_FORMAT_SHORT);
+    System.out.println("  - value : null date");
+    System.out.println("  - result : " + result + " len="+ result.length());
+    assertTrue(result.length() == DateTimeLib.ISO8601_FORMAT_SHORT.length());
+
+    result = DateTimeLib.dateToString(d, DateTimeLib.ISO8601_FORMAT_SHORT, "...");
+    System.out.println("  - result : " + result + " len="+ result.length());
+    assertTrue(result.length() == 3);
+  }
+
+  @Test
+  public void test02_getDatePatternInfo() {
     StackTracer.printCurrentTestMethod();
     String info[] = DateTimeLib.getLocalePatternInfo();
     System.out.println("  - date separator : " + info[0]);
@@ -45,7 +60,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test02_getNow() {
+  public void test03_getNow() {
     StackTracer.printCurrentTestMethod();
     Date d = DateTimeLib.getNow();
     System.out.println("  - result : " + DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD));
@@ -53,7 +68,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test03_getToday() {
+  public void test04_getToday() {
     StackTracer.printCurrentTestMethod();
     Date d = DateTimeLib.getToday();
     System.out.println("  - result : " + DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD));
@@ -61,7 +76,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test04_getSmartToday() {
+  public void test05_getSmartToday() {
     StackTracer.printCurrentTestMethod();
     String smartToday = DateTimeLib.getSmartToday();
     System.out.println("  - result : " + smartToday);
@@ -69,7 +84,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test05_parseIsoDate() {
+  public void test06_parseIsoDate() {
     StackTracer.printCurrentTestMethod();
     String sDate = "2016-02-29";
     Date d = DateTimeLib.parseIsoDate(sDate);
@@ -79,7 +94,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test06_parseIsoDateWithTime() {
+  public void test07_parseIsoDateWithTime() {
     StackTracer.printCurrentTestMethod();
     String sDate = "2016-02-29 23:08:01";
     Date d = DateTimeLib.parseIsoDate(sDate);
@@ -91,7 +106,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test07_parseDate() {
+  public void test08_parseDate() {
     StackTracer.printCurrentTestMethod();
     String sDate = "29.2.16";
     Date d = DateTimeLib.parseDate(sDate);
@@ -101,7 +116,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test08_parseDate_startOfMonth() {
+  public void test09_parseDate_startOfMonth() {
     StackTracer.printCurrentTestMethod();
     String sDate = "2.2016";
     Date d = DateTimeLib.parseDate(sDate, false);
@@ -111,7 +126,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test09_parseDate_endOfMonth() {
+  public void test10_parseDate_endOfMonth() {
     StackTracer.printCurrentTestMethod();
     String sDate = "2.2016";
     Date d = DateTimeLib.parseDate(sDate, true);
@@ -123,7 +138,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test10_parseTime() {
+  public void test11_parseTime() {
     StackTracer.printCurrentTestMethod();
     String sTime = "23:8:1";
     Date d = DateTimeLib.parseTime(sTime);
@@ -145,7 +160,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test11_getYearWorkingDates() {
+  public void test12_getYearWorkingDates() {
     StackTracer.printCurrentTestMethod();
     Date dates[];
     boolean ok[] = new boolean[4];
@@ -170,7 +185,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test12_dateToLocalDate() {
+  public void test13_dateToLocalDate() {
     StackTracer.printCurrentTestMethod();
     Date d = DateTimeLib.getNow();
     LocalDate localDate = DateTimeLib.dateToLocalDate(d);
@@ -182,7 +197,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test13_getMonthDates() {
+  public void test14_getMonthDates() {
     StackTracer.printCurrentTestMethod();
     Date dSource = DateTimeLib.createDate(1, 1, 2017);
     int year = DateTimeLib.getYear(dSource) - 1;
@@ -202,7 +217,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test14_getYearDates() {
+  public void test15_getYearDates() {
     StackTracer.printCurrentTestMethod();
     Date dSource = DateTimeLib.getToday();
     int year = DateTimeLib.getYear(dSource);
@@ -221,7 +236,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test15_getDaysBetweenTwoDates() {
+  public void test16_getDaysBetweenTwoDates() {
     StackTracer.printCurrentTestMethod();
     Date theLaterDate = DateTimeLib.createDate(20, 10, 2016);
     Date theEarlierDate = DateTimeLib.createDate(3, 11, 2016);
@@ -234,7 +249,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test16_getMonday() {
+  public void test17_getMonday() {
     StackTracer.printCurrentTestMethod();
     Date refDate = DateTimeLib.getToday();
     Date mondayDate = DateTimeLib.getMonday(refDate);
@@ -244,7 +259,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test17_getFriday() {
+  public void test18_getFriday() {
     StackTracer.printCurrentTestMethod();
     Date refDate = DateTimeLib.getToday();
     Date fridayDate = DateTimeLib.getFriday(refDate);
@@ -254,7 +269,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test18_getMondayFriday() {
+  public void test19_getMondayFriday() {
     StackTracer.printCurrentTestMethod();
     Date refDate = DateTimeLib.getToday();
     Date monday = DateTimeLib.getMonday(refDate);
@@ -268,7 +283,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test19_getWeekDates() {
+  public void test20_getWeekDates() {
     StackTracer.printCurrentTestMethod();
     int weekOffset = +1;
     Date refDate = DateTimeLib.getDate(weekOffset * 7);
@@ -283,7 +298,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test20_getDateIndex() {
+  public void test21_getDateIndex() {
     StackTracer.printCurrentTestMethod();
     Date refDate = DateTimeLib.getToday();
     int pos = DateTimeLib.getDateIndex(refDate);

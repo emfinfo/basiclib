@@ -525,7 +525,8 @@ public class ConvertLib {
    * @return le String avec les caractères demandés
    */
   public static String fillString(int len, char ch, String param) {
-    return (param + fillString(len, ch)).substring(0, len);
+    String p = (param != null) ? param : "";
+    return (p + fillString(len, ch)).substring(0, len);
   }
 
   /**
