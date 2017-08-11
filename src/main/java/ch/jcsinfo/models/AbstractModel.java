@@ -27,6 +27,7 @@ public class AbstractModel {
    * Constructeur.
    */
   public AbstractModel() {
+    lock = true;
     pcs = new SwingPropertyChangeSupport(this, true);
 
     // crée une méthode de déverrouillage de la vue (pour le timer)
@@ -35,9 +36,8 @@ public class AbstractModel {
     };
 
     // créer le timer pour le déverrouillage de la vue
-    timer = new Timer(800, unlockMe);
+    timer = new Timer(1000, unlockMe);
     timer.setRepeats(false);
-    lock = true;
   }
 
 

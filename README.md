@@ -21,6 +21,7 @@ Documentation :<br>
 
 New in release 1.0.11 (11.8.2017) :
 * Better results in conversion with null values in dateToString (DateTimeLib) and fillString (ConvertLib).
+* change in AbstractModel
 
 New in release 1.0.10 (5.3.2017) :
 * New pref enum SHOW_TOOLBAR in PrefsManager.java
