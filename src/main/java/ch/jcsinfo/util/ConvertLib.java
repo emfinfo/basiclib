@@ -301,14 +301,17 @@ public class ConvertLib {
    * @return le nombre sous la forme d'un BigDecimal
    */
   public static BigDecimal getBigDecimal(String text, int pos, int len) {
+    BigDecimal result = BigDecimal.ZERO;
     String s = getString(text, pos, len);
-    int p = s.lastIndexOf(".");
-    if (p < 0) {
-      String frs = getString(text, pos, len-2);
-      String cts = getString(text, pos+frs.length(), 2);
-      s = frs + "." + cts;
+    if (!s.isEmpty()) {
+      if (s.lastIndexOf(".") < 0) {
+        String frs = getString(text, pos, len - 2);
+        String cts = getString(text, pos + frs.length(), 2);
+        s = frs + "." + cts;
+      }
+      result = new BigDecimal(s);
     }
-    return new BigDecimal(s);
+    return result;
 //    return BigDecimal.valueOf(stringToDouble(getString(line, pos, len)));
   }
 
@@ -329,27 +332,41 @@ public class ConvertLib {
    *
    * @param text un texte dans lequel se trouve la date
    * @param pos  la position du début de la date (base 1)
-   * @param fmt  le format de la date (ex: "YYMMDD" ou "DDMMYY")
+   * @param fmt  le format de la date (ex: "YYMMDD", "DDMMYY" ou YYYY-MM-DD -ISO-)
    * @return la date au format java.util.Date
    */
   public static Date getDate(String text, int pos, String fmt) {
     Date date = DateTimeLib.createDate(1, 1, 1970);
     String s = getString(text, pos, fmt.length());
     String fmt2 = fmt.toUpperCase();
-    int posDD = fmt2.indexOf("DD") + 1;
-    int posMM = fmt2.indexOf("MM") + 1;
-    int posYY = fmt2.indexOf("YY") + 1;
-    if (posDD >= 1 && posMM >= 1 && posYY >= 1) {
-      int yearDigits = fmt2.length() - fmt2.replace("Y", "").length();
-      int dd = getInt(s, posDD, 2);
-      int mm = getInt(s, posMM, 2);
-      int yy = getInt(s, posYY, yearDigits);
-      if (yearDigits == 2) {
-        int siecle = DateTimeLib.getYear(DateTimeLib.getToday()) / 100;
-        yy = siecle * 100 + yy;
+
+    if (fmt2.length() == 10 && fmt2.contains("-")) {
+      Date d = DateTimeLib.parseIsoDate(s);
+      if (d != null) {
+        date = d;
       }
-      date = DateTimeLib.createDate(dd, mm, yy);
+    } else if (fmt2.length() != 6) {
+      Date d = DateTimeLib.parseDate(s);
+      if (d != null) {
+        date = d;
+      }
+    } else {
+      int posDD = fmt2.indexOf("DD") + 1;
+      int posMM = fmt2.indexOf("MM") + 1;
+      int posYY = fmt2.indexOf("YY") + 1;
+      if (posDD >= 1 && posMM >= 1 && posYY >= 1) {
+        int yearDigits = fmt2.length() - fmt2.replace("Y", "").length();
+        int dd = getInt(s, posDD, 2);
+        int mm = getInt(s, posMM, 2);
+        int yy = getInt(s, posYY, yearDigits);
+        if (yearDigits == 2) {
+          int siecle = DateTimeLib.getYear(DateTimeLib.getToday()) / 100;
+          yy = siecle * 100 + yy;
+        }
+        date = DateTimeLib.createDate(dd, mm, yy);
+      }
     }
+
     return date;
   }
 
