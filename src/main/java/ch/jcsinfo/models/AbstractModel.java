@@ -36,7 +36,7 @@ public class AbstractModel {
     };
 
     // créer le timer pour le déverrouillage de la vue
-    timer = new Timer(1000, unlockMe);
+    timer = new Timer(3000, unlockMe);
     timer.setRepeats(false);
   }
 
@@ -69,6 +69,7 @@ public class AbstractModel {
    * prochain événement.
    */
   public void unlock() {
+    timer.setDelay(800);
     timer.start();
   }
 
