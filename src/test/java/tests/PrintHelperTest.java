@@ -120,7 +120,7 @@ public class PrintHelperTest {
       int n = 1;
       for (Map.Entry<String, Object> entry : entries) {
         String key = entry.getKey();
-        String value = entry.getValue().toString();
+        String value = (entry.getValue() != null) ? entry.getValue().toString():"null";
         System.out.printf("    " + ConvertLib.formatNumber(n, "00") + ". %s = %s%n", key, value);
         n++;
       }

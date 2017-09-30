@@ -100,14 +100,14 @@ public class ObjectCloner {
    *
    * @param obj l'objet à sérialiser.
    */
-  static public void serialize(Object obj) {
+   public static void serialize(Object obj) {
     ObjectOutput out;
     try {
       OutputStream os = new FileOutputStream(FILE_NAME);
       out = new ObjectOutputStream(os);
       out.writeObject(obj);
       out.close();
-    } catch (Exception ex) {
+    } catch (IOException ex) {
       log(StackTracer.getCurrentMethod(), Exception.class.getSimpleName(), ex.getMessage());
     }
   }
@@ -117,7 +117,7 @@ public class ObjectCloner {
    *
    * @return l'objet désérialisé.
    */
-  static public Object deserialize() {
+  public static Object deserialize() {
     ObjectInput in;
     try {
       InputStream is = new FileInputStream(FILE_NAME);
