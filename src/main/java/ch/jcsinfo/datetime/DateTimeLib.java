@@ -23,15 +23,16 @@ import java.util.Locale;
  *
  */
 public class DateTimeLib {
-  public final static String DATE_FORMAT_STANDARD = "d.M.yyyy";
   public final static String DATE_FORMAT_SHORT = "dd.MM.yy";
+  public final static String DATE_FORMAT_STANDARD = "d.M.yyyy";
 
-  public final static String TIME_FORMAT_STANDARD = "HH:mm:ss";
   public final static String TIME_FORMAT_SHORT = "HH:mm";
+  public final static String TIME_FORMAT_STANDARD = "HH:mm:ss";
   public final static String TIME_BASE ="00";
 
-  public final static String ISO8601_FORMAT_STANDARD = "yyyy-MM-dd HH:mm:ss";
-  public final static String ISO8601_FORMAT_SHORT = "yyyy-MM-dd";
+  public final static String ISO8601_DATE_FORMAT = "yyyy-MM-dd";
+  public final static String ISO8601_DATE_TIME_FORMAT1 = "yyyy-MM-dd'T'HH:mm:ss";
+  public final static String ISO8601_DATE_TIME_FORMAT2 = "yyyy-MM-dd HH:mm:ss";
 
   public final static String DATE_TIME_FORMAT_STANDARD = "d.M.yy HH:mm:ss";
   public final static String DATE_TIME_FORMAT_FILENAME = "yyyy_MM_dd_HHmmss_SSS";
@@ -270,9 +271,13 @@ public class DateTimeLib {
     // format ISO seulement avec la date ou aussi l'heure
     SimpleDateFormat ldf;
     if (nDate.contains(":")) {
-      ldf = getLocaleFormat(ISO8601_FORMAT_STANDARD);
+      if (nDate.contains("T")) {
+        ldf = getLocaleFormat(ISO8601_DATE_TIME_FORMAT1);
+      } else {
+        ldf = getLocaleFormat(ISO8601_DATE_TIME_FORMAT2);
+      }
     } else {
-      ldf = getLocaleFormat(ISO8601_FORMAT_SHORT);
+      ldf = getLocaleFormat(ISO8601_DATE_FORMAT);
     }
 
     // on teste finalement si la date spécifiée peut être convertie
