@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -397,45 +398,7 @@ public class ConvertLib {
     return date2;
   }
 
-
-
-  /**
-   * Retourne les symboles pour le point décimal et le séparateur
-   * de milliers, ceci d'après les données locales.
-   *
-   * @return les symboles
-   */
-  public static DecimalFormatSymbols getUnusualSymbols() {
-    DecimalFormatSymbols unusualSymbols = new DecimalFormatSymbols(Locale.getDefault());
-    unusualSymbols.setDecimalSeparator('.');
-    unusualSymbols.setGroupingSeparator('\'');
-    return unusualSymbols;
-  }
-
-  /**
-   * Formate un nombre (double, float, etc) d'après un format spécifié,
-   * en tenant compte des données locales.
-   *
-   * @param number le nombre à formater
-   * @param format le format pour le formatage
-   * @return le nombre formaté
-   */
-  public static String formatNumber(Object number, String format) {
-    DecimalFormat df = new DecimalFormat(format, getUnusualSymbols());
-    return df.format(number);
-  }
-
-  /**
-   * Formate un nombre (double, float, etc) contenant un pourcentage
-   * comme un taux TVA par exemple.
-   *
-   * @param rating un pourcentage de type quelconque à formater
-   * @return le nombre formaté
-   */
-  public static String formatRating(Object rating) {
-    return formatNumber(rating, "0.##");
-  }
-
+  
 
 
   /**
@@ -592,8 +555,92 @@ public class ConvertLib {
     return sb.toString();
   }
 
+  
+  
+  
+  /**
+   * Retourne les symboles pour le point décimal et le séparateur
+   * de milliers, ceci d'après les données locales.
+   *
+   * @return les symboles
+   */
+  public static DecimalFormatSymbols getUnusualSymbols() {
+    DecimalFormatSymbols unusualSymbols = new DecimalFormatSymbols(Locale.getDefault());
+    unusualSymbols.setDecimalSeparator('.');
+    unusualSymbols.setGroupingSeparator('\'');
+    return unusualSymbols;
+  }
 
+  /**
+   * Formate un nombre (double, float, etc) d'après un format spécifié,
+   * en tenant compte des données locales.
+   *
+   * @param number le nombre à formater
+   * @param format le format pour le formatage
+   * @return le nombre formaté
+   */
+  public static String formatNumber(Object number, String format) {
+    DecimalFormat df = new DecimalFormat(format, getUnusualSymbols());
+    return df.format(number);
+  }
 
+  /**
+   * Formate un nombre (double, float, etc) contenant un pourcentage
+   * comme un taux TVA par exemple.
+   *
+   * @param rating un pourcentage de type quelconque à formater
+   * @return le nombre formaté
+   */
+  public static String formatRating(Object rating) {
+    return formatNumber(rating, "0.##");
+  }
+
+  /**
+   * Formate un montant d'argent à deux chiffres après la virgule en supprimant
+   * le point décimal et en insérant des "0" devant ce montant. Cela sert
+   * par exemple dans la création de fichier de paiements de type Credit 3 V11.
+   * 
+   * @param mt le montant à formater
+   * @param len la longueur finale du montant formaté
+   * @return le montant formaté
+   */
+  public static String formatAmount(BigDecimal mt, int len) {
+    String base = fillString(len, '0');
+    String montant = formatNumber(mt.doubleValue(), "#0.00").replace(".", "");
+    String formatted = base + montant;
+    return formatted.substring(formatted.length()-len);
+  }   
+
+  /**
+   * Formate un entier en insérant des "0" devant ce nombre. Cela sert
+   * par exemple dans la création de fichier de paiements de type Credit 3 V11.
+   * 
+   * @param nb un nombre entier à formater
+   * @param len la longueur finale du montant formaté
+   * @return le montant formaté
+   */
+  private static String formatInteger(int nb, int len) {
+    String base = fillString(len, '0');
+    String entier = formatNumber(nb, "#0");
+    String formatted = base + entier;
+    return formatted.substring(formatted.length()-len);
+  }   
+  
+  /**
+   * Formate une date au format "yyMMdd", utile par exemple dans la création
+   * de fichier de paiements de type Credit 3 V11.
+   * 
+   * @param d une date à formater
+   * @return la date formatée
+   */
+  private static String formatDate(Date d) {
+    SimpleDateFormat ldf = DateTimeLib.getLocaleFormat("yyMMdd");
+    return ldf.format(d);
+  }  
+
+  
+
+  
   /**
    * Convertit un tableau d'octets en une chaine de caractères représentant les
    * valeurs
