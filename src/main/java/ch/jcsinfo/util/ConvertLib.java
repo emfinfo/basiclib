@@ -619,7 +619,7 @@ public class ConvertLib {
    * @param len la longueur finale du montant formaté
    * @return le montant formaté
    */
-  private static String formatInteger(int nb, int len) {
+  public static String formatInteger(int nb, int len) {
     String base = fillString(len, '0');
     String entier = formatNumber(nb, "#0");
     String formatted = base + entier;
@@ -633,7 +633,7 @@ public class ConvertLib {
    * @param d une date à formater
    * @return la date formatée
    */
-  private static String formatDate(Date d) {
+  public static String formatDate(Date d) {
     SimpleDateFormat ldf = DateTimeLib.getLocaleFormat("yyMMdd");
     return ldf.format(d);
   }  
