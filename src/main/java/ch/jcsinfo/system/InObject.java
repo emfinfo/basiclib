@@ -134,8 +134,9 @@ public class InObject {
       String srceObj = source.getClass().getSimpleName();
       result.append(Character.toLowerCase(srceObj.charAt(0)));
       result.append(srceObj.substring(1));
-      result.append("={");
+      result.append("=");
     }
+    result.append("{");
 
     // détermine les champs déclarés dans la classe spécifiée
     Field[] fields = source.getClass().getDeclaredFields();
