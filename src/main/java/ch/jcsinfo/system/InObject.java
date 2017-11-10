@@ -129,7 +129,9 @@ public class InObject {
     StringBuilder result = new StringBuilder();
 
     // débute par la classe simulant un objet
-    result.append(source.getClass().getSimpleName().toLowerCase());
+    String srceObj = source.getClass().getSimpleName();
+    result.append(Character.toLowerCase(srceObj.charAt(0)));
+    result.append(srceObj.substring(1));
     result.append("={");
 
     // détermine les champs déclarés dans la classe spécifiée
