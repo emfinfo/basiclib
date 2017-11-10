@@ -111,13 +111,13 @@ public class InObject {
 
   /**
    * Prépare une chaine de caractères avec tous les champs privés et leurs valeurs
-   * pour un objet source de type "entity-bean". Utile donc pour déboguer le contenu d'objets
-   * dans une classe de ce type.
+   * pour un objet source de type "entity-bean". Utile donc pour déboguer le contenu 
+   * d'un object d'une classe de ce type.<br>
    * <br>Exemple :<br>
    * <code>
-   * public String toString2() {
+   * public String toString() {
    *   return fieldsToString(this);
-   *  }
+   * }
    * </code>
    * <br>
    *
