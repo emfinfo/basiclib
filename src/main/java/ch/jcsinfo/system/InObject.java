@@ -123,16 +123,19 @@ public class InObject {
    *
    * @param source l'objet source où rechercher les champs
    * @param dateFormat le format pour l'affichage des dates
+   * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
    * @return la chaîne avec tous les champs
    */
-  public static String fieldsToString(Object source, String dateFormat) {
+  public static String fieldsToString(Object source, String dateFormat, boolean dispFirstAsObject) {
     StringBuilder result = new StringBuilder();
 
     // débute par la classe simulant un objet
-    String srceObj = source.getClass().getSimpleName();
-    result.append(Character.toLowerCase(srceObj.charAt(0)));
-    result.append(srceObj.substring(1));
-    result.append("={");
+    if (dispFirstAsObject) {
+      String srceObj = source.getClass().getSimpleName();
+      result.append(Character.toLowerCase(srceObj.charAt(0)));
+      result.append(srceObj.substring(1));
+      result.append("={");
+    }
 
     // détermine les champs déclarés dans la classe spécifiée
     Field[] fields = source.getClass().getDeclaredFields();
@@ -171,8 +174,27 @@ public class InObject {
     return result.toString();
   }
 
-   public static String fieldsToString(Object source) {
-     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD);
-   }
+  /**
+   * Prépare une chaine de caractères avec tous les champs privés et leurs valeurs
+   * pour un objet source.
+   * 
+   * @param source
+   * @return 
+   */
+  public static String fieldsToString(Object source) {
+    return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, true);
+  }
+
+  /**
+   * Prépare une chaine de caractères avec tous les champs privés et leurs valeurs
+   * pour un objet source.
+   * 
+   * @param source l'objet source où rechercher les champs
+   * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
+   * @return 
+   */
+  public static String fieldsToString(Object source, boolean dispFirstAsObject) {
+    return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, dispFirstAsObject);
+  }
 
 }
