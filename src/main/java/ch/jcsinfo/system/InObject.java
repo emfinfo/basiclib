@@ -111,7 +111,7 @@ public class InObject {
 
   /**
    * Prépare une chaine de caractères avec tous les champs privés et leurs valeurs
-   * pour un objet source de type "entity-bean". Utile donc pour déboguer le contenu 
+   * pour un objet source de type "entity-bean". Utile donc pour déboguer le contenu
    * d'un object d'une classe de ce type.<br>
    * <br>Exemple :<br>
    * <code>
@@ -124,7 +124,7 @@ public class InObject {
    * @param source l'objet source où rechercher les champs
    * @param dateFormat le format pour l'affichage des dates
    * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
-   * @return la chaîne avec tous les champs
+   * @return une chaîne de caractères avec tous les champs
    */
   public static String fieldsToString(Object source, String dateFormat, boolean dispFirstAsObject) {
     StringBuilder result = new StringBuilder();
@@ -178,9 +178,9 @@ public class InObject {
   /**
    * Prépare une chaine de caractères avec tous les champs privés et leurs valeurs
    * pour un objet source.
-   * 
-   * @param source
-   * @return 
+   *
+   * @param source l'objet source où rechercher les champs
+   * @return une chaîne de caractères avec tous les champs
    */
   public static String fieldsToString(Object source) {
     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, true);
@@ -189,10 +189,10 @@ public class InObject {
   /**
    * Prépare une chaine de caractères avec tous les champs privés et leurs valeurs
    * pour un objet source.
-   * 
+   *
    * @param source l'objet source où rechercher les champs
    * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
-   * @return 
+   * @return une chaîne de caractères avec tous les champs
    */
   public static String fieldsToString(Object source, boolean dispFirstAsObject) {
     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, dispFirstAsObject);
