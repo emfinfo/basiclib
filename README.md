@@ -19,6 +19,10 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
+New in release 1.0.12 (11.11.2017) :
+* Adding formatDate in ConvertLib
+* Better InObject methods
+
 New in release 1.0.11 (11.8.2017) :
 * Better results in conversion with null values in dateToString (DateTimeLib) and fillString (ConvertLib).
 * change in AbstractModel
