@@ -20,8 +20,9 @@ Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
 New in release 1.0.12 (11.11.2017) :
+* parseIsoDate in DateTimeLib support now new format with time
+* Small change in InObject.fieldsToString
 * Adding formatDate in ConvertLib
-* Better InObject methods
 
 New in release 1.0.11 (11.8.2017) :
 * Better results in conversion with null values in dateToString (DateTimeLib) and fillString (ConvertLib).
