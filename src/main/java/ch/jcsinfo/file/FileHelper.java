@@ -14,10 +14,14 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -178,14 +182,16 @@ public class FileHelper {
    */
   public static List<String> getFolderFiles(String folder, String fileName) {
     List<String> files = new ArrayList<>();
-    File rep = new File(folder);
-    String[] f = rep.list();
-    if (f != null) {
-      for (String f1 : f) {
-        if (f1.toLowerCase().contains(fileName)) {
-          files.add(f1);
+    Path path = Paths.get(folder);
+    try (Stream<Path> filePathStream = Files.walk(path)) {
+      filePathStream.forEach(filePath -> {
+        if (Files.isRegularFile(filePath) && filePath.toString().toLowerCase().contains(fileName)) {
+          System.out.println(filePath);
+          files.add(filePath.toString());
         }
-      }
+      });
+    } catch (IOException ex) {
+      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return files;
   }
@@ -280,8 +286,7 @@ public class FileHelper {
    * @return TRUE si le fichier existe
    */
   public static boolean isFileExists(String fName) {
-    File f = new File(fName);
-    return f.exists();
+    return Files.exists(Paths.get(fName));
   }
 
   /**
