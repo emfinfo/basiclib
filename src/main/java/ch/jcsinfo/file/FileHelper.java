@@ -186,7 +186,7 @@ public class FileHelper {
     try (Stream<Path> filePathStream = Files.walk(path)) {
       filePathStream.forEach(filePath -> {
         if (Files.isRegularFile(filePath) && filePath.toString().toLowerCase().contains(fileName)) {
-          System.out.println(filePath);
+//          System.out.println(filePath);
           files.add(filePath.toString());
         }
       });
