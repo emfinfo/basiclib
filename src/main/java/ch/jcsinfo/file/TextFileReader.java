@@ -47,8 +47,10 @@ public class TextFileReader<E> {
       ar = new ArrayList<>();
 
       // boucle sur toutes les lignes du fichier
+      int idx = 0;
       while ((line = br.readLine()) != null) {
-        E e = extracter.textToBean(line);
+        idx++;
+        E e = extracter.textToBean(idx, line);
         if (e != null) {
           ar.add(e);
         }

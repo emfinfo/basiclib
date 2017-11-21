@@ -42,11 +42,12 @@ public class ClassInfoExtracter implements BeanExtracter<ClassInfo> {
    * depuis une ligne de texte passée en paramètre. L'information recherchée
    * se trouve en 2ème position.
    *
+   * @param idx index du numéro de ligne lu (commence à 1)
    * @param text une ligne de texte dont il faut extraire un bean
    * @return un bean de type ClassInfo avec le nom d'une classe
    */
   @Override
-  public ClassInfo textToBean(String text) {
+  public ClassInfo textToBean(int idx, String text) {
     String[] tab = text.split(sep);
     ClassInfo ci = new ClassInfo();
     if (tab.length > 3) {

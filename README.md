@@ -1,4 +1,4 @@
-# BasicLib 1.0.12 - november 2017
+# BasicLib 1.0.13 - november 2017
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -18,6 +18,9 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.0.13 (21.11.2017) :
+* textToBean (int idx, String text) method in BeanExtracter has now a new parameter "idx" (index of the readed line, begin with 1)
 
 New in release 1.0.12 (11.11.2017) :
 * parseIsoDate in DateTimeLib support now new format with time

@@ -10,6 +10,6 @@ package ch.jcsinfo.file;
  */
 public interface BeanExtracter<E> {
 
-  public E textToBean (String text);
+  public E textToBean (int idx, String text);
 
 }

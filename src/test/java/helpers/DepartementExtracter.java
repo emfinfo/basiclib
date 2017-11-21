@@ -19,7 +19,7 @@ public class DepartementExtracter implements BeanExtracter<Departement> {
   }
 
   @Override
-  public Departement textToBean( String text ) {
+  public Departement textToBean(int idx, String text) {
     String[] tab = text.split(sep);
     Departement d = new Departement();
     if (tab.length > 2) {

@@ -17,7 +17,7 @@ public class LocaliteExtracter implements BeanExtracter<Localite> {
   }
 
   @Override
-  public Localite textToBean(String text) {
+  public Localite textToBean(int idx, String text) {
     String[] tab = text.split(sep);
     Localite l = new Localite();
     if (tab.length > 6) {
