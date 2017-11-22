@@ -21,6 +21,8 @@ Documentation :<br>
 
 New in release 1.0.13 (21.11.2017) :
 * textToBean (int idx, String text) method in BeanExtracter has now a new parameter "idx" (index of the readed line, begin with 1)
+* getLocalePatternInfo() adapted because some errors on MacOS High Sierra
+* parseDate(String sDate, boolean lastDayOfMonth) adapted to new getLocalePatternInfo
 
 New in release 1.0.12 (11.11.2017) :
 * parseIsoDate in DateTimeLib support now new format with time
