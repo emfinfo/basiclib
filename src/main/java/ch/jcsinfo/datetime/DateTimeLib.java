@@ -1,9 +1,7 @@
 package ch.jcsinfo.datetime;
 
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -60,6 +58,7 @@ public class DateTimeLib {
 
   /**
    * Retourne un tableau avec les informations sur le format standard des dates et heures.<br>
+   * <br>
    * [0] = séparateur dans une date, exemple: "."<br>
    * [1] = séparateur sous la forme d'une expression regex, exemple: "\."<br>
    * [2] = le format d'une date, exemple: "dd.MM.yy"<br>
@@ -71,25 +70,21 @@ public class DateTimeLib {
    */
   public static String[] getLocalePatternInfo() {
     String info[] = new String[6];
-    DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-    FieldPosition yearPosition = new FieldPosition(DateFormat.YEAR_FIELD);
-
-    StringBuffer buffer = new StringBuffer();
-    StringBuffer format = dateFormat.format(getNow(), buffer, yearPosition);
-    String pattern = new SimpleDateFormat().toPattern();
-    String datePattern = pattern.substring(0, format.length());
-    String hourPattern = pattern.substring(format.length() + 1);
-
-    // infos sur le format des dates
-    int yearIdx = yearPosition.getBeginIndex() - 1;
-    info[0] = format.substring(yearIdx, yearIdx + 1);
+    Locale loc = Locale.getDefault();
+    SimpleDateFormat sdf = (SimpleDateFormat) SimpleDateFormat.getDateInstance(java.text.SimpleDateFormat.SHORT, loc);
+    SimpleDateFormat stf = (SimpleDateFormat) SimpleDateFormat.getTimeInstance(java.text.SimpleDateFormat.SHORT, loc);
+    String datePattern = sdf.toPattern();
+    String timePattern = stf.toPattern();
+    info[0] = datePattern.substring(2, 3);
     info[1] = "\\" + info[0];
     info[2] = datePattern;
 
     // infos sur le format des heures
-    info[3] = hourPattern.substring(2, 3);
+    info[3] = timePattern.substring(2, 3);
     info[4] = "\\" + info[3];
-    info[5] = hourPattern + info[3] + "ss";
+    info[5] = timePattern + info[3] + "ss";
+//    System.out.println("datePattern: " + datePattern);
+//    System.out.println("timePattern: " + timePattern);
     return info;
   }
 
@@ -343,12 +338,12 @@ public class DateTimeLib {
    * @return une date de la classe java.util.Date (ou null si erreur)
    */
   public static Date parseDate(String sDate, boolean lastDayOfMonth) {
-    String nDate = sDate;
-    String t[] = nDate.split("\\.");
-    String sep = getLocalePatternInfo()[0];
+    String nDate = sDate.trim();
+    String info[] = getLocalePatternInfo();
+    String t[] = nDate.split(info[1]);
     Date d = parseDate(nDate);
     if (t.length == 2) {
-      nDate = "1" + sep + nDate;
+      nDate = "1" + info[0] + nDate;
       d = parseDate(nDate);
       if (lastDayOfMonth) {
         d = createDate(getMonthMaxDay(d), getMonth(d), getYear(d));
