@@ -398,7 +398,7 @@ public class ConvertLib {
     return date2;
   }
 
-  
+
 
 
   /**
@@ -555,9 +555,9 @@ public class ConvertLib {
     return sb.toString();
   }
 
-  
-  
-  
+
+
+
   /**
    * Retourne les symboles pour le point décimal et le séparateur
    * de milliers, ceci d'après les données locales.
@@ -599,7 +599,7 @@ public class ConvertLib {
    * Formate un montant d'argent à deux chiffres après la virgule en supprimant
    * le point décimal et en insérant des "0" devant ce montant. Cela sert
    * par exemple dans la création de fichier de paiements de type Credit 3 V11.
-   * 
+   *
    * @param mt le montant à formater
    * @param len la longueur finale du montant formaté
    * @return le montant formaté
@@ -609,12 +609,12 @@ public class ConvertLib {
     String montant = formatNumber(mt.doubleValue(), "#0.00").replace(".", "");
     String formatted = base + montant;
     return formatted.substring(formatted.length()-len);
-  }   
+  }
 
   /**
    * Formate un entier en insérant des "0" devant ce nombre. Cela sert
    * par exemple dans la création de fichier de paiements de type Credit 3 V11.
-   * 
+   *
    * @param nb un nombre entier à formater
    * @param len la longueur finale du montant formaté
    * @return le montant formaté
@@ -624,27 +624,26 @@ public class ConvertLib {
     String entier = formatNumber(nb, "#0");
     String formatted = base + entier;
     return formatted.substring(formatted.length()-len);
-  }   
-  
+  }
+
   /**
    * Formate une date au format "yyMMdd", utile par exemple dans la création
    * de fichier de paiements de type Credit 3 V11.
-   * 
+   *
    * @param d une date à formater
    * @return la date formatée
    */
   public static String formatDate(Date d) {
     SimpleDateFormat ldf = DateTimeLib.getLocaleFormat("yyMMdd");
     return ldf.format(d);
-  }  
+  }
 
-  
 
-  
+
+
   /**
    * Convertit un tableau d'octets en une chaine de caractères représentant les
-   * valeurs
-   * hexadécimales de ces octets.
+   * valeurs hexadécimales de ces octets.
    *
    * @param bytes le tableau d'octets
    * @return une chaîne représentant le contenu du tableau en hexadécimal
@@ -719,7 +718,6 @@ public class ConvertLib {
    *
    * @param loginName un String avec un nom de login (username)
    * @param pwd un String avec un mot de passe
-   *
    * @return le mot de passe haché sur 128 car.
    */
   public static String hashNewKey(String loginName, String pwd) {
