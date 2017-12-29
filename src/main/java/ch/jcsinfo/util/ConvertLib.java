@@ -712,10 +712,10 @@ public class ConvertLib {
     String salt = s1 + s2;
     String hash = key.substring(48, 112);
     String newKey = s1 + hashWithSHA256(hash + salt) + s2;
-    System.out.println("key:     " + key);
-    System.out.println("salt:   " + salt);
-    System.out.println("hash:   " + hash);
-    System.out.println("rehash: " + newKey);
+//    System.out.println("key:     " + key);
+//    System.out.println("salt:   " + salt);
+//    System.out.println("hash:   " + hash);
+//    System.out.println("rehash: " + newKey);
     return newKey;
   }
 
