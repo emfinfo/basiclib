@@ -219,7 +219,7 @@ public class DateTimeLib {
     long epoch;
     try {
       epoch = Long.parseLong(hexStr, 16) + offsetSec*1000;
-    } catch (Exception e) {
+    } catch (NumberFormatException ex) {
       epoch = 0;
     }
     Calendar c = Calendar.getInstance();
