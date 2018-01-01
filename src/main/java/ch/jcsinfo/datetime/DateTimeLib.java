@@ -212,12 +212,13 @@ public class DateTimeLib {
    * Crée une date à partir d'un timestamp exprimé dans une chaîne hexadécimale.
    *
    * @param hexStr un timestamp représenté en hexadécimal
+   * @param offsetSec ajoute un certain nombre de secondes au timestamp
    * @return une date avec le timestamp
    */
-  public static Date createDate(String hexStr) {
+  public static Date createDate(String hexStr, int offsetSec) {
     long epoch;
     try {
-      epoch = Long.parseLong(hexStr, 16);
+      epoch = Long.parseLong(hexStr, 16) + offsetSec*1000;
     } catch (Exception e) {
       epoch = 0;
     }
