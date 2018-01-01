@@ -707,7 +707,7 @@ public class ConvertLib {
     if (params.length == 1) {
       String dbKey = (String)params[0];
       s1 = dbKey.substring(0, 48);
-      s2 = dbKey.substring(112);
+      s2 = dbKey.substring(112, 128);
     }
     String salt = s1 + s2;
     String hash = key.substring(48, 112);

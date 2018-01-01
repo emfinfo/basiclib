@@ -1,4 +1,4 @@
-# BasicLib 1.1.0 - december 2017
+# BasicLib 1.1.1 - january 2018
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -18,6 +18,9 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.1.1 (1.1.2018) :
+* DateTimeLib: new method "createDate" from a timestamp represented in a hexadecimal char. string.
 
 New in release 1.1.0 (29.12.2017) :
 * ConvertLib: method "rehashKeyWithSalt" has been renamed "computeServerKey".

@@ -209,6 +209,24 @@ public class DateTimeLib {
   }
 
   /**
+   * Crée une date à partir d'un timestamp exprimé dans une chaîne hexadécimale.
+   *
+   * @param hexStr un timestamp représenté en hexadécimal
+   * @return une date avec le timestamp
+   */
+  public static Date createDate(String hexStr) {
+    long epoch;
+    try {
+      epoch = Long.parseLong(hexStr, 16);
+    } catch (Exception e) {
+      epoch = 0;
+    }
+    Calendar c = Calendar.getInstance();
+    c.setTimeInMillis(epoch);
+    return c.getTime();
+  }
+
+  /**
    * Complète une date donnée en fournissant l'heure, les minutes, les secondes.
    *
    * @param date une date à compléter avec l'heure
