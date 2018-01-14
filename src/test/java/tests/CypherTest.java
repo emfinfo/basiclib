@@ -19,10 +19,12 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CypherTest {
 //  private static String toEncode = "06h30, Bonjour les amis de la pêche en Gruyère !";
-//  private static String key = "PabloPicasso";
+//  private static String original[] = {"Demo AG", "Demo Ltd", "Demo SA"};
   private static String original[] = {"Demo AG", "Demo Ltd", "Demo SA"};
   private static String encoded[] = {"", "", ""};
-  private static String key = "Marco" + "Polo";
+  private static String key = "Pablo" + "Picasso";
+//  private static String key = "Marco" + "Polo";
+//  private static String key = "Steve" + "Jobs";
 
   @BeforeClass
   public static void setUpClass() throws Exception {
