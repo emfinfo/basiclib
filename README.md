@@ -20,7 +20,7 @@ Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
 New in release 1.2.0 (6.2.2018) :
-* All class, methods for encryption an hashing are now out of this library
+* All class, methods for encryption and hashing are now out of this library
 * The are now in new CypherLib 1.0.1 library
 
 New in release 1.1.1 (1.1.2018) :
