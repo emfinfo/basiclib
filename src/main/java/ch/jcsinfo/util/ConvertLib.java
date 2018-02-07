@@ -2,12 +2,9 @@ package ch.jcsinfo.util;
 
 import ch.jcsinfo.datetime.DateTimeLib;
 import ch.jcsinfo.math.MathLib;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -115,19 +112,19 @@ public class ConvertLib {
     return s;
   }
 
-  /**
-   * Décrypte une chaîne de caractères stockée en ASCII (DOS-850) dans
-   * un tableau d'entiers de type short.
-   *
-   * @param buffer un tableau de caractères codés en ASCII dans des short
-   * @param key    la clé pour décrypter le buffer
-   * @return une chaîne de caractères décryptée
-   */
-  public static String encryptedBufferToString(short[] buffer, String key) {
-    String result = Cypher.shortDosArrayToString(buffer, key);
-    // result = bufferToString(result.toCharArray());
-    return Cypher.substDecrypt(result);
-  }
+//  /**
+//   * Décrypte une chaîne de caractères stockée en ASCII (DOS-850) dans
+//   * un tableau d'entiers de type short.
+//   *
+//   * @param buffer un tableau de caractères codés en ASCII dans des short
+//   * @param key    la clé pour décrypter le buffer
+//   * @return une chaîne de caractères décryptée
+//   */
+//  public static String encryptedBufferToString(short[] buffer, String key) {
+//    String result = Cypher.shortDosArrayToString(buffer, key);
+//    // result = bufferToString(result.toCharArray());
+//    return Cypher.substDecrypt(result);
+//  }
 
   /**
    * Convertit un entier représentant une date en une date standard Java.
@@ -313,7 +310,6 @@ public class ConvertLib {
       result = new BigDecimal(s);
     }
     return result;
-//    return BigDecimal.valueOf(stringToDouble(getString(line, pos, len)));
   }
 
   /**
@@ -402,7 +398,7 @@ public class ConvertLib {
 
 
   /**
-   * Convertit un object en String s'il est différent de null.
+   * Convertit un objet en String s'il est différent de nul.
    *
    * @param aValue un objet à convertir
    * @param maxLen longueur maximale du string
@@ -648,13 +644,13 @@ public class ConvertLib {
    * @param bytes le tableau d'octets
    * @return une chaîne représentant le contenu du tableau en hexadécimal
    */
-  public static String getHexString(byte[] bytes) {
-    String result = "";
-    for (int i = 0; i < bytes.length; i++) {
-      result += Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1);
-    }
-    return result;
-  }
+//  public static String getHexString(byte[] bytes) {
+//    String result = "";
+//    for (int i = 0; i < bytes.length; i++) {
+//      result += Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1);
+//    }
+//    return result;
+//  }
 
   /**
    * Convertit les octets d'une chaîne de caractères de type String en une
@@ -663,9 +659,9 @@ public class ConvertLib {
    * @param exp une expression de type String à convertir en hexadécimal
    * @return l'expression convertie en hexadécimal
    */
-  public static String getHexString(String exp) {
-    return getHexString(exp.getBytes());
-  }
+//  public static String getHexString(String exp) {
+//    return getHexString(exp.getBytes());
+//  }
 
   /**
    * Permet de hâcher un string avec SHA-256.
@@ -673,17 +669,17 @@ public class ConvertLib {
    * @param toHash une chaîne de caractère à hâcher avec SHA-256
    * @return la chaîne hâchée
    */
-  public static String hashWithSHA256(String toHash) {
-    String hash = "";
-    try {
-      MessageDigest md = MessageDigest.getInstance("SHA-256");
-      md.update(toHash.getBytes("UTF-8"));
-      hash = getHexString(md.digest());
-    } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-//      System.out.println("Erreur: " + ex.getMessage());
-    }
-    return hash;
-  }
+//  public static String hashWithSHA256(String toHash) {
+//    String hash = "";
+//    try {
+//      MessageDigest md = MessageDigest.getInstance("SHA-256");
+//      md.update(toHash.getBytes("UTF-8"));
+//      hash = getHexString(md.digest());
+//    } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+////      System.out.println("Erreur: " + ex.getMessage());
+//    }
+//    return hash;
+//  }
 
   /**
    * Recalcule une nouvelle clé de 128 caractères basée sur une clé existante fournie,
@@ -701,23 +697,23 @@ public class ConvertLib {
    *
    * @return la clé recalculée
    */
-  public static String computeServerKey(String key, Object... params) {
-    String s1 = key.substring(0, 48);
-    String s2 = key.substring(112);
-    if (params.length == 1) {
-      String dbKey = (String)params[0];
-      s1 = dbKey.substring(0, 48);
-      s2 = dbKey.substring(112, 128);
-    }
-    String salt = s1 + s2;
-    String hash = key.substring(48, 112);
-    String newKey = s1 + hashWithSHA256(hash + salt) + s2;
-//    System.out.println("key:     " + key);
-//    System.out.println("salt:   " + salt);
-//    System.out.println("hash:   " + hash);
-//    System.out.println("rehash: " + newKey);
-    return newKey;
-  }
+//  public static String computeServerKey(String key, Object... params) {
+//    String s1 = key.substring(0, 48);
+//    String s2 = key.substring(112);
+//    if (params.length == 1) {
+//      String dbKey = (String)params[0];
+//      s1 = dbKey.substring(0, 48);
+//      s2 = dbKey.substring(112, 128);
+//    }
+//    String salt = s1 + s2;
+//    String hash = key.substring(48, 112);
+//    String newKey = s1 + hashWithSHA256(hash + salt) + s2;
+////    System.out.println("key:     " + key);
+////    System.out.println("salt:   " + salt);
+////    System.out.println("hash:   " + hash);
+////    System.out.println("rehash: " + newKey);
+//    return newKey;
+//  }
 
   /**
    * Calcule une clé de 128 caractères dont la partie "motDePasse" est haché en SHA-256.
@@ -731,12 +727,12 @@ public class ConvertLib {
    * @param pwd un String avec un mot de passe
    * @return le mot de passe haché sur 128 car.
    */
-  public static String computeClientKey(String loginName, String pwd) {
-    String s1 = getHexString(MathLib.randomStr('A', 'z', 24));
-    String s2 = getHexString(MathLib.randomStr('A', 'z', 8));
-    String key = s1 + hashWithSHA256(loginName + hashWithSHA256(pwd)) + s2;
-    return computeServerKey(key);
-  }
+//  public static String computeClientKey(String loginName, String pwd) {
+//    String s1 = getHexString(MathLib.randomStr('A', 'z', 24));
+//    String s2 = getHexString(MathLib.randomStr('A', 'z', 8));
+//    String key = s1 + hashWithSHA256(loginName + hashWithSHA256(pwd)) + s2;
+//    return computeServerKey(key);
+//  }
 
 
 

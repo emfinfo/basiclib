@@ -1,8 +1,8 @@
 package tests;
 
 import beans.Compte;
-import beans.Solde;
 import beans.PmtMode;
+import beans.Solde;
 import ch.jcsinfo.file.BinaryFileReader;
 import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.ConvertLib;
@@ -11,13 +11,13 @@ import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
  * Test des méthodes principales de la classe correspondante.
- * 
+ *
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -26,7 +26,7 @@ public class BinaryFileReaderTest {
   static final int COMPTES_REC_SIZE = 141;
   static final String PMTMODES = "data/PAYMMODE.DAF";
   static final int PMTMODES_REC_SIZE = 47;
-  static final String PSW = "XMY556P";
+  static final String PWD = "XMY556P";
   static final boolean SHOW_DETAILS = false; // à votre bon vouloir
 
   static BinaryFileReader readerComptes;
@@ -89,7 +89,8 @@ public class BinaryFileReaderTest {
       Compte c = new Compte();
       if (readerComptes.readInt() == 0) {
         c.setNumero(Integer.parseInt(readerComptes.readString(6)));
-        c.setDesignation(readerComptes.readEncryptedString(40, PSW));
+//        c.setDesignation(readerComptes.readEncryptedString(40, PWD));
+        c.setDesignation(readerComptes.readString(40));
         c.setMonnaie(readerComptes.readString(4));
         c.setGroupe(Integer.parseInt(readerComptes.readString(3)));
         c.setRang(readerComptes.readWord());
@@ -118,7 +119,7 @@ public class BinaryFileReaderTest {
     boolean ok = nb > 1;
     assertTrue(ok);
   }
-  
+
   @Test
   public void test06_open() {
     StackTracer.printCurrentTestMethod();
@@ -151,7 +152,7 @@ public class BinaryFileReaderTest {
     StackTracer.printTestInfo(PMTMODES, nb2);
     assertEquals(nb2, nb1);
   }
-  
+
   @Test
   public void test10_readPmtModes() throws Exception {
     StackTracer.printCurrentTestMethod();

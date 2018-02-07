@@ -32,7 +32,7 @@ public class BinaryFileReader {
   public BinaryFileReader( String fileName, int recordSize ) {
     this.fileName = fileName;
     this.recordSize = recordSize;
-    this.logger = LoggerFactory.getLogger(getClass());   
+    this.logger = LoggerFactory.getLogger(getClass());
   }
 
   /**
@@ -79,7 +79,7 @@ public class BinaryFileReader {
 
   /**
    * Retourne la taille d'un enregistrement (getter).
-   * 
+   *
    * @return un entier représentant la taille d'un enregistrement
    */
   public int getRecordSize() {
@@ -88,7 +88,7 @@ public class BinaryFileReader {
 
   /**
    * Retourne le nombre total d'enregistrements du fichier.
-   * 
+   *
    * @return un entier représentant le nb total d'enregistrements d'un fichier
    */
   public int numberOfRecords() {
@@ -147,11 +147,6 @@ public class BinaryFileReader {
     return buffer;
   }
 
-  public String readEncryptedString( int size, String psw ) throws IOException {
-    short[] buffer = readStringBuffer(size);
-    return ConvertLib.encryptedBufferToString(buffer, psw);
-  }
-
   /**
    * Lit un nombre entier non signé sur 2 octets (type Pascal "Word").
    *
@@ -165,17 +160,17 @@ public class BinaryFileReader {
   /**
    * Retourne une valeur booléenne suivant le mot entier lu (Word)
    * stocké dans le fichier.
-   * 
+   *
    * @return un booléen true ou false
    * @throws java.io.IOException l'exception à gérer au niveau supérieur
    */
   public boolean readBoolean() throws IOException {
     return readWord() != 0;
   }
-  
+
   /**
    * Lit un nombre entier signé défini sur un nombre d'octets donné.
-   * 
+   *
    * @param nbrOfBytes le nombre d'octets à lire
    * @return le nombre entier lu
    * @throws java.io.IOException l'exception à gérer au niveau supérieur
@@ -198,7 +193,7 @@ public class BinaryFileReader {
   public int readShort() throws IOException {
     return (short)readIntNumber(2);
   }
-  
+
   /**
    * Lit un nombre entier signé sur 4 octets.
    *
@@ -208,7 +203,7 @@ public class BinaryFileReader {
   public int readInt() throws IOException {
     return readIntNumber(4);
   }
-  
+
   /**
    * Permet de lire un nombre de type Pascal "Dec6" ou "Dec14".
    * Le retour est un "BigDecimal" en Java.

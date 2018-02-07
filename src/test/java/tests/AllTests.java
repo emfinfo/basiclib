@@ -18,7 +18,6 @@ import org.junit.runners.Suite.SuiteClasses;
   SystemLibTest.class,
   InObjectTest.class,
   MathLibTest.class,
-  CypherTest.class,
   ConvertLibTest.class,
   FileHelperTest.class,
   PropertyReaderTest.class,

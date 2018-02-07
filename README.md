@@ -1,4 +1,4 @@
-# BasicLib 1.1.1 - january 2018
+# BasicLib 1.2.0 - february 2018
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -6,7 +6,7 @@ A Java library with some basic methods (most are static) for all your needs when
 - use generic model classes (see files in ch.jcsinfo.models);
 - manage system printers (see files in ch.jcsinfo.printing package);
 - use some system operations (see files in ch.jcsinfo.system package);
-- use callback, simple cypher, conversion types, prefs manager, screen info, etc.
+- use callback, conversion types, prefs manager, screen info, etc.
 
 You can download and open this project in NetBeans 8.2. It's a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
 
@@ -18,6 +18,10 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.2.0 (6.2.2018) :
+* All class, methods for encryption an hashing are now out of this library
+* The are now in new CypherLib 1.0.1 library
 
 New in release 1.1.1 (1.1.2018) :
 * DateTimeLib: new method "createDate" from a timestamp represented in a hexadecimal char. string.

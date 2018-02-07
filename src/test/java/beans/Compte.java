@@ -27,7 +27,8 @@ public class Compte {
 
   @Override
   public String toString() {
-    String s = numero + " " + monnaie + " " + designation + ", " + groupe;
+    String s = numero + " " + monnaie;
+    s += ", groupe: " + groupe;
     s += ", rang: " + rang;
     s += ", code TVA: " + codeTVA;
     s += ", taux amb.: " + tauxAmbigu;
