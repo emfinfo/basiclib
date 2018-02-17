@@ -553,7 +553,6 @@ public class ConvertLib {
 
 
 
-
   /**
    * Retourne les symboles pour le point décimal et le séparateur
    * de milliers, ceci d'après les données locales.
@@ -634,107 +633,7 @@ public class ConvertLib {
     return ldf.format(d);
   }
 
-
-
-
-  /**
-   * Convertit un tableau d'octets en une chaine de caractères représentant les
-   * valeurs hexadécimales de ces octets.
-   *
-   * @param bytes le tableau d'octets
-   * @return une chaîne représentant le contenu du tableau en hexadécimal
-   */
-//  public static String getHexString(byte[] bytes) {
-//    String result = "";
-//    for (int i = 0; i < bytes.length; i++) {
-//      result += Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1);
-//    }
-//    return result;
-//  }
-
-  /**
-   * Convertit les octets d'une chaîne de caractères de type String en une
-   * représentation hexadécimale.
-   *
-   * @param exp une expression de type String à convertir en hexadécimal
-   * @return l'expression convertie en hexadécimal
-   */
-//  public static String getHexString(String exp) {
-//    return getHexString(exp.getBytes());
-//  }
-
-  /**
-   * Permet de hâcher un string avec SHA-256.
-   *
-   * @param toHash une chaîne de caractère à hâcher avec SHA-256
-   * @return la chaîne hâchée
-   */
-//  public static String hashWithSHA256(String toHash) {
-//    String hash = "";
-//    try {
-//      MessageDigest md = MessageDigest.getInstance("SHA-256");
-//      md.update(toHash.getBytes("UTF-8"));
-//      hash = getHexString(md.digest());
-//    } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-////      System.out.println("Erreur: " + ex.getMessage());
-//    }
-//    return hash;
-//  }
-
-  /**
-   * Recalcule une nouvelle clé de 128 caractères basée sur une clé existante fournie,
-   * également de 128 caractères. La partie "motDePasse" (48 à 112) est rehachée (même
-   * s'il s'agit déjà d'une empreinte -hash-) avec une composition des deux "sels" déjà
-   * contenus dans la clé. Cette méthode sert donc essentiellement côté serveur pour
-   * s'affranchir du problème de l'homme du milieu.<br>
-   *
-   * Une clé est composée comme suit :<br>
-   * sel1 + motDePasse + sel2<br>
-   * 48c  + 64c        + 16c = 128c<br>
-   *
-   * @param key une clé existante contenant un mot de passe déjà hâché depuis le client et un double sel
-   * @param params éventuellement la clé dans la BD pour y récupérer les sels et reclaculer une clé à comparer
-   *
-   * @return la clé recalculée
-   */
-//  public static String computeServerKey(String key, Object... params) {
-//    String s1 = key.substring(0, 48);
-//    String s2 = key.substring(112);
-//    if (params.length == 1) {
-//      String dbKey = (String)params[0];
-//      s1 = dbKey.substring(0, 48);
-//      s2 = dbKey.substring(112, 128);
-//    }
-//    String salt = s1 + s2;
-//    String hash = key.substring(48, 112);
-//    String newKey = s1 + hashWithSHA256(hash + salt) + s2;
-////    System.out.println("key:     " + key);
-////    System.out.println("salt:   " + salt);
-////    System.out.println("hash:   " + hash);
-////    System.out.println("rehash: " + newKey);
-//    return newKey;
-//  }
-
-  /**
-   * Calcule une clé de 128 caractères dont la partie "motDePasse" est haché en SHA-256.
-   * Deux sels sont également calculés et rajoutés à la clé finale.<br>
-   * <br>
-   * Une clé est donc composée comme suit :<br>
-   * sel1 + motDePasse + sel2<br>
-   * 48c  + 64c        + 16c = 128c<br>
-   *
-   * @param loginName un String avec un nom de login (username)
-   * @param pwd un String avec un mot de passe
-   * @return le mot de passe haché sur 128 car.
-   */
-//  public static String computeClientKey(String loginName, String pwd) {
-//    String s1 = getHexString(MathLib.randomStr('A', 'z', 24));
-//    String s2 = getHexString(MathLib.randomStr('A', 'z', 8));
-//    String key = s1 + hashWithSHA256(loginName + hashWithSHA256(pwd)) + s2;
-//    return computeServerKey(key);
-//  }
-
-
+  
 
   /**
    * Convertit une Map en un set de type Properties.
