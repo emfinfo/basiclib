@@ -112,20 +112,8 @@ public class ConvertLib {
     return s;
   }
 
-//  /**
-//   * Décrypte une chaîne de caractères stockée en ASCII (DOS-850) dans
-//   * un tableau d'entiers de type short.
-//   *
-//   * @param buffer un tableau de caractères codés en ASCII dans des short
-//   * @param key    la clé pour décrypter le buffer
-//   * @return une chaîne de caractères décryptée
-//   */
-//  public static String encryptedBufferToString(short[] buffer, String key) {
-//    String result = Cypher.shortDosArrayToString(buffer, key);
-//    // result = bufferToString(result.toCharArray());
-//    return Cypher.substDecrypt(result);
-//  }
-
+  
+  
   /**
    * Convertit un entier représentant une date en une date standard Java.
    * Attention, dans l'entier, l'année est présente sans le siècle.
@@ -148,8 +136,6 @@ public class ConvertLib {
     return c.getTime();
   }
 
-
-
   /**
    * Teste si une chaîne spécifiée contient un code numérique entier.
    *
@@ -165,6 +151,8 @@ public class ConvertLib {
     return true;
   }
 
+  
+  
   /**
    * Convertit un string contenant un nombre entier en nombre entier de type "int".
    *
@@ -224,8 +212,6 @@ public class ConvertLib {
     }
     return value;
   }
-
-
 
 
 
@@ -393,7 +379,6 @@ public class ConvertLib {
     }
     return date2;
   }
-
 
 
 
