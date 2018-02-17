@@ -209,25 +209,6 @@ public class DateTimeLib {
   }
 
   /**
-   * Crée une date à partir d'un timestamp exprimé dans une chaîne hexadécimale.
-   *
-   * @param hexStr un timestamp représenté en hexadécimal
-   * @param offsetSec ajoute un certain nombre de secondes au timestamp
-   * @return une date avec le timestamp
-   */
-  public static Date createDate(String hexStr, int offsetSec) {
-    long epoch;
-    try {
-      epoch = Long.parseLong(hexStr, 16) + offsetSec*1000;
-    } catch (NumberFormatException ex) {
-      epoch = 0;
-    }
-    Calendar c = Calendar.getInstance();
-    c.setTimeInMillis(epoch);
-    return c.getTime();
-  }
-
-  /**
    * Complète une date donnée en fournissant l'heure, les minutes, les secondes.
    *
    * @param date une date à compléter avec l'heure
@@ -263,8 +244,6 @@ public class DateTimeLib {
   public static boolean compareDates(Date d1, Date d2) {
     return eraseTime(d1).getTime() == eraseTime(d2).getTime();
   }
-
-
 
 
 
