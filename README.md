@@ -1,4 +1,4 @@
-# BasicLib 1.2.1 - february 2018
+# BasicLib 1.2.2 - march 2018
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -18,6 +18,11 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.2.2 (9.3.2018) :
+* correct some bugs in methods parseDate, parseTime (DateTimeLib) when Locale is changed
+* correct getSmartToday method in DateTimeLib (now works for french, german, english)
+* update of test methods for DateTimeLib
 
 New in release 1.2.1 (17.2.2018) :
 * delete of method createDate for a hexadecimal timestamp

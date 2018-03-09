@@ -75,16 +75,23 @@ public class DateTimeLib {
     SimpleDateFormat stf = (SimpleDateFormat) SimpleDateFormat.getTimeInstance(java.text.SimpleDateFormat.SHORT, loc);
     String datePattern = sdf.toPattern();
     String timePattern = stf.toPattern();
-    info[0] = datePattern.substring(2, 3);
+    info[0] = datePattern.toLowerCase().replaceAll("[a-zA-Z]","").substring(0,1);
     info[1] = "\\" + info[0];
     info[2] = datePattern;
 
     // infos sur le format des heures
-    info[3] = timePattern.substring(2, 3);
+    info[3] = timePattern.toLowerCase().replaceAll("[a-zA-Z]","").substring(0,1);
     info[4] = "\\" + info[3];
-    info[5] = timePattern + info[3] + "ss";
+    info[5] = timePattern;
+//    info[5] = timePattern + info[3] + "ss";
 //    System.out.println("datePattern: " + datePattern);
 //    System.out.println("timePattern: " + timePattern);
+
+//    DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+//    String pattern       = ((SimpleDateFormat)formatter).toPattern();
+//    System.out.println("new pattern: " + pattern);
+
+
     return info;
   }
 
@@ -337,11 +344,16 @@ public class DateTimeLib {
    */
   public static Date parseDate(String sDate, boolean lastDayOfMonth) {
     String nDate = sDate.trim();
+    Date d = parseDate(nDate);
+
     String info[] = getLocalePatternInfo();
     String t[] = nDate.split(info[1]);
-    Date d = parseDate(nDate);
     if (t.length == 2) {
-      nDate = "1" + info[0] + nDate;
+      if (info[2].substring(0,1).equalsIgnoreCase("m")) {
+        nDate = t[0] + info[0] + "1" + info[0] + t[1];
+      } else {
+        nDate = "1" + info[0] + t[0] + info[0] + t[1];
+      }
       d = parseDate(nDate);
       if (lastDayOfMonth) {
         d = createDate(getMonthMaxDay(d), getMonth(d), getYear(d));
@@ -360,31 +372,41 @@ public class DateTimeLib {
    */
   public static Date parseTime(String sTime) {
     Date date = null;
-    String nTime = sTime.trim();
     String info[] = getLocalePatternInfo();
-    String t[] = nTime.split(info[4]);
 
-    // om complète si l'heure complète n'est pas spécifiée
-    switch (t.length) {
-      case 1:
-        nTime += info[3] + TIME_BASE + info[3] + TIME_BASE;
-        break;
-      case 2:
-        nTime += info[3] + TIME_BASE;
-    }
-    t = nTime.split(info[4]);
+    String nTime = sTime.trim();
+    if (!nTime.isEmpty()) {
+      String lastChar = nTime.substring(nTime.length() - 1);
+      if (lastChar.equalsIgnoreCase(info[3])) {
+        nTime = nTime.substring(0, nTime.length()-1);
+      }
 
-    // on teste si l'on dispose des 3 parties d'un temps
-    if (t.length == 3) {
-      SimpleDateFormat ldf;
-      ldf = getLocaleFormat(info[5]);
+      String t[] = nTime.split(info[4]);
+      System.out.println("ntime: " + nTime + ", t.length: " + t.length);
 
-      // on teste finalement si le temps spécifié peut être converti
-      ldf.setLenient(false);
-      try {
-        date = ldf.parse(nTime);
-      } catch (ParseException ex) {
-        date = null;
+      // om complète si l'heure complète n'est pas spécifiée
+      switch (t.length) {
+        case 1:
+          nTime += info[3] + TIME_BASE + info[3] + TIME_BASE;
+          break;
+        case 2:
+          nTime += info[3] + TIME_BASE;
+      }
+      t = nTime.split(info[4]);
+
+      // on teste si l'on dispose des 3 parties d'un temps
+      if (t.length == 3) {
+        SimpleDateFormat ldf;
+//      ldf = getLocaleFormat(info[5]);
+        ldf = getLocaleFormat("HH" + info[3] + "mm" + info[3] + "ss");
+
+        // on teste finalement si le temps spécifié peut être converti
+        ldf.setLenient(false);
+        try {
+          date = ldf.parse(nTime);
+        } catch (ParseException ex) {
+          date = null;
+        }
       }
     }
     return date;
@@ -402,7 +424,7 @@ public class DateTimeLib {
     Date result = null;
     Date time = parseTime(sTime);
     if (date != null && time != null) {
-      int info[] =  extractTimeInfo(date);
+      int info[] =  extractTimeInfo(time);
       result = setTime(date, info[0], info[1], info[2]);
     }
     return result;
@@ -633,7 +655,19 @@ public class DateTimeLib {
     int day = getDay(d);
     int month = getMonth(d);
     int annee = getYear(d);
-    return ((day == 1) ? "1er" : String.valueOf(day)) + " " + getMonthName(month) + " " + String.valueOf(annee);
+    String defLanguage = Locale.getDefault().getLanguage();
+    String sDayMonth = "";
+    String sMonth = getMonthName(month);
+    if (defLanguage.equals(new Locale("fr").getLanguage()) && day==1) {
+      sDayMonth = "1er " + sMonth;
+    } else if (defLanguage.equals(new Locale("de").getLanguage())) {
+      sDayMonth = String.valueOf(day) + ". " + sMonth;
+    } else if (defLanguage.equals(new Locale("en").getLanguage())) {
+      sDayMonth = sMonth + " " + String.valueOf(day) + ",";
+    } else {
+      sDayMonth = String.valueOf(day) + " " + sMonth;
+    }
+    return sDayMonth + " " + String.valueOf(annee);
   }
 
   /**
