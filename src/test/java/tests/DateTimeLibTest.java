@@ -24,9 +24,9 @@ public class DateTimeLibTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-//    Locale.setDefault(Locale.getDefault());
+    Locale.setDefault(Locale.getDefault());
 //    Locale.setDefault(new Locale("en", "UK"));
-    Locale.setDefault(new Locale("fr", "FR"));
+//    Locale.setDefault(new Locale("fr", "FR"));
     System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
   }
 
