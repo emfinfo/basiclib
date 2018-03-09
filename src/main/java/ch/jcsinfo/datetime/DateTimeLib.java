@@ -83,14 +83,6 @@ public class DateTimeLib {
     info[3] = timePattern.toLowerCase().replaceAll("[a-zA-Z]","").substring(0,1);
     info[4] = "\\" + info[3];
     info[5] = timePattern;
-//    info[5] = timePattern + info[3] + "ss";
-//    System.out.println("datePattern: " + datePattern);
-//    System.out.println("timePattern: " + timePattern);
-
-//    DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
-//    String pattern       = ((SimpleDateFormat)formatter).toPattern();
-//    System.out.println("new pattern: " + pattern);
-
 
     return info;
   }
@@ -376,15 +368,15 @@ public class DateTimeLib {
 
     String nTime = sTime.trim();
     if (!nTime.isEmpty()) {
+
+      // on supprime le dernier séparateur s'il est tout seul
       String lastChar = nTime.substring(nTime.length() - 1);
       if (lastChar.equalsIgnoreCase(info[3])) {
         nTime = nTime.substring(0, nTime.length()-1);
       }
 
-      String t[] = nTime.split(info[4]);
-      System.out.println("ntime: " + nTime + ", t.length: " + t.length);
-
       // om complète si l'heure complète n'est pas spécifiée
+      String t[] = nTime.split(info[4]);
       switch (t.length) {
         case 1:
           nTime += info[3] + TIME_BASE + info[3] + TIME_BASE;
@@ -397,7 +389,6 @@ public class DateTimeLib {
       // on teste si l'on dispose des 3 parties d'un temps
       if (t.length == 3) {
         SimpleDateFormat ldf;
-//      ldf = getLocaleFormat(info[5]);
         ldf = getLocaleFormat("HH" + info[3] + "mm" + info[3] + "ss");
 
         // on teste finalement si le temps spécifié peut être converti
