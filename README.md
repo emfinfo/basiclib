@@ -20,7 +20,7 @@ Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
 New in release 1.2.2 (10.3.2018) :
-* add a new methode getLocalDateConverter for JavaFx DatePicker
+* add a new method getLocalDateConverter for JavaFx DatePicker
 * correct some bugs in methods parseDate, parseTime (DateTimeLib) when Locale is changed
 * correct getSmartToday method in DateTimeLib (now works for french, german, english)
 * update of test methods for DateTimeLib
