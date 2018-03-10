@@ -1164,7 +1164,7 @@ public class DateTimeLib {
   }
 
   /**
-   * Retoune un convertisseur capable de transformer un objet LocalDate
+   * Retourne un convertisseur capable de transformer un objet LocalDate
    * en String et vice-versa. Utile pour les datePicker de JavaFx par
    * exemple : <br>
    * dpiDateSortie.setConverter(DateTimeLib.getLocalDateConverter());<br>
