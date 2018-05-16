@@ -1,4 +1,4 @@
-# BasicLib 1.2.2 - march 2018
+# BasicLib 1.2.3 - may 2018
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -18,6 +18,10 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+
+New in release 1.2.3 (16.5.2018) :
+* correct a bug in isFileExists() method (crash on Windows if the file note exists, opk on MacOS)
+* use of lombok 1.16.20
 
 New in release 1.2.2 (10.3.2018) :
 * add a new method getLocalDateConverter for JavaFx DatePicker

@@ -286,7 +286,9 @@ public class FileHelper {
    * @return TRUE si le fichier existe
    */
   public static boolean isFileExists(String fName) {
-    return Files.exists(Paths.get(fName));
+    File file = new File(fName);
+    URI uri = file.toURI();
+    return Files.exists(Paths.get(uri));
   }
 
   /**
@@ -462,7 +464,7 @@ public class FileHelper {
 
     try {
       URL url = new URL(dbName);
-    } catch (MalformedURLException e) {
+    } catch (MalformedURLException ex) {
       fileOk = false;
     }
     return fileOk;
