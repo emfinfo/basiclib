@@ -20,7 +20,7 @@ Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
 New in release 1.2.3 (16.5.2018) :
-* correct a bug in isFileExists() method (crash on Windows if the file note exists, opk on MacOS)
+* correct a bug in "isFileExists" method (crash on Windows if the file not exists, ok on MacOS)
 * use of lombok 1.16.20
 
 New in release 1.2.2 (10.3.2018) :
