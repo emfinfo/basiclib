@@ -1,12 +1,9 @@
 package beans;
 
-import lombok.Data;
-
 /**
  *
  * @author jcstritt
  */
-@Data
 public class Compte {
 
   private int status;
@@ -25,16 +22,84 @@ public class Compte {
     soldes = new Solde[6];
   }
 
-  @Override
-  public String toString() {
-    String s = numero + " " + monnaie;
-    s += ", groupe: " + groupe;
-    s += ", rang: " + rang;
-    s += ", code TVA: " + codeTVA;
-    s += ", taux amb.: " + tauxAmbigu;
-    s += ", saisies:" + nbEcriSaisies;
-    s += ", comptab.:" + nbEcriComptab;
-    return s;
+  public int getStatus() {
+    return status;
+  }
+
+  public void setStatus(int status) {
+    this.status = status;
+  }
+
+  public int getNumero() {
+    return numero;
+  }
+
+  public void setNumero(int numero) {
+    this.numero = numero;
+  }
+
+  public String getDesignation() {
+    return designation;
+  }
+
+  public void setDesignation(String designation) {
+    this.designation = designation;
+  }
+
+  public String getMonnaie() {
+    return monnaie;
+  }
+
+  public void setMonnaie(String monnaie) {
+    this.monnaie = monnaie;
+  }
+
+  public int getGroupe() {
+    return groupe;
+  }
+
+  public void setGroupe(int groupe) {
+    this.groupe = groupe;
+  }
+
+  public int getRang() {
+    return rang;
+  }
+
+  public void setRang(int rang) {
+    this.rang = rang;
+  }
+
+  public int getCodeTVA() {
+    return codeTVA;
+  }
+
+  public void setCodeTVA(int codeTVA) {
+    this.codeTVA = codeTVA;
+  }
+
+  public boolean isTauxAmbigu() {
+    return tauxAmbigu;
+  }
+
+  public void setTauxAmbigu(boolean tauxAmbigu) {
+    this.tauxAmbigu = tauxAmbigu;
+  }
+
+  public int getNbEcriSaisies() {
+    return nbEcriSaisies;
+  }
+
+  public void setNbEcriSaisies(int nbEcriSaisies) {
+    this.nbEcriSaisies = nbEcriSaisies;
+  }
+
+  public int getNbEcriComptab() {
+    return nbEcriComptab;
+  }
+
+  public void setNbEcriComptab(int nbEcriComptab) {
+    this.nbEcriComptab = nbEcriComptab;
   }
 
   public String getSoldes() {
@@ -46,6 +111,24 @@ public class Compte {
         s += "\n";
       }
     }
+    return s;
+  }
+
+  public void setSoldes(Solde[] soldes) {
+    this.soldes = soldes;
+  }
+
+  
+
+  @Override
+  public String toString() {
+    String s = numero + " " + monnaie;
+    s += ", groupe: " + groupe;
+    s += ", rang: " + rang;
+    s += ", code TVA: " + codeTVA;
+    s += ", taux amb.: " + tauxAmbigu;
+    s += ", saisies:" + nbEcriSaisies;
+    s += ", comptab.:" + nbEcriComptab;
     return s;
   }
 }
