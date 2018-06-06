@@ -7,13 +7,11 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
-import javafx.util.StringConverter;
 
 /**
  * Classe de méthodes statiques permettant des conversions
@@ -1163,38 +1161,8 @@ public class DateTimeLib {
     }
   }
 
-  /**
-   * Retourne un convertisseur capable de transformer un objet LocalDate
-   * en String et vice-versa. Utile pour les datePicker de JavaFx par
-   * exemple : <br>
-   * dpiDateSortie.setConverter(DateTimeLib.getLocalDateConverter());<br>
-   *
-   * @return un objet convertisseur de LocalDate en String et vice-versa
-   */
-  public static StringConverter<LocalDate> getLocalDateConverter() {
 
-    return new StringConverter<LocalDate>() {
-
-      String info[] = DateTimeLib.getLocalePatternInfo();
-      String pattern =  info[2] + "yy";
-      DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-
-      @Override
-      public String toString(LocalDate date) {
-        return (date != null) ? dateFormatter.format(date) : "";
-      }
-
-      @Override
-      public LocalDate fromString(String dateStr)  {
-        Date d = parseDate(dateStr);
-        return dateToLocalDate(parseDate(dateStr));
-      }
-    };
-
-  }
-
-
-
+  
   /*
    * GESTION DU CHRONOMETRE INTERNE
    */
