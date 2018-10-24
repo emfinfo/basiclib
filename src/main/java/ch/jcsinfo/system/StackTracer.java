@@ -1,5 +1,7 @@
 package ch.jcsinfo.system;
 
+import ch.jcsinfo.models.Option;
+
 /**
  * Permet de récupérer des informations telles que la classe ou la méthode courante (très
  * utile pour les messages de debug).
@@ -74,38 +76,36 @@ public class StackTracer {
    * @param endMsg le message terminant le nom de la méthode (normalement " ...")
    */
   public static void printCurrentTestMethod( String endMsg ) {
-    System.out.println("\n*** " + trace(Thread.currentThread().getStackTrace(), 2, 2) + endMsg);
+    System.out.println("\n" + trace(Thread.currentThread().getStackTrace(), 2, 2) + endMsg);
   }
 
   /**
    * Affiche dans la console la méthode courante de l'appelant pour une méthode de test.
    */
   public static void printCurrentTestMethod() {
-    System.out.println("\n*** " + trace(Thread.currentThread().getStackTrace(), 2, 2) + " ...");
+    System.out.println("\n" + trace(Thread.currentThread().getStackTrace(), 2, 2) + " ...");
   }
   
   /**
-   * Affiche le résultat d'un test. Se trouve dans cette bibliothèque par convenance.
+   * Affiche le résultat d'un test.
    * 
-   * @param expResult le résultat attendu
-   * @param result le résultat trouvé
+   * @param objects un set de paramètres à afficher
    */
-  public static void printTestResult(Object expResult, Object result) {
-    System.out.println("  - expResult: " + expResult);
-    System.out.println("  - result:    " + result);
+  public static void printTestResult(Object... objects) {
+    String key = "";
+    for (int i = 0; i < objects.length; i++) {
+      if (i % 2 == 0) {
+        key = (String) objects[i];
+        if (!key.isEmpty()) {
+          key += ": ";
+        }
+      } else {
+        Object value = objects[i];
+        System.out.println("  - " + key + value);
+      }
+    }
   }
   
-  /**
-   * Affiche le résultat d'un test. Se trouve dans cette bibliothèque par convenance.
-   * 
-   * @param source l'objet source fourni au test
-   * @param result le résultat trouvé
-   */
-  public static void printTestInfo(Object source, Object result) {
-    System.out.println("  - source: " + source);
-    System.out.println("  - result: " + result);
-  }
-
   /**
    * Récupère une méthode parente de -N niveaux au dessus de la méthode courante.
    * 

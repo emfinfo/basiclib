@@ -47,7 +47,6 @@ public class FileHelperTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
     File absFile = new File(ABSOLUTE_1);
     File relFile = new File(RELATIVE_1);
 
@@ -73,72 +72,99 @@ public class FileHelperTest {
   public void test01_extractPathName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractPathName(ABSOLUTE_1);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals(PATHNAME, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(PATHNAME);
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok);
   }
 
   @Test
   public void test02_extractFileName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractFileName(ABSOLUTE_1);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals(FILE_NAME_1 + FILE_EXT_1, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(FILE_NAME_1 + FILE_EXT_1);
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok);
   }
 
   @Test
   public void test03_extractOnlyName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractOnlyName(ABSOLUTE_1);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals("FileLib", result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals("FileLib");
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok); 
   }
 
   @Test
   public void test04_extractFileExt() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractFileExt(ABSOLUTE_1);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals(FILE_EXT_1, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(FILE_EXT_1);
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok); 
   }
 
   @Test
   public void test05_replaceFileExt() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.replaceFileExt(ABSOLUTE_1, FILE_EXT_2);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals(ABSOLUTE_2, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(ABSOLUTE_2);
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok);     
   }
 
   @Test
   public void test06_replaceOnlyName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.replaceOnlyName(ABSOLUTE_1, FILE_NAME_2);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals(ABSOLUTE_3, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(ABSOLUTE_3);
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok);       
   }
 
   @Test
   public void test07_addToFileName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.addToFileName(ABSOLUTE_1, FILE_ADD_PART);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals(ABSOLUTE_4, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(ABSOLUTE_4);
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok);         
   }
 
   @Test
   public void test08_getRelativePath() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.getRelativePath(ABSOLUTE_1, CURRENT_DIR);
-    StackTracer.printTestInfo(ABSOLUTE_1, result);
-    assertEquals(RELATIVE_1, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(RELATIVE_1);
+    StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
+    assertTrue(ok);         
   }
 
   @Test
   public void test09_getAbsolutePath() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.getAbsolutePath(RELATIVE_1);
-    StackTracer.printTestInfo(RELATIVE_1, result);
-    assertEquals(ABSOLUTE_1, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(ABSOLUTE_1);
+    StackTracer.printTestResult("Source", RELATIVE_1, "Result", result);
+    assertTrue(ok);   
   }
 
   @Test
@@ -146,7 +172,7 @@ public class FileHelperTest {
     StackTracer.printCurrentTestMethod();
     List<String> files = FileHelper.getFolderFiles(PATH, ".txt");
     boolean ok = files != null && files.size()==2;
-    StackTracer.printTestInfo(PATH + " (.txt)", files.size());
+    StackTracer.printTestResult("Source", PATH + " (.txt)", "Nb", files.size());
     assertTrue(ok);
     if (ok) {
       System.out.println();
@@ -161,8 +187,10 @@ public class FileHelperTest {
     StackTracer.printCurrentTestMethod();
     String filePath = FileHelper.getAbsolutePath(XML_FILE);
     String result = FileHelper.filePathToURL(filePath);
-    StackTracer.printTestInfo(filePath, result);
+    
+    // on compare le résultat avec celui attendu
     boolean ok = result.length() > filePath.length();
+    StackTracer.printTestResult("Source", filePath, "Result", result);
     assertTrue(ok);
   }
 
@@ -172,8 +200,10 @@ public class FileHelperTest {
     String filePath = FileHelper.getAbsolutePath(XML_FILE);
     String url = FileHelper.filePathToURL(filePath);
     String result = FileHelper.urlToFilePath(url);
-    StackTracer.printTestInfo(url, result);
+    
+    // on compare le résultat avec celui attendu
     boolean ok = result.length() > 0;
+    StackTracer.printTestResult("Source", url, "Result", result);
     assertTrue(ok);
   }
 
@@ -181,9 +211,14 @@ public class FileHelperTest {
   public void test13_loadProperties() {
     StackTracer.printCurrentTestMethod();
     String filePath = FileHelper.getAbsolutePath("data/" + PROP_FILE);
+    String relPath = FileHelper.getRelativePath(filePath, CURRENT_DIR);
+
+    // le résultat attendu    
     Properties properties = FileHelper.loadProperties(filePath);
-    StackTracer.printTestInfo(FileHelper.getRelativePath(filePath, CURRENT_DIR), properties.size());
+
+    // on compare le résultat avec celui attendu
     boolean ok = properties.size() > 0;
+    StackTracer.printTestResult("Source", relPath, "Size", properties.size());
     if (ok) {
       System.out.println();
       for (Map.Entry<Object, Object> entry : properties.entrySet()) {
@@ -197,9 +232,14 @@ public class FileHelperTest {
   public void test14_loadXmlProperties() {
     StackTracer.printCurrentTestMethod();
     String filePath = FileHelper.getAbsolutePath("data/" + XML_FILE);
+    String relPath = FileHelper.getRelativePath(filePath, CURRENT_DIR);
+    
+    // le résultat attendu    
     Properties properties = FileHelper.loadXmlProperties(filePath);
-    StackTracer.printTestInfo(FileHelper.getRelativePath(filePath, CURRENT_DIR), properties.size());
+
+    // on compare le résultat avec celui attendu
     boolean ok = properties.size() > 0;
+    StackTracer.printTestResult("Source", relPath, "Size", properties.size());
     if (ok) {
       System.out.println();
       for (Map.Entry<Object, Object> entry : properties.entrySet()) {

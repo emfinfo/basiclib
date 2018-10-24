@@ -12,7 +12,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
- * Test des méthodes principales de la classe correspondante.
+ * Test des méthodes principales de la classe InObject.
+ * .
  * On regarde dans un objet "StringBuilder" si la méthode
  * "replace" existe et on essaye de l'exécuter.
  *
@@ -26,7 +27,6 @@ public class InObjectTest {
 
   @BeforeClass
   public static void setUpClass() {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
   }
 
   @AfterClass
@@ -39,48 +39,52 @@ public class InObjectTest {
     StackTracer.printCurrentTestMethod();
     StringBuilder source = new StringBuilder(TEST_STRING);
     Method m = InObject.findMethod(source, TEST_METHOD1, int.class, int.class, String.class);
-    StackTracer.printTestInfo("« " + TEST_METHOD1 + " » in " + StringBuilder.class.getSimpleName(), m);
-    assertTrue(m != null);
-  }
-
-  @Test
-  public void test02_callMethod() { // n'importe quelle méthode de la classe
-    StackTracer.printCurrentTestMethod(" « " + TEST_METHOD1 + " »");
-    StringBuilder source = new StringBuilder(TEST_STRING);
-    Method method = InObject.findMethod(source, TEST_METHOD1, int.class, int.class, String.class);
-    boolean ok = method != null;
-    if (ok) {
-      Object result = InObject.callMethod(source, method, 0, 3, "SE");
-      ok = result != null;
-      if (ok) {
-        String strResult = ((StringBuilder) result).toString();
-        StackTracer.printTestInfo(TEST_STRING, strResult);
-      }
-    }
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = m != null;
+    StackTracer.printTestResult("Source", source, "Found", m.getName(), "Ok", ok);
     assertTrue(ok);
   }
 
   @Test
-  public void test03_callMethod() { // un getter d'une classe entité
+  public void test02_callMethod() { 
+    StackTracer.printCurrentTestMethod(" « " + TEST_METHOD1 + " »");
+    StringBuilder source = new StringBuilder(TEST_STRING);
+    Method m = InObject.findMethod(source, TEST_METHOD1, int.class, int.class, String.class);
+    boolean ok = m != null;
+    String strResult = "";
+    if (ok) {
+      Object result = InObject.callMethod(source, m, 0, 3, "SE");
+      ok = result != null;
+      if (ok) {
+        strResult = ((StringBuilder) result).toString();
+      }
+    }
+    StackTracer.printTestResult("Source", TEST_STRING, "Result", strResult, "Ok", ok);
+    assertTrue(ok);
+  }
+
+  @Test
+  public void test03_callMethod() { 
     StackTracer.printCurrentTestMethod(" « " + TEST_METHOD2 + " »");
     Localite source = new Localite(1, 3000, "Berne", "BE");
     Object result = InObject.callGetter(source, TEST_METHOD2);
+
+    // on compare le résultat avec celui attendu
     boolean ok = result != null;
-    if (ok) {
-       StackTracer.printTestInfo("un objet Localite Berne", result);
-    }
+    StackTracer.printTestResult("Source", source, "Result", result, "Ok", ok);
     assertTrue(ok);
   }
 
   @Test
-  public void test04_fieldsToString() { //
+  public void test04_fieldsToString() {
     StackTracer.printCurrentTestMethod();
     Localite source = new Localite(1, 1700, "Fribourg", "FR");
     String result = InObject.fieldsToString(source);
+
+    // on compare le résultat avec celui attendu
     boolean ok = !result.isEmpty();
-    if (ok) {
-       StackTracer.printTestInfo("un objet Localite Fribourg", result);
-    }
+    StackTracer.printTestResult("Source", source, "Result", result, "Ok", ok);
     assertTrue(ok);
   }
 

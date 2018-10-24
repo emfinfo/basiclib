@@ -26,7 +26,6 @@ public class ConvertLibTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
   }
 
   @AfterClass
@@ -56,10 +55,13 @@ public class ConvertLibTest {
     // ce même nombre codé en BCD dans un buffer
     short[] b = getShortBcdNumber();
 
-    // on convertit et on affiche le résultat
+    // on convertit
     String result = ConvertLib.bcdToString(b);
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(result);
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   /**
@@ -75,10 +77,13 @@ public class ConvertLibTest {
     // ce même nombre codé en BCD dans un buffer
     short[] b = getShortBcdNumber();
 
-    // on convertit et on affiche le résultat
+    // on convertit
     int result = ConvertLib.bcdToInt(b);
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result == expResult;
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -99,10 +104,13 @@ public class ConvertLibTest {
     b[6] = 0 * 16 + 0;
     b[7] = 9 * 16 + 9;
 
-    // on convertit et on affiche le résultat
+    // on convertit
     String result = ConvertLib.bcdToBigDecimal(b).toPlainString();
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(expResult);
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   /**
@@ -124,10 +132,12 @@ public class ConvertLibTest {
     buffer[3] = 0x89; // ë
     buffer[4] = 0x87; // ç
 
-    // on convertit et on affiche le résultat
+    // on convertit
     String result = ConvertLib.bufferToString(buffer);
-    StackTracer.printTestResult(expResult, result);
+    
+    // on compare le résultat avec celui attendu
     boolean ok = result.equals(expResult);
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
     assertTrue(ok);
   }
 
@@ -149,10 +159,13 @@ public class ConvertLibTest {
     now.set(Calendar.MILLISECOND, 0);
     Date expResult = now.getTime();
 
-    // on convertit et on affiche le résultat
+    // on convertit
     Date result = ConvertLib.intToDate(iDate);
-    StackTracer.printTestInfo(iDate, result);
-    assertEquals(expResult, result);
+
+    // on compare le résultat avec celui attendu
+    boolean ok = result.getTime() == expResult.getTime();
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -216,6 +229,7 @@ public class ConvertLibTest {
     float expected[] = {f1, 1f, f2};
     float results[] = new float[3];
     boolean ok[] = new boolean[3];
+   
     // on teste les 3 exemples
     for (int i = 0; i < ok.length; i++) {
       results[i] = ConvertLib.stringToFloat(t[i]);
@@ -252,10 +266,13 @@ public class ConvertLibTest {
     // le résultat attendu
     String expResult = "00000";
 
-    // on convertit et on affiche le résultat
+    // on convertit
     String result = ConvertLib.fillString(5, '0');
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(expResult);
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -265,10 +282,13 @@ public class ConvertLibTest {
     // le résultat attendu
     String expResult = "Help000000";
 
-    // on convertit et on affiche le résultat
+    // on convertit
     String result = ConvertLib.fillString(10, '0', "Help");
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(expResult);
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -278,10 +298,13 @@ public class ConvertLibTest {
     // le résultat attendu
     String expResult = "07:23:48";
 
-    // on convertit et on affiche le résultat
+    // on convertit
     String result = ConvertLib.getString(TEST_LINE1, 17, 8);
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals(expResult);
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);    
   }
 
   @Test
@@ -291,10 +314,13 @@ public class ConvertLibTest {
     // le résultat attendu
     int expResult = 103814;
 
-    // on convertit et on affiche le résultat
+    // on convertit
     int result = ConvertLib.getInt(TEST_LINE1, 3, 6);
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result == expResult;
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);    
   }
 
   @Test
@@ -304,10 +330,13 @@ public class ConvertLibTest {
     // le résultat attendu
     long expResult = 103814;
 
-    // on convertit et on affiche le résultat
+    // on convertit
     long result = ConvertLib.getLong(TEST_LINE1, 3, 6);
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+
+    // on compare le résultat avec celui attendu    
+    boolean ok = result == expResult;
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);        
   }
 
   @Test
@@ -317,11 +346,13 @@ public class ConvertLibTest {
     // le résultat attendu
     Date expResult = DateTimeLib.createDate(9, 12, 2016);
 
-    // on convertit et on affiche le résultat
+    // on convertit
     Date result = ConvertLib.getDate(TEST_LINE1, 10, "DDMMYY");
-
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.getTime() == expResult.getTime();
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -331,12 +362,14 @@ public class ConvertLibTest {
     // le résultat attendu
     Date expResult = DateTimeLib.createDate(9, 12, 2016, 7, 23, 48);
 
-    // on convertit et on affiche le résultat
+    // on convertit une ligne lue
     Date date = ConvertLib.getDate(TEST_LINE1, 10, "DDMMYY");
     Date result = ConvertLib.getHour(TEST_LINE1, 17, "HH:MM:SS", date);
-
-    StackTracer.printTestResult(expResult, result);
-    assertEquals(expResult, result);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.getTime() == expResult.getTime();
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -346,10 +379,13 @@ public class ConvertLibTest {
     // le résultat attendu
     float expResult = 1.4285000f;
 
-    // on convertit et on affiche le résultat
+    // on convertit
     float result = ConvertLib.getFloat(TEST_LINE1, 364, 10);
-    StackTracer.printTestResult(expResult, result);
-    assertTrue(result == expResult);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result == expResult;
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -361,8 +397,11 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     double result = ConvertLib.getDouble(TEST_LINE1, 364, 10);
-    StackTracer.printTestResult(expResult, result);
-    assertTrue(result == expResult);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result == expResult;
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -374,8 +413,11 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     BigDecimal result = ConvertLib.getBigDecimal(TEST_LINE1, 532, 8);
-    StackTracer.printTestResult(expResult, result);
-    assertTrue(result.compareTo(expResult) == 0);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.compareTo(expResult) == 0;
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -387,8 +429,11 @@ public class ConvertLibTest {
 
     // on convertit et on affiche le résultat
     BigDecimal result = ConvertLib.getBigDecimal(TEST_LINE2, 40, 10);
-    StackTracer.printTestResult(expResult, result);
-    assertTrue(result.compareTo(expResult) == 0);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.compareTo(expResult) == 0;
+    StackTracer.printTestResult("Expected", expResult, "Result", result, "Ok", ok);
+    assertTrue(ok);
   }
 
 

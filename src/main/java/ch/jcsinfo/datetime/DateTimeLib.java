@@ -23,6 +23,8 @@ import java.util.Locale;
 public class DateTimeLib {
   public final static String DATE_FORMAT_SHORT = "dd.MM.yy";
   public final static String DATE_FORMAT_STANDARD = "d.M.yyyy";
+  public final static String DATE_FORMAT_SPECIAL1 = "dd.MM.yyyy";
+  public final static String DATE_FORMAT_SPECIAL2= "MMM dd.MM.yyyy";
 
   public final static String TIME_FORMAT_SHORT = "HH:mm";
   public final static String TIME_FORMAT_STANDARD = "HH:mm:ss";

@@ -27,7 +27,6 @@ public class DateTimeLibTest {
     Locale.setDefault(Locale.getDefault());
 //    Locale.setDefault(new Locale("en", "UK"));
 //    Locale.setDefault(new Locale("fr", "FR"));
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
   }
 
   @AfterClass
@@ -39,154 +38,197 @@ public class DateTimeLibTest {
   public void test01_dateToString() {
     StackTracer.printCurrentTestMethod();
     Date d = null;
-
     String result = DateTimeLib.dateToString(d, DateTimeLib.ISO8601_DATE_FORMAT);
-    System.out.println("  - value : null date");
-    System.out.println("  - result : " + result + " len="+ result.length());
-    assertTrue(result.length() == DateTimeLib.ISO8601_DATE_FORMAT.length());
-
-    result = DateTimeLib.dateToString(d, DateTimeLib.ISO8601_DATE_FORMAT, "...");
-    System.out.println("  - result : " + result + " len="+ result.length());
-    assertTrue(result.length() == 3);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.length() == DateTimeLib.ISO8601_DATE_FORMAT.length();
+    StackTracer.printTestResult("Source", d, "Result", result, "Ok", ok);
+    assertTrue(ok);     
   }
+  
+  @Test
+  public void test02_dateToString() {
+    StackTracer.printCurrentTestMethod();
+    Date d = null;
+    String result = DateTimeLib.dateToString(d, DateTimeLib.ISO8601_DATE_FORMAT, "...");
+
+    // on compare le résultat avec celui attendu
+    boolean ok = result.length() == 3;
+    StackTracer.printTestResult("Source", d, "Result", result, "Ok", ok);
+    assertTrue(ok);     
+  }  
 
   @Test
-  public void test02_getDatePatternInfo() {
+  public void test03_getDatePatternInfo() {
     StackTracer.printCurrentTestMethod();
     String info[] = DateTimeLib.getLocalePatternInfo();
-    System.out.println("  - date separator : " + info[0]);
-    System.out.println("  - date sep regex : " + info[1]);
-    System.out.println("  - date pattern   : " + info[2]);
-    System.out.println("  - time separator : " + info[3]);
-    System.out.println("  - time sep regex : " + info[4]);
-    System.out.println("  - time pattern   : " + info[5]);
+    System.out.println("  - Date separator : " + info[0]);
+    System.out.println("  - Date sep regex : " + info[1]);
+    System.out.println("  - Date pattern   : " + info[2]);
+    System.out.println("  - Time separator : " + info[3]);
+    System.out.println("  - Time sep regex : " + info[4]);
+    System.out.println("  - Time pattern   : " + info[5]);
     assertTrue(info[1].length() > 0);
   }
 
   @Test
-  public void test03_getNow() {
+  public void test04_getNow() {
     StackTracer.printCurrentTestMethod();
     Date d = DateTimeLib.getNow();
-    System.out.println("  - result : " + DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD));
-    assertTrue(d != null);
+    String fmtDate = DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = d != null;
+    StackTracer.printTestResult("Result", fmtDate);
+    assertTrue(ok);       
   }
 
   @Test
-  public void test04_getToday() {
+  public void test05_getToday() {
     StackTracer.printCurrentTestMethod();
     Date d = DateTimeLib.getToday();
-    System.out.println("  - result : " + DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD));
-    assertTrue(d != null);
+    String fmtDate = DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = d != null;
+    StackTracer.printTestResult("Result", fmtDate);
+    assertTrue(ok);       
   }
 
   @Test
-  public void test05_getSmartToday() {
+  public void test06_getSmartToday() {
     StackTracer.printCurrentTestMethod();
     String smartToday = DateTimeLib.getSmartToday();
-    System.out.println("  - result : " + smartToday);
-    assertTrue(!smartToday.isEmpty());
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = !smartToday.isEmpty();
+    StackTracer.printTestResult("Result", smartToday);
+    assertTrue(ok);       
   }
 
   @Test
-  public void test06_parseIsoDate() {
+  public void test07_parseIsoDate() {
     StackTracer.printCurrentTestMethod();
-    String sDate = "2016-02-29";
-    Date d = DateTimeLib.parseIsoDate(sDate);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(DateTimeLib.isValidDate(d, 29, 2, 2016));
+    String toParse = "2016-02-29";
+    Date d = DateTimeLib.parseIsoDate(toParse);
+    String parsed = DateTimeLib.dateToString(d);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.isValidDate(d, 29, 2, 2016);
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed);
+    assertTrue(ok);    
   }
 
   @Test
-  public void test07_parseIsoDateWithTime() {
+  public void test08_parseIsoDateWithTime() {
     StackTracer.printCurrentTestMethod();
-    String sDate = "2016-02-29 23:08:01";
-    Date d = DateTimeLib.parseIsoDate(sDate);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d, "dd.MM.yyyy HH:mm:ss"));
+    String toParse = "2016-02-29 23:08:01";
+    Date d = DateTimeLib.parseIsoDate(toParse);
+    String parsed = DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD);
+    
+    // on compare le résultat avec celui attendu
     boolean okDate = DateTimeLib.isValidDate(d, 29, 2, 2016);
     boolean okTime = DateTimeLib.isValidTime(d, 23, 8, 1);
-    assertTrue(okDate && okTime);
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed);
+    assertTrue(okDate && okTime);    
   }
 
   @Test
-  public void test08_parseIsoDateWithTime2() {
+  public void test09_parseIsoDateWithTime() {
     StackTracer.printCurrentTestMethod();
-    String sDate = "2016-02-29T23:08:01";
-    Date d = DateTimeLib.parseIsoDate(sDate);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d, "dd.MM.yyyy HH:mm:ss"));
+    String toParse = "2016-02-29T23:08:01";
+    Date d = DateTimeLib.parseIsoDate(toParse);
+    String parsed = DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD);
+    
+    // on compare le résultat avec celui attendu
     boolean okDate = DateTimeLib.isValidDate(d, 29, 2, 2016);
     boolean okTime = DateTimeLib.isValidTime(d, 23, 8, 1);
-    assertTrue(okDate && okTime);
+    boolean ok = okDate && okTime;
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed);
+    assertTrue(ok);  
   }
 
   @Test
-  public void test09_parseDate() {
+  public void test10_parseDate() {
     StackTracer.printCurrentTestMethod();
     Date d1 = DateTimeLib.createDate(29, 2, 16);
     String info[] = DateTimeLib.getLocalePatternInfo();
-    String sDate = DateTimeLib.dateToString(d1, info[2]);
-    Date d2 = DateTimeLib.parseDate(sDate);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d2));
-    assertTrue(DateTimeLib.isValidDate(d2, 29, 2, 2016));
+    String toParse = DateTimeLib.dateToString(d1, info[2]);
+    Date d2 = DateTimeLib.parseDate(toParse);
+    String parsed = DateTimeLib.dateToString(d2);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.isValidDate(d2, 29, 2, 2016);
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed);
+    assertTrue(ok);   
   }
 
   @Test
-  public void test10_parseDate_startOfMonth() {
+  public void test11_parseDate_startOfMonth() {
     StackTracer.printCurrentTestMethod();
     String info[] = DateTimeLib.getLocalePatternInfo();
-    String sDate = "2" + info[0] + "2016";
-    Date d = DateTimeLib.parseDate(sDate, false);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(DateTimeLib.isValidDate(d, 1, 2, 2016));
+    String toParse = "2" + info[0] + "2016";
+    Date d = DateTimeLib.parseDate(toParse, false);
+    String parsed = DateTimeLib.dateToString(d);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.isValidDate(d, 1, 2, 2016);
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed);
+    assertTrue(ok);      
   }
 
   @Test
-  public void test11_parseDate_endOfMonth() {
+  public void test12_parseDate_endOfMonth() {
     StackTracer.printCurrentTestMethod();
     String info[] = DateTimeLib.getLocalePatternInfo();
-    String sDate = "2" + info[0] + "2016";
-    Date d = DateTimeLib.parseDate(sDate, true);
+    String toParse = "2" + info[0] + "2016";
+    Date d = DateTimeLib.parseDate(toParse, true);
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(d);
-    System.out.println("  - to parse : " + sDate);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d));
-    assertTrue(DateTimeLib.isValidDate(d, 29, 2, 2016));
-  }
-
-  @Test
-  public void test12_parseTime() {
-    StackTracer.printCurrentTestMethod();
-    String info[] = DateTimeLib.getLocalePatternInfo();
-    int hh = 23;
-    int mm = 0;
-    int ss = 0;
-    String sTime = "" + hh + info[3]; // + mm + info[3] + ss;
-    Date d = DateTimeLib.parseTime(sTime);
-    System.out.println("  - to parse : " + sTime);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d, "HH:mm:ss"));
-    assertTrue(DateTimeLib.isValidTime(d, hh, mm, ss));
+    String parsed = DateTimeLib.dateToString(d);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.isValidDate(d, 29, 2, 2016);
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed);
+    assertTrue(ok);  
   }
 
   @Test
   public void test13_parseTime() {
     StackTracer.printCurrentTestMethod();
-    String sTime = "23:8:1";
-    Date d = DateTimeLib.parseTime(sTime, DateTimeLib.getToday());
-    System.out.println("  - to parse : " + sTime);
-    System.out.println("  - parsed   : " + DateTimeLib.dateToString(d, "dd.MM.yyyy HH:mm:ss"));
-    assertTrue(DateTimeLib.isValidTime(d, 23, 8, 1));
+    String info[] = DateTimeLib.getLocalePatternInfo();
+    int hh = 23;
+    int mm = 0;
+    int ss = 0;
+    String toParse = "" + hh + info[3]; // + mm + info[3] + ss;
+    Date d = DateTimeLib.parseTime(toParse);
+    String parsed = DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.isValidTime(d, hh, mm, ss);
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed);
+    assertTrue(ok);     
+  }
+
+  @Test
+  public void test14_parseTime() {
+    StackTracer.printCurrentTestMethod();
+    String toParse = "23:8:1";
+    Date d = DateTimeLib.parseTime(toParse, DateTimeLib.getToday());
+    String parsed = DateTimeLib.dateToString(d, DateTimeLib.DATE_TIME_FORMAT_STANDARD);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.isValidTime(d, 23, 8, 1);
+    StackTracer.printTestResult("To parse", toParse, "Parsed", parsed, "Ok", ok);
+    assertTrue(ok);     
   }
 
   private Date[] checkOneDate(String sDate, boolean last) {
     Date d = DateTimeLib.parseIsoDate(sDate);
     Date dates[] = DateTimeLib.getYearWorkingDates(d, +1); // +1 mois dans le futur
-    System.out.println("  - source  : " + DateTimeLib.dateToString(d, DateTimeLib.ISO8601_DATE_FORMAT));
-    System.out.println("  - date[0] : " + DateTimeLib.dateToString(dates[0]));
-    System.out.println("  - date[1] : " + DateTimeLib.dateToString(dates[1]));
+    System.out.println("  - Ref: " + DateTimeLib.dateToString(d, DateTimeLib.ISO8601_DATE_FORMAT));
+    System.out.println("  - Date[0]: " + DateTimeLib.dateToString(dates[0]));
+    System.out.println("  - Date[1]: " + DateTimeLib.dateToString(dates[1]));
     if (!last) {
       System.out.println();
     }
@@ -194,7 +236,7 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test14_getYearWorkingDates() {
+  public void test15_getYearWorkingDates() {
     StackTracer.printCurrentTestMethod();
     Date dates[];
     boolean ok[] = new boolean[4];
@@ -219,132 +261,170 @@ public class DateTimeLibTest {
   }
 
   @Test
-  public void test15_dateToLocalDate() {
+  public void test16_dateToLocalDate() {
     StackTracer.printCurrentTestMethod();
     Date d = DateTimeLib.getNow();
-    LocalDate localDate = DateTimeLib.dateToLocalDate(d);
+    LocalDate localData = DateTimeLib.dateToLocalDate(d);
+    
 
+    // on compare le résultat avec celui attendu
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    System.out.println("  - to convert : " + DateTimeLib.dateToString(d, "dd.MM.yyyy HH:mm:ss"));
-    System.out.println("  - result     : " + localDate.format(dtf));
-    assertTrue(localDate != null);
+    boolean ok = localData != null;
+    StackTracer.printTestResult("Ref", DateTimeLib.dateToString(d), "Result", localData.format(dtf));
+    assertTrue(ok);     
   }
 
   @Test
-  public void test16_getMonthDates() {
+  public void test17_getMonthDates() {
     StackTracer.printCurrentTestMethod();
-    Date dSource = DateTimeLib.createDate(1, 1, 2017);
-    int year = DateTimeLib.getYear(dSource) - 1;
-    int monthsOffset = -11;
-    Date d[] = DateTimeLib.getMonthDates(dSource, monthsOffset);
-
+    final int MONTHS_OFFSET = -11;
+    Date refDate = DateTimeLib.createDate(1, 1, 2017);
+    Date refDate2 = DateTimeLib.moveDate(refDate, Calendar.MONTH, MONTHS_OFFSET);
+    
+    int year = DateTimeLib.getYear(refDate2);
+    Date d[] = DateTimeLib.getMonthDates(refDate, MONTHS_OFFSET);
+    
+    String fmtDate[] = new String[3];
+    fmtDate[0] = DateTimeLib.dateToString(refDate2);
+    fmtDate[1] = DateTimeLib.dateToString(d[0]);
+    fmtDate[2] = DateTimeLib.dateToString(d[1]);
+    
+    // on compare le résultat avec celui attendu
     int iDebut[] = DateTimeLib.extractDateInfo(d[0]);
     int iFin[] = DateTimeLib.extractDateInfo(d[1]);
     boolean ok1 = iDebut[0] == 1 && iDebut[1] == 2 && iDebut[2] == year;
-    boolean ok2 = iFin[0] == 29 && iFin[1] == 2 && iFin[2] == year;
-
-    System.out.println("  - source   : " + DateTimeLib.dateToString(dSource) + ", offset: " + monthsOffset + " months");
-    System.out.println("  - result 1 : " + DateTimeLib.dateToString(d[0], DateTimeLib.DATE_FORMAT_SHORT) + ", ok1: " + ok1);
-    System.out.println("  - result 2 : " + DateTimeLib.dateToString(d[1], DateTimeLib.DATE_FORMAT_SHORT) + ", ok2: " + ok2);
-
-    assertTrue(ok1 && ok2);
+    boolean ok2 = iFin[0] == 29 && iFin[1] == 2 && iFin[2] == year;    
+    boolean ok = ok1 && ok2;
+    StackTracer.printTestResult("Ref", fmtDate[0], "Date1", fmtDate[1], "Date2", fmtDate[2]);
+    assertTrue(ok);       
   }
 
   @Test
-  public void test17_getYearDates() {
+  public void test18_getYearDates() {
     StackTracer.printCurrentTestMethod();
-    Date dSource = DateTimeLib.getToday();
-    int year = DateTimeLib.getYear(dSource);
+    Date refDate = DateTimeLib.getToday();
+    int year = DateTimeLib.getYear(refDate);
     Date d[] = DateTimeLib.getYearDates();
-
+    
+    String fmtDate[] = new String[3];
+    fmtDate[0] = DateTimeLib.dateToString(refDate);
+    fmtDate[1] = DateTimeLib.dateToString(d[0]);
+    fmtDate[2] = DateTimeLib.dateToString(d[1]);
+    
+    // on compare le résultat avec celui attendu
     int iDebut[] = DateTimeLib.extractDateInfo(d[0]);
     int iFin[] = DateTimeLib.extractDateInfo(d[1]);
     boolean ok1 = iDebut[0] == 1 && iDebut[1] == 1 && iDebut[2] == year;
-    boolean ok2 = iFin[0] == 31 && iFin[1] == 12 && iFin[2] == year;
-
-    System.out.println("  - source   : " + DateTimeLib.dateToString(dSource));
-    System.out.println("  - result 1 : " + DateTimeLib.dateToString(d[0], DateTimeLib.DATE_FORMAT_SHORT) + ", ok1: " + ok1);
-    System.out.println("  - result 2 : " + DateTimeLib.dateToString(d[1], DateTimeLib.DATE_FORMAT_SHORT) + ", ok2: " + ok2);
-
-    assertTrue(ok1 && ok2);
+    boolean ok2 = iFin[0] == 31 && iFin[1] == 12 && iFin[2] == year;    
+    StackTracer.printTestResult("Ref", fmtDate[0], "Date1", fmtDate[1], "Date2", fmtDate[2]);
+    assertTrue(ok1 && ok2);       
   }
 
   @Test
-  public void test18_getDaysBetweenTwoDates() {
+  public void test19_getDaysBetweenTwoDates() {
     StackTracer.printCurrentTestMethod();
-    Date theLaterDate = DateTimeLib.createDate(20, 10, 2016);
-    Date theEarlierDate = DateTimeLib.createDate(3, 11, 2016);
-
-    int days = DateTimeLib.getDaysBetweenTwoDates(theLaterDate, theEarlierDate);
-    System.out.println("  - laterDate   : " + DateTimeLib.dateToString(theLaterDate));
-    System.out.println("  - earlierDate : " + DateTimeLib.dateToString(theEarlierDate));
-    System.out.println("  - days between= " + days);
-    assertTrue(days == 14);
+    Date d[] = new Date[2];
+    d[0] = DateTimeLib.createDate(20, 10, 2016);
+    d[1] = DateTimeLib.createDate(3, 11, 2016);
+    
+    String fmtDate[] = new String[2];
+    fmtDate[0] = DateTimeLib.dateToString(d[0]);
+    fmtDate[1] = DateTimeLib.dateToString(d[1]);      
+    int days = DateTimeLib.getDaysBetweenTwoDates(d[0], d[1]);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = days == 14;
+    StackTracer.printTestResult("Date1", fmtDate[0], "Date2", fmtDate[1], "Days", days);
+    assertTrue(ok);      
   }
 
   @Test
-  public void test19_getMonday() {
+  public void test20_getMonday() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getToday();
-    Date mondayDate = DateTimeLib.getMonday(refDate);
-    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
-    System.out.println("  - monday    : " + DateTimeLib.dateToString(mondayDate));
-    assertTrue(DateTimeLib.getDayOfWeek(mondayDate) == 2);
+    Date today = DateTimeLib.getToday();
+    Date monday = DateTimeLib.getMonday(today);
+    
+    String fmtDate[] = new String[2];
+    fmtDate[0] = DateTimeLib.dateToString(today);
+    fmtDate[1] = DateTimeLib.dateToString(monday);         
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.getDayOfWeek(monday) == 2;
+    StackTracer.printTestResult("Ref", fmtDate[0], "Monday", fmtDate[1]);
+    assertTrue(ok);     
   }
 
   @Test
-  public void test20_getFriday() {
+  public void test21_getFriday() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getToday();
-    Date fridayDate = DateTimeLib.getFriday(refDate);
-    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
-    System.out.println("  - friday    : " + DateTimeLib.dateToString(fridayDate));
-    assertTrue(DateTimeLib.getDayOfWeek(fridayDate) == 6);
+    Date today = DateTimeLib.getToday();
+    Date friday = DateTimeLib.getFriday(today);
+    
+    String fmtDate[] = new String[2];
+    fmtDate[0] = DateTimeLib.dateToString(today);
+    fmtDate[1] = DateTimeLib.dateToString(friday);       
+    
+   // on compare le résultat avec celui attendu
+    boolean ok = DateTimeLib.getDayOfWeek(friday) == 6;
+    StackTracer.printTestResult("Ref", fmtDate[0], "Friday", fmtDate[1]);
+    assertTrue(ok);        
   }
 
   @Test
-  public void test21_getMondayFriday() {
+  public void test22_getMondayFriday() {
     StackTracer.printCurrentTestMethod();
-    Date refDate = DateTimeLib.getToday();
-    Date monday = DateTimeLib.getMonday(refDate);
-    Date friday = DateTimeLib.getFriday(refDate);
-    Date mfDates[] = DateTimeLib.getMondayFriday(refDate);
-    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
-    for (int i = 0; i < mfDates.length; i++) {
-      System.out.println("  - day " + i + " : " + DateTimeLib.dateToString(mfDates[i]));
-    }
-    assertTrue(mfDates[0].getTime() == monday.getTime() && mfDates[1].getTime() == friday.getTime());
+    Date today= DateTimeLib.getToday();
+    Date monday = DateTimeLib.getMonday(today);
+    Date friday = DateTimeLib.getFriday(today);
+    Date d[] = DateTimeLib.getMondayFriday(today);
+    
+    String fmtDate[] = new String[3];
+    fmtDate[0] = DateTimeLib.dateToString(today);
+    fmtDate[1] = DateTimeLib.dateToString(d[0]); 
+    fmtDate[2] = DateTimeLib.dateToString(d[1]); 
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = d[0].getTime() == monday.getTime() && d[1].getTime() == friday.getTime();
+    StackTracer.printTestResult("Ref", fmtDate[0], "Monday", fmtDate[1], "Friday", fmtDate[2]);
+    assertTrue(ok); 
   }
 
   @Test
-  public void test22_getWeekDates() {
+  public void test23_getWeekDates() {
     StackTracer.printCurrentTestMethod();
     int weekOffset = +1;
     Date refDate = DateTimeLib.getDate(weekOffset * 7);
     Date monday = DateTimeLib.getMonday(refDate);
     Date friday = DateTimeLib.getFriday(refDate);
-    Date wwDates[] = DateTimeLib.getWeekDates(weekOffset);
-    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
-    for (int i = 0; i < wwDates.length; i++) {
-      System.out.println("  - day " + i + " : " + DateTimeLib.dateToString(wwDates[i]));
+    Date d[] = DateTimeLib.getWeekDates(weekOffset);
+
+    // on compare le résultat avec celui attendu
+    boolean ok = d[0].getTime() == monday.getTime() && d[4].getTime() == friday.getTime();
+    StackTracer.printTestResult("Ref", DateTimeLib.dateToString(refDate));
+    for (int i = 0; i < d.length; i++) {
+      System.out.println("  - day " + i + " : " + DateTimeLib.dateToString(d[i]));
     }
-    assertTrue(wwDates[0].getTime() == monday.getTime() && wwDates[4].getTime() == friday.getTime());
+    assertTrue(ok);   
   }
 
   @Test
-  public void test23_getDateIndex() {
+  public void test24_getDateIndex() {
     StackTracer.printCurrentTestMethod();
     Date refDate = DateTimeLib.getToday();
-    int pos = DateTimeLib.getDateIndex(refDate);
-    System.out.println("  - ref. date : " + DateTimeLib.dateToString(refDate));
-    System.out.println("  - date pos. : " + pos);
+    int idx = DateTimeLib.getDateIndex(refDate);
 
-    Date mfDates[] = DateTimeLib.getMondayFriday(refDate);
-    boolean ok1 = pos >= 0
-      && refDate.getTime() >= mfDates[0].getTime()
-      && refDate.getTime() <= mfDates[1].getTime();
-    boolean ok2 = pos < 0;
-    assertTrue(ok1 || ok2);
+    // contrôle
+    Date d[] = DateTimeLib.getMondayFriday(refDate);
+    boolean ok1 = idx >= 0
+      && refDate.getTime() >= d[0].getTime()
+      && refDate.getTime() <= d[1].getTime();
+    boolean ok2 = idx < 0;
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = ok1 || ok2;
+    StackTracer.printTestResult("Ref", DateTimeLib.dateToString(refDate), "Index", idx, "Ok", ok);
+    assertTrue(ok);     
+    
   }
 
 }

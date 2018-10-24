@@ -20,7 +20,6 @@ public class SystemLibTest {
 
   @BeforeClass
   public static void setUpClass() {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
     SystemLib.resetLog4j(SystemLibTest.class.getClassLoader());
     SystemLib.changeCharset("UTF-8");
 //    SystemLib.sleep(1000);
@@ -35,12 +34,14 @@ public class SystemLibTest {
   @Test
   public void test01_getCharsetList() {
     StackTracer.printCurrentTestMethod();
-    List<String> list = SystemLib.getCharsetList();
-    StackTracer.printTestInfo("System", list.size());
-    boolean ok = list != null && list.size() > 0;
+    List<String> result = SystemLib.getCharsetList();
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result != null && result.size() > 0;
+    StackTracer.printTestResult("Nb", result.size());
     if (ok) {
       System.out.println();
-      for (String charset : list) {
+      for (String charset : result) {
         if (charset.contains("UTF")) {
           System.out.println("    " + charset);
         }

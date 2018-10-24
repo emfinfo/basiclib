@@ -32,7 +32,6 @@ public class TextFileReaderTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
   }
 
   @AfterClass

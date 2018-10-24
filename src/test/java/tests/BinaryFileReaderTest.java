@@ -8,7 +8,6 @@ import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.ConvertLib;
 import java.math.BigDecimal;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -34,7 +33,6 @@ public class BinaryFileReaderTest {
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
     readerComptes = new BinaryFileReader(COMPTES, COMPTES_REC_SIZE);
     readerPmtModes = new BinaryFileReader(PMTMODES, PMTMODES_REC_SIZE);
   }
@@ -49,25 +47,27 @@ public class BinaryFileReaderTest {
   @Test
   public void test01_open() {
     StackTracer.printCurrentTestMethod();
-    boolean result = readerComptes.open();
-    StackTracer.printTestInfo(COMPTES, result);
-    assertTrue(result);
+    boolean ok = readerComptes.open();
+    StackTracer.printTestResult("Source", COMPTES, "Open", ok);
+    assertTrue(ok);
   }
 
   @Test
   public void test02_numberOfBytes() {
     StackTracer.printCurrentTestMethod();
-    int result = readerComptes.numberOfBytes();
-    StackTracer.printTestInfo(COMPTES, result);
-    assertTrue(result > 0);
+    int bytes = readerComptes.numberOfBytes();
+    boolean ok = bytes > 0;
+    StackTracer.printTestResult("Source", COMPTES, "Bytes", bytes, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
   public void test03_numberOfRecords() {
     StackTracer.printCurrentTestMethod();
-    int result = readerComptes.numberOfRecords();
-    StackTracer.printTestInfo(COMPTES, result);
-    assertTrue(result > 1);
+    int nb = readerComptes.numberOfRecords();
+    boolean ok = nb > 1;
+    StackTracer.printTestResult("Source", COMPTES, "Nb", nb, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -75,15 +75,17 @@ public class BinaryFileReaderTest {
     StackTracer.printCurrentTestMethod();
     int nb1 = readerComptes.getRecordSize();
     int nb2 = readerComptes.skipBytes(readerComptes.getRecordSize());
-    StackTracer.printTestInfo(COMPTES, nb2);
-    assertEquals(nb2, nb1);
+    boolean ok = nb2 == nb1;
+    StackTracer.printTestResult("Source", COMPTES, "Nb1", nb1, "Nb2", nb2, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
   public void test05_readComptes() throws Exception {
     StackTracer.printCurrentTestMethod();
     int nb = readerComptes.numberOfRecords();
-    StackTracer.printTestInfo(COMPTES, nb);
+    boolean ok = nb > 1;
+    StackTracer.printTestResult("Source", COMPTES, "Nb", nb, "Ok", ok);
     System.out.println();
     for (int i = 0; i < nb; i++) {
       Compte c = new Compte();
@@ -116,32 +118,33 @@ public class BinaryFileReaderTest {
         readerComptes.skipBytes(readerComptes.getRecordSize() - 4);
       }
     }
-    boolean ok = nb > 1;
     assertTrue(ok);
   }
 
   @Test
   public void test06_open() {
     StackTracer.printCurrentTestMethod();
-    boolean result = readerPmtModes.open();
-    StackTracer.printTestInfo(PMTMODES, result);
-    assertTrue(result);
+    boolean ok = readerPmtModes.open();
+    StackTracer.printTestResult("Source", PMTMODES, "Open", ok);
+    assertTrue(ok);
   }
 
   @Test
   public void test07_numberOfBytes() {
     StackTracer.printCurrentTestMethod();
-    int result = readerPmtModes.numberOfBytes();
-    StackTracer.printTestInfo(PMTMODES, result);
-    assertTrue(result > 0);
+    int bytes = readerPmtModes.numberOfBytes();
+    boolean ok = bytes > 0;
+    StackTracer.printTestResult("Source", PMTMODES, "Bytes", bytes, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
   public void test08_numberOfRecords() {
     StackTracer.printCurrentTestMethod();
-    int result = readerPmtModes.numberOfRecords();
-    StackTracer.printTestInfo(PMTMODES, result);
-    assertTrue(result > 1);
+    int nb = readerPmtModes.numberOfRecords();
+    boolean ok = nb > 1;
+    StackTracer.printTestResult("Source", PMTMODES, "Nb", nb, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
@@ -149,15 +152,17 @@ public class BinaryFileReaderTest {
     StackTracer.printCurrentTestMethod();
     int nb1 = readerPmtModes.getRecordSize();
     int nb2 = readerPmtModes.skipBytes(readerPmtModes.getRecordSize());
-    StackTracer.printTestInfo(PMTMODES, nb2);
-    assertEquals(nb2, nb1);
+    boolean ok = nb2 == nb1;
+    StackTracer.printTestResult("Source", PMTMODES, "Nb1", nb1, "Nb2", nb2, "Ok", ok);
+    assertTrue(ok);
   }
 
   @Test
   public void test10_readPmtModes() throws Exception {
     StackTracer.printCurrentTestMethod();
     int nb = readerPmtModes.numberOfRecords();
-    StackTracer.printTestInfo(PMTMODES, nb);
+    boolean ok = nb > 1;
+    StackTracer.printTestResult("Source", PMTMODES, "Nb", nb, "Ok", ok);
     System.out.println();
     for (int i = 0; i < nb; i++) {
       PmtMode pm = new PmtMode();

@@ -20,12 +20,10 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PropertyReaderTest {
   static final String PROP_FILE = "App.properties";
-  
   static PropertyReader pr;
 
   @BeforeClass
   public static void setUpClass() throws Exception {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
     pr = new PropertyReader("data/" + PROP_FILE);
   }
 
@@ -37,50 +35,73 @@ public class PropertyReaderTest {
   @Test
   public void test01_getTextProperty() {
     StackTracer.printCurrentTestMethod();
-    String s = pr.getTextProperty("Application.vendorId", "EIKON");
-    StackTracer.printTestInfo(PROP_FILE, s);
-    assertTrue(s.equals("EMF"));
+    String KEY = "Application.vendorId";
+    String result = pr.getTextProperty(KEY, "EIKON");
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.equals("EMF");
+    StackTracer.printTestResult("Source", PROP_FILE, "Key", KEY, "Value", result);
+    assertTrue(ok);      
   }
 
   @Test
   public void test02_getIntProperty() {
     StackTracer.printCurrentTestMethod();
-    int i = pr.getIntProperty("Application.splash.bubble.size", 0);
-    StackTracer.printTestInfo(PROP_FILE, i);
-    assertTrue(i > 0);
+    String KEY = "Application.splash.bubble.size";
+    int result = pr.getIntProperty(KEY, 0);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result > 0;
+    StackTracer.printTestResult("Source", PROP_FILE, "Key", KEY, "Value", result);
+    assertTrue(ok);        
   }
 
   @Test
   public void test03_getBooleanProperty() {
     StackTracer.printCurrentTestMethod();
-    boolean b = pr.getBooleanProperty("Application.autostart", false);
-    StackTracer.printTestInfo(PROP_FILE, b);
-    assertTrue(b);
+    String KEY = "Application.autostart";
+    boolean result = pr.getBooleanProperty(KEY, false);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result==true;
+    StackTracer.printTestResult("Source", PROP_FILE, "Key", KEY, "Value", result);
+    assertTrue(ok);         
   }
 
   @Test
   public void test04_getFontProperty() {
     StackTracer.printCurrentTestMethod();
+    String KEY = "Application.bgText1.font";
     Font f1 = new Font("Arial", 0, 12);
-    Font f2  = pr.getFontProperty("Application.bgText1.font", f1);
-    StackTracer.printTestInfo(PROP_FILE, f2.getFontName());
-    assertTrue(f2.getFontName().contains("Comic"));
+    Font f2  = pr.getFontProperty(KEY, f1);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = f2.getFontName().contains("Comic");
+    StackTracer.printTestResult("Source", PROP_FILE, "Key", KEY, "Value", f2);
+    assertTrue(ok);   
   }
 
   @Test
   public void test05_getColorProperty() {
     StackTracer.printCurrentTestMethod();
+    String KEY = "Application.bgText1.color";
     Color c1 = Color.red;
-    Color c2  = pr.getColorProperty("Application.bgText1.color", c1);
-    StackTracer.printTestInfo(PROP_FILE, c2.toString());
-    assertTrue(!c2.equals(c1));
+    Color c2  = pr.getColorProperty(KEY, c1);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = !c2.equals(c1);
+    StackTracer.printTestResult("Source", PROP_FILE, "Key", KEY, "Value", c2.toString());
+    assertTrue(ok);       
   }
 
   @Test
   public void test06_getDbProperties() {
     StackTracer.printCurrentTestMethod();
     Properties p = pr.getDbProperties();
-    StackTracer.printTestInfo(PROP_FILE, p.size());
-    assertTrue(p.size() > 0);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = p.size() > 0;
+    StackTracer.printTestResult("Source", PROP_FILE, "Result", p.size());
+    assertTrue(ok);       
   }
 }

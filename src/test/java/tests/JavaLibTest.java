@@ -21,7 +21,6 @@ public class JavaLibTest {
 
   @BeforeClass
   public static void setUpClass() {
-    System.out.println("\n>>> " + StackTracer.getCurrentClass() + " <<<");
     if (!FileHelper.isFileExists(CLASS_TO_CHECK)) {
       CLASS_TO_CHECK = "build/test/classes/beans/Compte.class";
     }
@@ -36,33 +35,44 @@ public class JavaLibTest {
   public void test01_getJavaVersion() {
     StackTracer.printCurrentTestMethod();
     String result = JavaLib.getJavaVersion();
-    System.out.println("  - " + result);
-    assertTrue(!result.isEmpty());
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = !result.isEmpty();
+    StackTracer.printTestResult("Version", result);
+    assertTrue(ok);
   }
 
   @Test
   public void test02_getJavaVersionBits() {
     StackTracer.printCurrentTestMethod();
     int result = JavaLib.getJavaVersionBits();
-    System.out.println("  - " + result + " bits");
-    assertTrue(result == 32 || result == 64);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result == 32 || result == 64;
+    StackTracer.printTestResult("Bits", result);
+    assertTrue(ok);    
   }
 
   @Test
   public void test03_getJavaClassVersion() {
     StackTracer.printCurrentTestMethod();
     int[] result = JavaLib.getJavaClassVersion(CLASS_TO_CHECK);
-    System.out.println("  - major: " + result[0]);
-    System.out.println("  - minor: " + result[1]);
-    assertTrue(result[0] > 0);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result[0] > 0;
+    StackTracer.printTestResult("Major", result[0], "Minor", result[1]);
+    assertTrue(ok);     
   }
 
   @Test
   public void test04_getJavaClassPlatform() {
     StackTracer.printCurrentTestMethod();
     String result = JavaLib.getJavaClassPlatform(CLASS_TO_CHECK);
-    System.out.println("  - " + result);
-    assertTrue(result.contains("JDK") || result.contains("J2SE"));
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.contains("JDK") || result.contains("J2SE");
+    StackTracer.printTestResult("Platform", result);
+    assertTrue(ok);         
   }
 
 
