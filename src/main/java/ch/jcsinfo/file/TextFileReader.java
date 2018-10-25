@@ -34,14 +34,12 @@ public class TextFileReader<E> {
    *
    * @param br un reader (canal de lecture) ouvert sur un fichier texte
    * @return une liste de bean "E" extraits avec l'objet "extracter"
-   * @throws FileException ce type d'erreur est remonté un niveau en dessus
    */
-  private List<E> readData(BufferedReader br) throws FileException {
-    List<E> ar = null;
+  private List<E> readData(BufferedReader br) {
+    List<E> ar = new ArrayList<>();
     String line;
     if (br != null) {
       try {
-        ar = new ArrayList<>();
         
         // boucle sur toutes les lignes du fichier
         int idx = 0;
@@ -53,7 +51,7 @@ public class TextFileReader<E> {
           }
         }
       } catch (IOException ex) {
-        throw new FileException(this.getClass().getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+        System.out.println(new FileException(this.getClass().getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
       }
     }
     return ar;
@@ -65,10 +63,9 @@ public class TextFileReader<E> {
    * @param fileName un nom de fichier avec son chemin
    * @param csName   un nom de "charset" (exemple: "Windows-1250")
    * @return une liste de bean "E" extraits avec l'objet "extracter"
-   * @throws FileException ce type d'erreur est remonté un niveau en dessus
    */
-  public List<E> read(String fileName, String csName) throws FileException {
-    List<E> ar = null;
+  public List<E> read(String fileName, String csName) {
+    List<E> ar = new ArrayList<>();
     BufferedReader br = null;
     try {
 
@@ -82,7 +79,7 @@ public class TextFileReader<E> {
       ar = readData(br);
 
     } catch (IOException ex) {
-        throw new FileException(this.getClass().getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(new FileException(this.getClass().getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
     } finally {
       if (br != null) {
         try {
@@ -99,9 +96,8 @@ public class TextFileReader<E> {
    *
    * @param fileName un nom de fichier avec son chemin
    * @return une liste de bean "E" extraits avec l'objet "extracter"
-   * @throws FileException ce type d'erreur est remonté un niveau en dessus
    */
-  public List<E> read(String fileName) throws FileException {
+  public List<E> read(String fileName) {
     return TextFileReader.this.read(fileName, "UTF-8");
   }
 
@@ -110,9 +106,8 @@ public class TextFileReader<E> {
    *
    * @param inputStream un objet "fichier" de type "InputStream"
    * @return une liste de bean "E" extraits avec l'objet "extracter"
-   * @throws FileException ce type d'erreur est remonté un niveau en dessus
    */
-  public List<E> read(InputStream inputStream) throws FileException  {
+  public List<E> read(InputStream inputStream) {
     
     // transformation en BufferedReader
     BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
