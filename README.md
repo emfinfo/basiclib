@@ -21,6 +21,7 @@ Documentation :<br>
 
 New in release 1.3.2 (25.10.2018) :
 * all file methods now throws a FileException
+* there is no more a use of a logger in this library
 * delete method "printTestInfo" in StackTracer
 * enhancement of method "printTestResult" in StackTracer
 * use of "printTestResult" in all test classes

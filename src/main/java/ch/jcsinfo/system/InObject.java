@@ -28,9 +28,8 @@ public class InObject {
    * @param methodName le nom de la méthode recherchée
    * @param parameterTypes un ou plusieurs types des paramètres de la méthode recherchée
    * @return la méthode si elle a été trouvée, autrement null
-   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) throws FileException {
+  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
     Method m = null;
 
     // on recherche la méthode dans la classe de l'objet "source"
@@ -53,7 +52,7 @@ public class InObject {
 //        System.out.println("Parent: " + parent.getSimpleName());
         m = parent.getDeclaredMethod(methodName);
       } catch (NoSuchMethodException | SecurityException ex) {
-        throw new FileException(InObject.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println("findMethod error: "+ex.getMessage());
       }
     }
     return m;
@@ -85,9 +84,8 @@ public class InObject {
    * @param source l'objet où rechercher le getter (généralement un entity-bean)
    * @param getterName le nom de la méthode à appeler
    * @return un objet de tout type contenant la valeur
-   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static Object callGetter(Object source, String getterName) throws FileException {
+  public static Object callGetter(Object source, String getterName) {
     Object result = null;
     Method method = findMethod(source, getterName);
     if (method != null) {
@@ -112,9 +110,8 @@ public class InObject {
    * @param dateFormat le format pour l'affichage des dates
    * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
    * @return une chaîne de caractères avec tous les champs
-   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static String fieldsToString(Object source, String dateFormat, boolean dispFirstAsObject) throws FileException {
+  public static String fieldsToString(Object source, String dateFormat, boolean dispFirstAsObject) {
     StringBuilder result = new StringBuilder();
 
     // débute par la classe simulant un objet
