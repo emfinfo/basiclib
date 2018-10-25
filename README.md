@@ -19,7 +19,8 @@ You can check a specific test with (for example) :
 Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
-New in release 1.3.2 (22.10.2018) :
+New in release 1.3.2 (25.10.2018) :
+* all file methods now throws a FileException
 * delete method "printTestInfo" in StackTracer
 * enhancement of method "printTestResult" in StackTracer
 * use of "printTestResult" in all test classes
