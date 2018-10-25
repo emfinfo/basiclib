@@ -1,5 +1,6 @@
 package ch.jcsinfo.system;
 
+import ch.jcsinfo.file.FileException;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Classe de méthodes statiques concernant l'OS.
@@ -20,11 +19,12 @@ import org.slf4j.LoggerFactory;
  * @author Jean-Claude Stritt
  */
 public class SystemLib {
-  private static Logger logger = LoggerFactory.getLogger(SystemLib.class);
 
   private SystemLib() {
   }
 
+  
+  
   /**
    * Reset les données pour log4J en relisant son fichier de propriétés.
    *
@@ -37,20 +37,20 @@ public class SystemLib {
     URL url = cl.getResource(propFile);
     if (url != null) {
       PropertyConfigurator.configure(url);
-      logger.debug("{} with « {} » ok !", StackTracer.getCurrentMethod(), propFile);
     }
   }
 
-
-
+  
+  
   /**
    * Ouvre une application du bureau basée sur le fichier transmis.
    * Ainsi, un fichier .pdf devrait s'ouvrir automatiquement avec Acrobat Reader
    * par exemple. Cette méthode devrait fonctionner avec tous les OS.
    *
    * @param fileName le fichier à ouvrir (avec son chemin)
+   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static void openDesktopFile(String fileName) {
+  public static void openDesktopFile(String fileName) throws FileException {
 
     // on vérifie que la classe SystemLib soit bien supportée
     if (Desktop.isDesktopSupported()) {
@@ -64,9 +64,8 @@ public class SystemLib {
         // on lance l'application associée au fichier pour l'ouvrir
         try {
           desktop.open(new File(fileName));
-          logger.debug("{} « {} » ok !", StackTracer.getCurrentMethod(), fileName);
         } catch (IOException ex) {
-          logger.error("{} « {} »", StackTracer.getCurrentMethod(), fileName + " (" + IOException.class.getSimpleName() + ")");
+          throw new FileException(SystemLib.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
         }
       }
     }
@@ -81,7 +80,6 @@ public class SystemLib {
    */
   public static void sleep(long ms) {
     try {
-      logger.debug("{} now for « {} » ms", StackTracer.getCurrentMethod(), ms);
       Thread.sleep(ms);
     } catch (InterruptedException e) {
     }
@@ -101,9 +99,7 @@ public class SystemLib {
     try {
       PrintStream ps = new PrintStream(System.out, true, ch);
       System.setOut(ps);
-      logger.debug("{} to « {} » ok !", StackTracer.getCurrentMethod(), ch);
     } catch (UnsupportedEncodingException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod() + "(" + ch + ")", UnsupportedEncodingException.class.getSimpleName());
     }
 //    System.out.println("\n"
 //              + "Old CHARSET: " + cs.name() + "\n"

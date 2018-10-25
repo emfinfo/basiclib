@@ -1,11 +1,9 @@
 package ch.jcsinfo.system;
 
+import ch.jcsinfo.file.FileException;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Classe avec des méthodes statiques pour connaitre quelques informations de
@@ -14,7 +12,6 @@ import org.slf4j.LoggerFactory;
  * @author Jean-Claude Stritt
  */
 public class JavaLib {
-  private static Logger logger = LoggerFactory.getLogger(SystemLib.class);
 
   /**
    * Retourne la version Java par défaut utilisé par l'OS.
@@ -40,8 +37,9 @@ public class JavaLib {
    *
    * @param filename un nom de fichier ".class" à tester
    * @return un tableau avec 2 valeurs (valeurs "majeur", "mineur")
+   * @throws FileException une exception qu'il faut traiter à un niveau supérieure
    */
-  public static int[] getJavaClassVersion(String filename) {
+  public static int[] getJavaClassVersion(String filename) throws FileException {
     int[] data = new int[]{0, 0};
     DataInputStream in;
     try {
@@ -52,10 +50,8 @@ public class JavaLib {
         data[0] = in.readUnsignedShort();
       }
       in.close();
-    } catch (FileNotFoundException ex) {
-      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), filename + " (" + FileNotFoundException.class.getSimpleName() + ")");
     } catch (IOException ex) {
-      logger.debug("{} « {} »", StackTracer.getCurrentMethod(), filename + " (" + IOException.class.getSimpleName() + ")");
+      throw new FileException(JavaLib.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return data;
   }
@@ -66,8 +62,9 @@ public class JavaLib {
    *
    * @param filename un nom de fichier ".class" pour tester le nom de la plateforme
    * @return la plateforme Java utilisée
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static String getJavaClassPlatform(String filename) {
+  public static String getJavaClassPlatform(String filename) throws FileException {
     final String J2SE = "J2SE ";
     int[] data = getJavaClassVersion(filename);
     String res;

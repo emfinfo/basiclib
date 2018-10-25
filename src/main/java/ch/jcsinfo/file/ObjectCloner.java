@@ -12,8 +12,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Sérialisation et désérialisation d'un objet.
@@ -22,29 +20,18 @@ import org.slf4j.LoggerFactory;
  */
 public class ObjectCloner {
   private static final String FILE_NAME = "obj.ser";
-  private static Logger logger = LoggerFactory.getLogger(ObjectCloner.class);
 
   private ObjectCloner() {
   }
   
   /**
-   * Méthode privée pour afficher un message de log.
-   * 
-   * @param method la méthode où a eu lieu l'erreur
-   * @param msg le message d'erreur à afficher
-   * @param err le type d'erreur
-   */
-  private static void log(String method, String msg, String err) {
-    logger.error("{} « {} »", method, msg + ": " + err);
-  }
-
-  /**
    * Permet de cloner un objet quelconque.
    *
    * @param orig l'objet à cloner
    * @return un nouvel objet
+   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public static Object clone(Object orig) {
+  public static Object clone(Object orig) throws FileException {
     ObjectOutputStream out;
     ObjectInputStream in;
     Object newObj = null;
@@ -57,10 +44,8 @@ public class ObjectCloner {
       newObj = in.readObject();
       out.close();
       in.close();
-    } catch (IOException ex) {
-      log(StackTracer.getCurrentMethod(), IOException.class.getSimpleName(), ex.getMessage());
-    } catch (ClassNotFoundException ex) {
-      log(StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName(), ex.getMessage());
+    } catch (IOException | ClassNotFoundException ex) {
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return newObj;
   }
@@ -70,37 +55,35 @@ public class ObjectCloner {
    * 
    * @param orig l'objet original à copier
    * @return l'objet copié
+   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public static Object fastcopy(Object orig) {
+  public static Object fastcopy(Object orig) throws FileException {
     Object obj = null;
     try {
       // Write the object out to a byte array
       FastByteArrayOutputStream fbos = new FastByteArrayOutputStream();
-      ObjectOutputStream out = new ObjectOutputStream(fbos);
-      out.writeObject(orig);
-      out.flush();
-      out.close();
+      try (ObjectOutputStream out = new ObjectOutputStream(fbos)) {
+        out.writeObject(orig);
+        out.flush();
+      }
 
       // Retrieve an input stream from the byte array and read
       // a copy of the object back in. 
-      ObjectInputStream in
-              = new ObjectInputStream(fbos.getInputStream());
+      ObjectInputStream in = new ObjectInputStream(fbos.getInputStream());
       obj = in.readObject();
-    } catch (IOException ex) {
-      log(StackTracer.getCurrentMethod(), IOException.class.getSimpleName(), ex.getMessage());
-    } catch (ClassNotFoundException ex) {
-      log(StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName(), ex.getMessage());
+    } catch (IOException | ClassNotFoundException ex) {
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return obj;
   }
   
-
   /**
    * Sérialise un objet dans un fichier binaire sur le disque.
    *
    * @param obj l'objet à sérialiser.
+   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-   public static void serialize(Object obj) {
+   public static void serialize(Object obj) throws FileException {
     ObjectOutput out;
     try {
       OutputStream os = new FileOutputStream(FILE_NAME);
@@ -108,7 +91,7 @@ public class ObjectCloner {
       out.writeObject(obj);
       out.close();
     } catch (IOException ex) {
-      log(StackTracer.getCurrentMethod(), Exception.class.getSimpleName(), ex.getMessage());
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
   }
 
@@ -116,8 +99,9 @@ public class ObjectCloner {
    * Désérialise un objet sérialisé dans un fichier disque.
    *
    * @return l'objet désérialisé.
+   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public static Object deserialize() {
+  public static Object deserialize() throws FileException {
     ObjectInput in;
     try {
       InputStream is = new FileInputStream(FILE_NAME);
@@ -125,12 +109,9 @@ public class ObjectCloner {
       Object newObj = in.readObject();
       in.close();
       return newObj;
-    } catch (IOException ex) {
-      log(StackTracer.getCurrentMethod(), IOException.class.getSimpleName(), ex.getMessage());
-    } catch (ClassNotFoundException ex) {
-      log(StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName(), ex.getMessage());
+    } catch (IOException | ClassNotFoundException ex) {
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
-    return null;
   }
   
   

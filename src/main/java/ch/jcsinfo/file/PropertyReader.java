@@ -26,8 +26,9 @@ public class PropertyReader {
    *
    * @param propPath le chemin vers un fichier de propriétés
    * @param propPrefix un préfixe pour la recherche des clés
+   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public PropertyReader(String propPath, String propPrefix) {
+  public PropertyReader(String propPath, String propPrefix) throws FileException {
     props = FileHelper.loadProperties(propPath);
     this.propPrefix = propPrefix;
   }
@@ -36,8 +37,9 @@ public class PropertyReader {
    * Constructeur qui permet de préciser l'accès au fichier des propriétés.
    *
    * @param propPath le chemin vers un fichier de propriétés
+   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public PropertyReader(String propPath) {
+  public PropertyReader(String propPath) throws FileException {
     this(propPath,"");
   }
 

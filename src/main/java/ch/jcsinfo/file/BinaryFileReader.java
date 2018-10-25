@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Permet de lire un fichier binaire de type ".DAF" (fichiers des logiciels PSP).
@@ -20,7 +18,6 @@ import org.slf4j.LoggerFactory;
 public class BinaryFileReader {
   private String fileName;
   private int recordSize;
-  private Logger logger;
   private DataInputStream dis = null;
 
   /**
@@ -32,21 +29,21 @@ public class BinaryFileReader {
   public BinaryFileReader( String fileName, int recordSize ) {
     this.fileName = fileName;
     this.recordSize = recordSize;
-    this.logger = LoggerFactory.getLogger(getClass());
   }
 
   /**
    * Ouvre le fichier binaire.
    *
    * @return TRUE si le fichier a pu lire le premier enregistrement (bidon)
+   * @throws FileException une exception qu'il faut traiter à un niveau supérieur
    */
-  public boolean open() {
+  public boolean open() throws FileException {
     boolean ok = false;
     try {
       dis = new DataInputStream(new BufferedInputStream(new FileInputStream(fileName)));
       ok = true;
     } catch (FileNotFoundException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
+      throw new FileException(this.getClass().getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return ok;
   }
@@ -236,7 +233,6 @@ public class BinaryFileReader {
         dis.close();
       }
     } catch (IOException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
     }
   }
 }

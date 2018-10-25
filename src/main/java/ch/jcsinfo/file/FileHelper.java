@@ -25,8 +25,6 @@ import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -39,12 +37,10 @@ import org.xml.sax.SAXException;
  * @author Jean-Claude Stritt
  */
 public class FileHelper {
-
   public static final String REGEX_URL1 = "[\\\\]+";
   public static final String REGEX_URL2 = "\\" + "/";
   public static final String REGEX_FDR1 = "[/\\\\]+";
   public static final String REGEX_FDR2 = "\\" + File.separator;
-  private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
 
   /**
    * Normalise une URL en la transformant tout en minuscules et en transformant
@@ -179,8 +175,9 @@ public class FileHelper {
    * @param fileName le nom partiel des fichier à filtrer
    *
    * @return une liste avec les noms de fichiers
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static List<String> getFolderFiles(String folder, String fileName) {
+  public static List<String> getFolderFiles(String folder, String fileName) throws FileException {
     List<String> files = new ArrayList<>();
     Path path = Paths.get(folder);
     try (Stream<Path> filePathStream = Files.walk(path)) {
@@ -191,7 +188,7 @@ public class FileHelper {
         }
       });
     } catch (IOException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return files;
   }
@@ -241,7 +238,7 @@ public class FileHelper {
         // remove final path separator
         result.delete(result.length() - "/".length(), result.length());
       }
-    } catch (IOException e) {
+    } catch (IOException ex) {
       result.append(filePath);
     }
     return result.toString();
@@ -312,8 +309,9 @@ public class FileHelper {
    *
    * @param urlFilePath l'accès au fichier d'après son URL
    * @return un nom de fichier normalisé Windows, Mac, Unix, etc.
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static String urlToFilePath(String urlFilePath) {
+  public static String urlToFilePath(String urlFilePath) throws FileException {
     String filePath = urlFilePath;
     File f;
     URL url;
@@ -327,10 +325,10 @@ public class FileHelper {
       try {
         filePath = f.getCanonicalPath();
       } catch (IOException ex) {
-        logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
+        throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
       }
     } catch (MalformedURLException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex.getMessage());
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return filePath;
   }
@@ -340,8 +338,9 @@ public class FileHelper {
    *
    * @param filePath un nom de fichier à effacer
    * @return true si l'effacement s'est bien déroulé
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static boolean deleteFile(String filePath) {
+  public static boolean deleteFile(String filePath) throws FileException {
     boolean ok = false;
     try {
       File file = new File(filePath);
@@ -349,7 +348,7 @@ public class FileHelper {
         ok = true;
       }
     } catch (Exception ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ex);
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return ok;
   }
@@ -359,8 +358,9 @@ public class FileHelper {
    *
    * @param urlFilePath une url désignant un fichier
    * @return true si l'effacement a pu se faire, false autrement
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static boolean deleteFileWithUrl(String urlFilePath) {
+  public static boolean deleteFileWithUrl(String urlFilePath) throws FileException {
     String filePath = urlToFilePath(urlFilePath);
     return deleteFile(filePath);
   }
@@ -491,15 +491,16 @@ public class FileHelper {
    *
    * @param fname nom d'un fichier dans les resources de l'application
    * @return un canal (inputstream) ouvert sur le fichier
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static InputStream getResourceInputStream(String fname) {
+  public static InputStream getResourceInputStream(String fname) throws FileException {
     InputStream is = null;
     String clName = StackTracer.getParentClass(-2);
     try {
       Class<?> cl = Class.forName(clName);
       is = cl.getClassLoader().getResourceAsStream(fname);
     } catch (ClassNotFoundException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), ClassNotFoundException.class.getSimpleName() + ": " + fname);
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
     return (is != null) ? new BufferedInputStream(is) : is;
   }
@@ -512,8 +513,9 @@ public class FileHelper {
    * @param fname1 nom d'un fichier hors champ de l'application
    * @param fname2 nom d'un fichier dans les resources internes
    * @return un canal (inputstream) ouvert sur le fichier
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static InputStream getInputStream(String fname1, String fname2) {
+  public static InputStream getInputStream(String fname1, String fname2) throws FileException {
     InputStream is;
     try {
       is = new FileInputStream(fname1);
@@ -529,8 +531,9 @@ public class FileHelper {
    *
    * @param fileName un nom de fichier avec son chemin d'accès
    * @return un flux de type "InputStream"
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static InputStream getInputStream(String fileName) {
+  public static InputStream getInputStream(String fileName) throws FileException {
     InputStream is;
     try {
       is = new FileInputStream(fileName);
@@ -548,8 +551,9 @@ public class FileHelper {
    *
    * @param fileName l'accès vers un fichier de propriétés
    * @return un set de propriétés
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static Properties loadProperties(String fileName) {
+  public static Properties loadProperties(String fileName) throws FileException {
     InputStream is = getInputStream(fileName);
     Properties props = new Properties();
     if (is != null) {
@@ -557,7 +561,7 @@ public class FileHelper {
         props.load(is);
         is.close();
       } catch (IOException ex) {
-        logger.error("{} « {} »", StackTracer.getCurrentMethod(), IOException.class.getSimpleName() + ": " + fileName);
+        throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
       }
     }
     return props;
@@ -569,8 +573,9 @@ public class FileHelper {
    *
    * @param fileName le nom d'un fichier XML
    * @return un set de propriétés sous la forme clé-valeur.
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static Properties loadXmlProperties(String fileName) {
+  public static Properties loadXmlProperties(String fileName) throws FileException {
     InputStream is = getInputStream(fileName);
     Properties props = new Properties();
     if (is != null) {
@@ -589,7 +594,7 @@ public class FileHelper {
           }
         }
       } catch (ParserConfigurationException | SAXException | IOException ex) {
-        logger.error("{} « {} »", StackTracer.getCurrentMethod(), IOException.class.getSimpleName() + ": " + fileName);
+        throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
       }
     }
     return props;
@@ -600,14 +605,12 @@ public class FileHelper {
    *
    * @param docPath le nom complet du document (fichier) avec son chemin
    * @return true (vrai) si le document a été trouvé (et normalement ouvert)
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static boolean openDocument(String docPath) {
-    boolean ok = false;
-    if (isFileExists(docPath)) {
+  public static boolean openDocument(String docPath) throws FileException {
+    boolean ok = isFileExists(docPath);
+    if (ok) {
       SystemLib.openDesktopFile(docPath);
-      ok = true;
-    } else {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), "Document not found: " + docPath);
     }
     return ok;
   }
@@ -617,57 +620,54 @@ public class FileHelper {
    *
    * @param urlName une URL de fichier
    * @return true (vrai) si le document a été trouvé et normalement ouvert
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static boolean openDocumentWithUrl(String urlName) {
+  public static boolean openDocumentWithUrl(String urlName) throws FileException {
     String docName = urlToFilePath(urlName);
-//    logger.debug("{} « {} »", StackTracer.getCurrentMethod(), "urlName: " + urlName);
-//    logger.debug("{} « {} »", StackTracer.getCurrentMethod(), "docName: " + docName);
     return openDocument(docName);
   }
 
-  private static synchronized String check(String filename) {
+  private static String check(String filename) {
     return filename.replaceAll("[?:\\\\/*\\\"\\\"<>|]", "-").replace("..", ".");
   }
 
   /**
    * Copie un fichier d'un endroit vers un autre via des flux de données.
    *
-   * @param sourceFile      le chemin vers le fichier à copier (de type File)
+   * @param sourceFile le chemin vers le fichier à copier (de type File)
    * @param targetDirectory le dossier de destination (de type String)
-   * @param targetFilename  le nom du fichier de destination (de type String)
-   * @param deleteOnExit    true si l'on veut effacer le fichier source
-   *
-   * @throws java.io.IOException l'exception à gérer au niveau supérieur
+   * @param targetFilename le nom du fichier de destination (de type String)
+   * @param deleteOnExit true si l'on veut effacer le fichier source
    * @return l'URI du fichier créé
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static URI copyFile(File sourceFile, File targetDirectory, String targetFilename, boolean deleteOnExit)
-    throws IOException {
+  public static URI copyFile(File sourceFile, File targetDirectory, String targetFilename, boolean deleteOnExit) throws FileException {
     targetFilename = check(targetFilename);
     FileOutputStream out;
-    InputStream in = new FileInputStream(sourceFile);
     File outp;
-    if (targetDirectory != null) {
-      outp = new File(targetDirectory + File.separator + targetFilename);
-      if (!targetDirectory.exists()) {
-        targetDirectory.mkdirs();
+    try (InputStream in = new FileInputStream(sourceFile)) {
+      if (targetDirectory != null) {
+        outp = new File(targetDirectory + File.separator + targetFilename);
+        if (!targetDirectory.exists()) {
+          targetDirectory.mkdirs();
+        }
+        outp.delete();
+        out = new FileOutputStream(targetDirectory + File.separator + targetFilename);
+      } else {
+        outp = new File(targetFilename);
+        outp.delete();
+        out = new FileOutputStream(targetFilename);
       }
-      outp.delete();
-      out = new FileOutputStream(targetDirectory + File.separator + targetFilename);
-    } else {
-      outp = new File(targetFilename);
-      outp.delete();
-      out = new FileOutputStream(targetFilename);
-    }
-
-    // copie des octets depuis le flux entrant vers le flux sortant
-    byte[] buf = new byte[1024];
-    int len;
-    while ((len = in.read(buf)) > 0) {
-      out.write(buf, 0, len);
-    }
-    in.close();
-    out.close();
-
+      
+      // copie des octets depuis le flux entrant vers le flux sortant
+      byte[] buf = new byte[1024];
+      int len;
+      while ((len = in.read(buf)) > 0) {
+        out.write(buf, 0, len);
+      }
+    } catch (IOException ex) {
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+    } 
     return outp.toURI();
   }
 
@@ -675,23 +675,23 @@ public class FileHelper {
    * Copie un fichier d'un endroit vers un autre via des flux de données
    *
    * @param sourceFile le fichier source de type File
-   * @param destFile   le fichier de destination de type File
+   * @param destFile le fichier de destination de type File
    *
    * @return l'URI du fichier de destination
-   *
-   * @throws java.io.FileNotFoundException l'exception "fichier non trouvé" à gérer au niveau supérieur
-   * @throws java.io.IOException           l'exception de type IO à gérer au niveau supérieur
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static URI copyFile(File sourceFile, File destFile) throws FileNotFoundException, IOException {
-    InputStream in = new FileInputStream(sourceFile);
-    OutputStream out = new FileOutputStream(destFile);
-    byte[] buf = new byte[1024];
-    int len;
-    while ((len = in.read(buf)) > 0) {
-      out.write(buf, 0, len);
-    }
-    in.close();
-    out.close();
+  public static URI copyFile(File sourceFile, File destFile) throws FileException {
+    OutputStream out;
+    try (InputStream in = new FileInputStream(sourceFile)) {
+      out = new FileOutputStream(destFile);
+      byte[] buf = new byte[1024];
+      int len;
+      while ((len = in.read(buf)) > 0) {
+        out.write(buf, 0, len);
+      }
+    } catch (IOException ex) {
+      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+    } 
     return destFile.toURI();
   }
 

@@ -1,13 +1,12 @@
 package ch.jcsinfo.system;
 
 import ch.jcsinfo.datetime.DateTimeLib;
+import ch.jcsinfo.file.FileException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Classe de méthodes statiques permettant l'introspection et des appels
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
  * @author Jean-Claude Stritt
  */
 public class InObject {
-  private static Logger logger = LoggerFactory.getLogger(InObject.class);
 
   private InObject() {
   }
@@ -30,10 +28,9 @@ public class InObject {
    * @param methodName le nom de la méthode recherchée
    * @param parameterTypes un ou plusieurs types des paramètres de la méthode recherchée
    * @return la méthode si elle a été trouvée, autrement null
+   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  // idem, mais on donne l'objet
-//  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
-  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) {
+  public static Method findMethod(Object source, String methodName, Class<?>... parameterTypes) throws FileException {
     Method m = null;
 
     // on recherche la méthode dans la classe de l'objet "source"
@@ -55,16 +52,9 @@ public class InObject {
 //        System.out.println("Class: " + c.getSimpleName());
 //        System.out.println("Parent: " + parent.getSimpleName());
         m = parent.getDeclaredMethod(methodName);
-      } catch (NoSuchMethodException ex) {
-        logger.error("{} « {} »", StackTracer.getCurrentMethod(), methodName + " " + NoSuchMethodException.class.getSimpleName());
-      } catch (SecurityException ex) {
-        logger.error("{} « {} »", StackTracer.getCurrentMethod(), methodName + " " + SecurityException.class.getSimpleName());
+      } catch (NoSuchMethodException | SecurityException ex) {
+        throw new FileException(InObject.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
       }
-    }
-
-    // si pas trouvé, on met un message dans le fichier de log
-    if (m == null) {
-      logger.debug("{}(« {} ») not found !", StackTracer.getCurrentMethod(), methodName);
     }
     return m;
   }
@@ -83,12 +73,8 @@ public class InObject {
     try {
       myMethod.setAccessible(true); // ajout JCS 9.2.2014
       result = myMethod.invoke(source, parameters);
-    } catch (IllegalAccessException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalAccessException.class.getSimpleName());
-    } catch (IllegalArgumentException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + IllegalArgumentException.class.getSimpleName());
-    } catch (InvocationTargetException ex) {
-      logger.error("{} « {} »", StackTracer.getCurrentMethod(), method.getName() + " " + InvocationTargetException.class.getSimpleName());
+    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+      System.out.println("callMethod error: "+ex.getMessage());
     }
     return result;
   }
@@ -99,8 +85,9 @@ public class InObject {
    * @param source l'objet où rechercher le getter (généralement un entity-bean)
    * @param getterName le nom de la méthode à appeler
    * @return un objet de tout type contenant la valeur
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static Object callGetter(Object source, String getterName) {
+  public static Object callGetter(Object source, String getterName) throws FileException {
     Object result = null;
     Method method = findMethod(source, getterName);
     if (method != null) {
@@ -125,8 +112,9 @@ public class InObject {
    * @param dateFormat le format pour l'affichage des dates
    * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
    * @return une chaîne de caractères avec tous les champs
+   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static String fieldsToString(Object source, String dateFormat, boolean dispFirstAsObject) {
+  public static String fieldsToString(Object source, String dateFormat, boolean dispFirstAsObject) throws FileException {
     StringBuilder result = new StringBuilder();
 
     // débute par la classe simulant un objet
@@ -181,8 +169,9 @@ public class InObject {
    *
    * @param source l'objet source où rechercher les champs
    * @return une chaîne de caractères avec tous les champs
+   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static String fieldsToString(Object source) {
+  public static String fieldsToString(Object source) throws FileException {
     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, true);
   }
 
@@ -193,8 +182,9 @@ public class InObject {
    * @param source l'objet source où rechercher les champs
    * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
    * @return une chaîne de caractères avec tous les champs
+   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static String fieldsToString(Object source, boolean dispFirstAsObject) {
+  public static String fieldsToString(Object source, boolean dispFirstAsObject) throws FileException {
     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, dispFirstAsObject);
   }
 
