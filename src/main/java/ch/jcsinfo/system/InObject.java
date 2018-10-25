@@ -166,9 +166,8 @@ public class InObject {
    *
    * @param source l'objet source où rechercher les champs
    * @return une chaîne de caractères avec tous les champs
-   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static String fieldsToString(Object source) throws FileException {
+  public static String fieldsToString(Object source) {
     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, true);
   }
 
@@ -179,9 +178,8 @@ public class InObject {
    * @param source l'objet source où rechercher les champs
    * @param dispFirstAsObject true si on désire mettre un pseudo-object devant la liste des champs
    * @return une chaîne de caractères avec tous les champs
-   * @throws FileException l'exception qu'il faut traiter à un niveau supérieur
    */
-  public static String fieldsToString(Object source, boolean dispFirstAsObject) throws FileException {
+  public static String fieldsToString(Object source, boolean dispFirstAsObject) {
     return fieldsToString(source, DateTimeLib.DATE_FORMAT_STANDARD, dispFirstAsObject);
   }
 
