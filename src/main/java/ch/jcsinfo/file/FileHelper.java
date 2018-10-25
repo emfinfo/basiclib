@@ -309,7 +309,6 @@ public class FileHelper {
    *
    * @param urlFilePath l'accès au fichier d'après son URL
    * @return un nom de fichier normalisé Windows, Mac, Unix, etc.
-   * @throws FileException l'exception à gérer au niveau supérieur
    */
   public static String urlToFilePath(String urlFilePath) {
     String filePath = urlFilePath;
@@ -357,7 +356,6 @@ public class FileHelper {
    *
    * @param urlFilePath une url désignant un fichier
    * @return true si l'effacement a pu se faire, false autrement
-   * @throws FileException l'exception à gérer au niveau supérieur
    */
   public static boolean deleteFileWithUrl(String urlFilePath) {
     String filePath = urlToFilePath(urlFilePath);
