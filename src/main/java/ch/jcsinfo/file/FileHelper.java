@@ -311,7 +311,7 @@ public class FileHelper {
    * @return un nom de fichier normalisé Windows, Mac, Unix, etc.
    * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static String urlToFilePath(String urlFilePath) throws FileException {
+  public static String urlToFilePath(String urlFilePath) {
     String filePath = urlFilePath;
     File f;
     URL url;
@@ -325,10 +325,10 @@ public class FileHelper {
       try {
         filePath = f.getCanonicalPath();
       } catch (IOException ex) {
-        throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+        System.out.println(new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
       }
     } catch (MalformedURLException ex) {
-      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
     }
     return filePath;
   }
@@ -338,9 +338,8 @@ public class FileHelper {
    *
    * @param filePath un nom de fichier à effacer
    * @return true si l'effacement s'est bien déroulé
-   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static boolean deleteFile(String filePath) throws FileException {
+  public static boolean deleteFile(String filePath) {
     boolean ok = false;
     try {
       File file = new File(filePath);
@@ -348,7 +347,7 @@ public class FileHelper {
         ok = true;
       }
     } catch (Exception ex) {
-      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
     }
     return ok;
   }
@@ -360,7 +359,7 @@ public class FileHelper {
    * @return true si l'effacement a pu se faire, false autrement
    * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static boolean deleteFileWithUrl(String urlFilePath) throws FileException {
+  public static boolean deleteFileWithUrl(String urlFilePath) {
     String filePath = urlToFilePath(urlFilePath);
     return deleteFile(filePath);
   }
