@@ -20,8 +20,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import javax.xml.parsers.DocumentBuilder;
@@ -554,8 +552,8 @@ public class FileHelper {
    * @return un set de propriétés
    */
   public static Properties loadProperties(String fileName) {
-    InputStream is = getInputStream(fileName);
     Properties props = new Properties();
+    InputStream is = getInputStream(fileName);
     if (is != null) {
       try {
         props.load(is);
