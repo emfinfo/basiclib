@@ -29,9 +29,8 @@ public class ObjectCloner {
    *
    * @param orig l'objet à cloner
    * @return un nouvel objet
-   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public static Object clone(Object orig) throws FileException {
+  public static Object clone(Object orig) {
     ObjectOutputStream out;
     ObjectInputStream in;
     Object newObj = null;
@@ -45,7 +44,7 @@ public class ObjectCloner {
       out.close();
       in.close();
     } catch (IOException | ClassNotFoundException ex) {
-      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(new FileException(ObjectCloner.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
     }
     return newObj;
   }
@@ -55,9 +54,8 @@ public class ObjectCloner {
    * 
    * @param orig l'objet original à copier
    * @return l'objet copié
-   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public static Object fastcopy(Object orig) throws FileException {
+  public static Object fastcopy(Object orig) {
     Object obj = null;
     try {
       // Write the object out to a byte array
@@ -72,7 +70,7 @@ public class ObjectCloner {
       ObjectInputStream in = new ObjectInputStream(fbos.getInputStream());
       obj = in.readObject();
     } catch (IOException | ClassNotFoundException ex) {
-      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(new FileException(ObjectCloner.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
     }
     return obj;
   }
@@ -81,9 +79,8 @@ public class ObjectCloner {
    * Sérialise un objet dans un fichier binaire sur le disque.
    *
    * @param obj l'objet à sérialiser.
-   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-   public static void serialize(Object obj) throws FileException {
+   public static void serialize(Object obj) {
     ObjectOutput out;
     try {
       OutputStream os = new FileOutputStream(FILE_NAME);
@@ -91,7 +88,7 @@ public class ObjectCloner {
       out.writeObject(obj);
       out.close();
     } catch (IOException ex) {
-      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(new FileException(ObjectCloner.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
     }
   }
 
@@ -99,9 +96,8 @@ public class ObjectCloner {
    * Désérialise un objet sérialisé dans un fichier disque.
    *
    * @return l'objet désérialisé.
-   * @throws FileException l'exception à traiter à un niveau supérieur
    */
-  public static Object deserialize() throws FileException {
+  public static Object deserialize() {
     ObjectInput in;
     try {
       InputStream is = new FileInputStream(FILE_NAME);
@@ -110,7 +106,8 @@ public class ObjectCloner {
       in.close();
       return newObj;
     } catch (IOException | ClassNotFoundException ex) {
-      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(new FileException(ObjectCloner.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
+      return null;
     }
   }
   

@@ -1,7 +1,6 @@
 package ch.jcsinfo.system;
 
 import ch.jcsinfo.datetime.DateTimeLib;
-import ch.jcsinfo.file.FileException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
