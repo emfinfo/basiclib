@@ -219,14 +219,19 @@ public class FileHelperTest {
     String relPath = FileHelper.getRelativePath(filePath, CURRENT_DIR);
 
     // le résultat attendu    
-    Properties properties = FileHelper.loadProperties(filePath);
+    Properties props = new Properties();
+    try {
+      props = FileHelper.loadProperties(filePath);
+    } catch (FileException ex) {
+      System.out.println(ex);
+    }
 
     // on compare le résultat avec celui attendu
-    boolean ok = properties.size() > 0;
-    StackTracer.printTestResult("Source", relPath, "Size", properties.size());
+    boolean ok = props.size() > 0;
+    StackTracer.printTestResult("Source", relPath, "Size", props.size());
     if (ok) {
       System.out.println();
-      for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+      for (Map.Entry<Object, Object> entry : props.entrySet()) {
         System.out.println("    " + entry.getKey() + " = " + entry.getValue());
       }
     }
@@ -240,14 +245,19 @@ public class FileHelperTest {
     String relPath = FileHelper.getRelativePath(filePath, CURRENT_DIR);
     
     // le résultat attendu    
-    Properties properties = FileHelper.loadXmlProperties(filePath);
+    Properties props = new Properties();
+    try {
+      props = FileHelper.loadXmlProperties(filePath);
+    } catch (FileException ex) {
+      System.out.println(ex);
+    }
 
     // on compare le résultat avec celui attendu
-    boolean ok = properties.size() > 0;
-    StackTracer.printTestResult("Source", relPath, "Size", properties.size());
+    boolean ok = props.size() > 0;
+    StackTracer.printTestResult("Source", relPath, "Size", props.size());
     if (ok) {
       System.out.println();
-      for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+      for (Map.Entry<Object, Object> entry : props.entrySet()) {
         System.out.println("    " + entry.getKey() + " = " + entry.getValue());
       }
     }

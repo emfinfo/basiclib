@@ -1,5 +1,6 @@
 package ch.jcsinfo.util;
 
+import ch.jcsinfo.file.FileException;
 import ch.jcsinfo.file.FileHelper;
 import ch.jcsinfo.math.MathLib;
 import ch.jcsinfo.models.Printer;
@@ -406,8 +407,9 @@ public class PrefsManager {
    * lors de la première exécution du logiciel.
    *
    * @param appTitle le titre de l'application
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static void initPrefsDefaults(String appTitle) {
+  public static void initPrefsDefaults(String appTitle) throws FileException {
     nodeID = appTitle;
     Properties props = FileHelper.loadProperties("defaults.properties");
     if (!props.isEmpty()) {

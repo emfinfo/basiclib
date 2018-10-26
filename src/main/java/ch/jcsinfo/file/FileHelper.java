@@ -528,16 +528,14 @@ public class FileHelper {
    *
    * @param fileName un nom de fichier avec son chemin d'accès
    * @return un flux de type "InputStream"
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static InputStream getInputStream(String fileName) {
-    InputStream is = null;
+  public static InputStream getInputStream(String fileName) throws FileException {
+    InputStream is;
     try {
       is = new FileInputStream(fileName);
     } catch (FileNotFoundException ex1) {
-      try {
-        is = getResourceInputStream(fileName);
-      } catch (FileException ex) {
-      }
+      is = getResourceInputStream(fileName);
     }
     return is;
   }
@@ -550,8 +548,9 @@ public class FileHelper {
    *
    * @param fileName l'accès vers un fichier de propriétés
    * @return un set de propriétés
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static Properties loadProperties(String fileName) {
+  public static Properties loadProperties(String fileName) throws FileException {
     Properties props = new Properties();
     InputStream is = getInputStream(fileName);
     if (is != null) {
@@ -559,7 +558,7 @@ public class FileHelper {
         props.load(is);
         is.close();
       } catch (IOException ex) {
-        System.out.println(new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage()));
+        throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
       }
     }
     return props;
@@ -571,8 +570,9 @@ public class FileHelper {
    *
    * @param fileName le nom d'un fichier XML
    * @return un set de propriétés sous la forme clé-valeur.
+   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static Properties loadXmlProperties(String fileName) {
+  public static Properties loadXmlProperties(String fileName) throws FileException {
     Properties props = new Properties();
     InputStream is = getInputStream(fileName);
     if (is != null) {
