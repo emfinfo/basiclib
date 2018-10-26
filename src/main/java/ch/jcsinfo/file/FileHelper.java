@@ -538,6 +538,9 @@ public class FileHelper {
       is = new FileInputStream(fileName);
     } catch (FileNotFoundException ex1) {
       is = getResourceInputStream(fileName);
+      if (is == null) {
+        throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), fileName + " not found !");
+      }      
     }
     return is;
   }
