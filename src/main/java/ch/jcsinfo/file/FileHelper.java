@@ -488,16 +488,15 @@ public class FileHelper {
    *
    * @param fname nom d'un fichier dans les resources de l'application
    * @return un canal (inputstream) ouvert sur le fichier
-   * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static InputStream getResourceInputStream(String fname) throws FileException {
+  public static InputStream getResourceInputStream(String fname) {
     InputStream is = null;
     String clName = StackTracer.getParentClass(-2);
     try {
       Class<?> cl = Class.forName(clName);
       is = cl.getClassLoader().getResourceAsStream(fname);
     } catch (ClassNotFoundException ex) {
-      throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
+      System.out.println(ex.getMessage());
     }
     return (is != null) ? new BufferedInputStream(is) : is;
   }
@@ -518,6 +517,9 @@ public class FileHelper {
       is = new FileInputStream(fname1);
     } catch (FileNotFoundException ex1) {
       is = getResourceInputStream(fname2);
+      if (is == null) {
+        throw new FileException(FileHelper.class.getSimpleName(), StackTracer.getCurrentMethod(), fname2 + " not found !");
+      }
     }
     return is;
   }
