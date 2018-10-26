@@ -1,15 +1,16 @@
 package tests;
 
+import ch.jcsinfo.file.FileException;
 import ch.jcsinfo.file.FileHelper;
 import ch.jcsinfo.system.StackTracer;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
@@ -170,8 +171,12 @@ public class FileHelperTest {
   @Test
   public void test10_getFolderFiles() {
     StackTracer.printCurrentTestMethod();
-    List<String> files = FileHelper.getFolderFiles(PATH, ".txt");
-    boolean ok = files != null && files.size()==2;
+    List<String> files = new ArrayList<>();
+    try {
+      files = FileHelper.getFolderFiles(PATH, ".txt");
+    } catch (FileException ex) {
+    }
+    boolean ok = files.size() == 2;
     StackTracer.printTestResult("Source", PATH + " (.txt)", "Nb", files.size());
     assertTrue(ok);
     if (ok) {

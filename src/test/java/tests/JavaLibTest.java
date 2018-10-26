@@ -1,5 +1,6 @@
 package tests;
 
+import ch.jcsinfo.file.FileException;
 import ch.jcsinfo.file.FileHelper;
 import ch.jcsinfo.system.JavaLib;
 import ch.jcsinfo.system.StackTracer;
@@ -56,9 +57,11 @@ public class JavaLibTest {
   @Test
   public void test03_getJavaClassVersion() {
     StackTracer.printCurrentTestMethod();
-    int[] result = JavaLib.getJavaClassVersion(CLASS_TO_CHECK);
-    
-    // on compare le résultat avec celui attendu
+    int[] result = new int[2];
+    try {
+      result = JavaLib.getJavaClassVersion(CLASS_TO_CHECK);
+    } catch (FileException ex) {
+    }
     boolean ok = result[0] > 0;
     StackTracer.printTestResult("Major", result[0], "Minor", result[1]);
     assertTrue(ok);     
@@ -67,9 +70,11 @@ public class JavaLibTest {
   @Test
   public void test04_getJavaClassPlatform() {
     StackTracer.printCurrentTestMethod();
-    String result = JavaLib.getJavaClassPlatform(CLASS_TO_CHECK);
-    
-    // on compare le résultat avec celui attendu
+    String result = "";
+    try {
+      result = JavaLib.getJavaClassPlatform(CLASS_TO_CHECK);
+    } catch (FileException ex) {
+    }
     boolean ok = result.contains("JDK") || result.contains("J2SE");
     StackTracer.printTestResult("Platform", result);
     assertTrue(ok);         
