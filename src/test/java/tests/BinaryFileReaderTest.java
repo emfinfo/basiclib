@@ -4,6 +4,7 @@ import beans.Compte;
 import beans.PmtMode;
 import beans.Solde;
 import ch.jcsinfo.file.BinaryFileReader;
+import ch.jcsinfo.file.FileException;
 import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.ConvertLib;
 import java.math.BigDecimal;
@@ -47,7 +48,11 @@ public class BinaryFileReaderTest {
   @Test
   public void test01_open() {
     StackTracer.printCurrentTestMethod();
-    boolean ok = readerComptes.open();
+    boolean ok = false;
+    try {
+      ok = readerComptes.open();
+    } catch (FileException ex) {
+    }
     StackTracer.printTestResult("Source", COMPTES, "Open", ok);
     assertTrue(ok);
   }
@@ -124,7 +129,11 @@ public class BinaryFileReaderTest {
   @Test
   public void test06_open() {
     StackTracer.printCurrentTestMethod();
-    boolean ok = readerPmtModes.open();
+    boolean ok = false;
+    try {
+      ok = readerPmtModes.open();
+    } catch (FileException ex) {
+    }
     StackTracer.printTestResult("Source", PMTMODES, "Open", ok);
     assertTrue(ok);
   }
