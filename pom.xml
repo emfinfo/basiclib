@@ -36,7 +36,6 @@
 
   </dependencies>
 
-  <!-- MAVEN plugins ici https://maven.apache.org/plugins/ -->
   <!-- build settings -->
   <build>
     <plugins>
@@ -79,30 +78,31 @@
           </fileSets>
         </configuration>
       </plugin>
-    </plugins>
-  </build>
 
-  <reporting>
-    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.7.1</version>
+        <version>3.7.1</version> <!-- ok nouveau 24.10.2018 -->
       </plugin>
 
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.0.0</version> <!-- avant 24.10.2018 version 2.9 -->
+        <version>3.0.0</version> <!-- avant 24.10.2018 version 2.9-->
         <configuration>
           <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
         </configuration>
       </plugin>
 
+    </plugins>
+  </build>
+
+  <!-- create javadoc -->
+  <reporting>
+    <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.0.1</version> <!-- 2.9 pour umlgraph 5.6.6 -->
       </plugin>
-
     </plugins>
   </reporting>
 
