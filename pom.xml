@@ -89,18 +89,18 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>3.7.1</version>
       </plugin>
+
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.9</version> <!-- avant 24.10.2018 version 2.9 -->
+        <version>3.0.0</version> <!-- avant 24.10.2018 version 2.9 -->
         <configuration>
           <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
         </configuration>
       </plugin>
 
-      <!-- contrôlé 24.10.2018 -->
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.0.1</version> <!-- avant 24.10.2018 version 3.0.0-M1 -->
+        <version>3.0.1</version> <!-- 2.9 pour umlgraph 5.6.6 -->
       </plugin>
 
     </plugins>
