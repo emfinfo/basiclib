@@ -48,10 +48,12 @@ public class BinaryFileReaderTest {
   @Test
   public void test01_open() {
     StackTracer.printCurrentTestMethod();
-    boolean ok = false;
+    boolean ok;
     try {
-      ok = readerComptes.open();
+      readerComptes.open();
+      ok = true;
     } catch (FileException ex) {
+      ok = false;
     }
     StackTracer.printTestResult("Source", COMPTES, "Open", ok);
     assertTrue(ok);
@@ -129,10 +131,12 @@ public class BinaryFileReaderTest {
   @Test
   public void test06_open() {
     StackTracer.printCurrentTestMethod();
-    boolean ok = false;
+    boolean ok;
     try {
-      ok = readerPmtModes.open();
+      readerPmtModes.open();
+      ok = true;
     } catch (FileException ex) {
+      ok = false;
     }
     StackTracer.printTestResult("Source", PMTMODES, "Open", ok);
     assertTrue(ok);

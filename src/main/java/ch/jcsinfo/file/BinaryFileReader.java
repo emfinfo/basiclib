@@ -34,10 +34,9 @@ public class BinaryFileReader {
   /**
    * Ouvre le fichier binaire.
    *
-   * @return TRUE si le fichier a pu lire le premier enregistrement (bidon)
    * @throws FileException une exception qu'il faut traiter à un niveau supérieur
    */
-  public boolean open() throws FileException {
+  public void open() throws FileException {
     boolean ok = false;
     try {
       dis = new DataInputStream(new BufferedInputStream(new FileInputStream(fileName)));
@@ -45,7 +44,6 @@ public class BinaryFileReader {
     } catch (FileNotFoundException ex) {
       throw new FileException(this.getClass().getSimpleName(), StackTracer.getCurrentMethod(), ex.getMessage());
     }
-    return ok;
   }
 
   /**
