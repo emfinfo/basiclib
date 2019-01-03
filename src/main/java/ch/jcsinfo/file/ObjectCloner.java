@@ -88,7 +88,6 @@ public class ObjectCloner {
   /**
    * Désérialise un objet sérialisé dans un fichier disque.
    *
-   * @throws ch.jcsinfo.file.FileException l'exception levée au moindre problème
    * @return l'objet désérialisé.
    */
   public static Object deserialize() {
