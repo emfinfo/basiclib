@@ -20,7 +20,7 @@ Documentation :<br>
     http://jcstritt.emf-informatique.ch/doc/basiclib<br>
 
 New in release 1.3.4 (03.01.2019) :
-* alls static methods in "ObjectCloner" use now "try with resources" and throws a FileException if a problem occurs
+* alls static methods in "ObjectCloner" use now "try with resources"
 
 New in release 1.3.3 (08.11.2018) :
 * method "open " in BinaryFileReader no more return a boolean, but throws a FileException

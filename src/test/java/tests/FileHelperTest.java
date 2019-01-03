@@ -268,7 +268,7 @@ public class FileHelperTest {
   }
 
   @Test
-  public void test15_cloneObject() throws FileException {
+  public void test15_cloneObject() {
     StackTracer.printCurrentTestMethod();
     DateTimeLib.chronoReset();
     Localite loc1 = new Localite(1, 1700, "Fribourg", "FR");
@@ -278,7 +278,7 @@ public class FileHelperTest {
   }
 
   @Test
-  public void test16_factcopyObject() throws FileException {
+  public void test16_fastcopyObject() {
     StackTracer.printCurrentTestMethod();
     DateTimeLib.chronoReset();
     Localite loc1 = new Localite(2, 1630, "Bulle", "FR");
@@ -288,7 +288,7 @@ public class FileHelperTest {
   }
 
   @Test
-  public void test17_serialize_deserialize() throws FileException {
+  public void test17_serialize_deserialize() {
     StackTracer.printCurrentTestMethod();
     DateTimeLib.chronoReset();
     Localite loc1 = new Localite(3, 3000, "Berne", "BE");
