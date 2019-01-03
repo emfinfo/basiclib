@@ -1,7 +1,10 @@
 package tests;
 
+import beans.Localite;
+import ch.jcsinfo.datetime.DateTimeLib;
 import ch.jcsinfo.file.FileException;
 import ch.jcsinfo.file.FileHelper;
+import ch.jcsinfo.file.ObjectCloner;
 import ch.jcsinfo.system.StackTracer;
 import java.io.File;
 import java.util.ArrayList;
@@ -9,15 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 /**
  * Test des méthodes principales de la classe correspondante.
- * 
+ *
  * @author jcstritt
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -73,7 +76,7 @@ public class FileHelperTest {
   public void test01_extractPathName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractPathName(ABSOLUTE_1);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(PATHNAME);
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
@@ -84,7 +87,7 @@ public class FileHelperTest {
   public void test02_extractFileName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractFileName(ABSOLUTE_1);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(FILE_NAME_1 + FILE_EXT_1);
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
@@ -95,77 +98,77 @@ public class FileHelperTest {
   public void test03_extractOnlyName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractOnlyName(ABSOLUTE_1);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals("FileLib");
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
-    assertTrue(ok); 
+    assertTrue(ok);
   }
 
   @Test
   public void test04_extractFileExt() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.extractFileExt(ABSOLUTE_1);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(FILE_EXT_1);
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
-    assertTrue(ok); 
+    assertTrue(ok);
   }
 
   @Test
   public void test05_replaceFileExt() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.replaceFileExt(ABSOLUTE_1, FILE_EXT_2);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(ABSOLUTE_2);
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
-    assertTrue(ok);     
+    assertTrue(ok);
   }
 
   @Test
   public void test06_replaceOnlyName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.replaceOnlyName(ABSOLUTE_1, FILE_NAME_2);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(ABSOLUTE_3);
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
-    assertTrue(ok);       
+    assertTrue(ok);
   }
 
   @Test
   public void test07_addToFileName() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.addToFileName(ABSOLUTE_1, FILE_ADD_PART);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(ABSOLUTE_4);
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
-    assertTrue(ok);         
+    assertTrue(ok);
   }
 
   @Test
   public void test08_getRelativePath() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.getRelativePath(ABSOLUTE_1, CURRENT_DIR);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(RELATIVE_1);
     StackTracer.printTestResult("Source", ABSOLUTE_1, "Result", result);
-    assertTrue(ok);         
+    assertTrue(ok);
   }
 
   @Test
   public void test09_getAbsolutePath() {
     StackTracer.printCurrentTestMethod();
     String result = FileHelper.getAbsolutePath(RELATIVE_1);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.equals(ABSOLUTE_1);
     StackTracer.printTestResult("Source", RELATIVE_1, "Result", result);
-    assertTrue(ok);   
+    assertTrue(ok);
   }
 
   @Test
@@ -192,7 +195,7 @@ public class FileHelperTest {
     StackTracer.printCurrentTestMethod();
     String filePath = FileHelper.getAbsolutePath(XML_FILE);
     String result = FileHelper.filePathToURL(filePath);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.length() > filePath.length();
     StackTracer.printTestResult("Source", filePath, "Result", result);
@@ -205,7 +208,7 @@ public class FileHelperTest {
     String filePath = FileHelper.getAbsolutePath(XML_FILE);
     String url = FileHelper.filePathToURL(filePath);
     String result = FileHelper.urlToFilePath(url);
-    
+
     // on compare le résultat avec celui attendu
     boolean ok = result.length() > 0;
     StackTracer.printTestResult("Source", url, "Result", result);
@@ -218,7 +221,7 @@ public class FileHelperTest {
     String filePath = FileHelper.getAbsolutePath("data/" + PROP_FILE);
     String relPath = FileHelper.getRelativePath(filePath, CURRENT_DIR);
 
-    // le résultat attendu    
+    // le résultat attendu
     Properties props = new Properties();
     try {
       props = FileHelper.loadProperties(filePath);
@@ -236,15 +239,15 @@ public class FileHelperTest {
       }
     }
     assertTrue(ok);
-  }  
-  
+  }
+
   @Test
   public void test14_loadXmlProperties() {
     StackTracer.printCurrentTestMethod();
     String filePath = FileHelper.getAbsolutePath("data/" + XML_FILE);
     String relPath = FileHelper.getRelativePath(filePath, CURRENT_DIR);
-    
-    // le résultat attendu    
+
+    // le résultat attendu
     Properties props = new Properties();
     try {
       props = FileHelper.loadXmlProperties(filePath);
@@ -262,6 +265,37 @@ public class FileHelperTest {
       }
     }
     assertTrue(ok);
-  }  
-  
+  }
+
+  @Test
+  public void test15_cloneObject() throws FileException {
+    StackTracer.printCurrentTestMethod();
+    DateTimeLib.chronoReset();
+    Localite loc1 = new Localite(1, 1700, "Fribourg", "FR");
+    Localite loc2 = (Localite) ObjectCloner.clone(loc1);
+    StackTracer.printTestResult("Source", loc1, "Clone", loc2, "Time [ms]", DateTimeLib.chronoStringElapsedTime());
+    assertTrue(loc1.equals(loc2));
+  }
+
+  @Test
+  public void test16_factcopyObject() throws FileException {
+    StackTracer.printCurrentTestMethod();
+    DateTimeLib.chronoReset();
+    Localite loc1 = new Localite(2, 1630, "Bulle", "FR");
+    Localite loc2 = (Localite) ObjectCloner.fastcopy(loc1);
+    StackTracer.printTestResult("Source", loc1, "Copy", loc2, "Time [ms]", DateTimeLib.chronoStringElapsedTime());
+    assertTrue(loc1.equals(loc2));
+  }
+
+  @Test
+  public void test17_serialize_deserialize() throws FileException {
+    StackTracer.printCurrentTestMethod();
+    DateTimeLib.chronoReset();
+    Localite loc1 = new Localite(3, 3000, "Berne", "BE");
+    ObjectCloner.serialize(loc1);
+    Localite loc2 = (Localite) ObjectCloner.deserialize();
+    StackTracer.printTestResult("Source", loc1, "Copy", loc2, "Time [ms]", DateTimeLib.chronoStringElapsedTime());
+    assertTrue(loc1.equals(loc2));
+  }
+
 }
