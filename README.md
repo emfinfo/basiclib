@@ -17,7 +17,7 @@ You can check a specific test with (for example) :
 - mvn test -Dtest=BinaryFileReaderTest
 
 Documentation :<br>
-    http://jcstritt.emf-informatique.ch/doc/basiclib<br>
+    http://homepage.hispeed.ch/~jcsinfo/doc/basiclib<br>
 
 New in release 1.3.4 (03.01.2019) :
 * all static methods in "ObjectCloner" use now "try with resources"
