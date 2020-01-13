@@ -21,7 +21,7 @@ public class JavaLib {
   public static String getJavaVersion() {
     return System.getProperty("java.version");
   }
-  
+
   /**
    * Retourne le nb de bits (32 ou 64) de l'actuel JRE utilisé.
    *
@@ -39,7 +39,16 @@ public class JavaLib {
   public static String getJavaFullVersion() {
     return getJavaVersion() + " (" + getJavaDataModel() + " bits)";
   }
-
+  
+  /**
+   * Retourne la version JavaFX en cours d'utilisation.
+   * 
+   * @return la version JavaFX en cours
+   */
+  public static String getJavaFxVersion() {
+    return System.getProperty("javafx.runtime.version");
+  }    
+  
   /**
    * Retourne 2 valeurs correspondant à la version majeur et mineur de l'environnement de
    * compilation utilisé lors de la dernière compilation.

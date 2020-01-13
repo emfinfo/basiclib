@@ -20,9 +20,10 @@ Documentation :<br>
     http://www.jcsinfo.ch/doc/basiclib<br>
 
 New in release 1.4.0 (13.01.2020) :
-* JavaLib.getJavaVersionBits has been renamed "JavaLib.getJavaDataModel"
-* new method JavaLib.getJavaFullVersion() to return version with 32 ou 64 bits info 
-* new method SystemLib.getOs() that returns Operating System name with version
+* method JavaLib.getJavaVersionBits has been renamed "JavaLib.getJavaDataModel"
+* new method JavaLib.getJavaFullVersion() to return Java version with 32 ou 64 bits info 
+* new method JavaLib.getJavaFxVersion() to return version of loaded JavaFX
+* new method SystemLib.getOs() to return Operating System name with version
 * tests methods adapted to these new mathods
 
 New in release 1.3.4 (03.01.2019) :
