@@ -61,9 +61,19 @@ public class SystemLibTest {
     System.out.println("  - isWindows: " + isWin + " (" + os + ")");
     assertTrue(ok);
   }
+  
+  @Test
+  public void test03_getOS() {
+    StackTracer.printCurrentTestMethod();
+//    String os = System.getProperty("os.name");
+    String os = SystemLib.getOS();
+    boolean ok = !os.isEmpty();
+    System.out.println("  - os: " + os);
+    assertTrue(ok);
+  }  
 
   @Test
-  public void test03_getMemoryUsage() {
+  public void test04_getMemoryUsage() {
     StackTracer.printCurrentTestMethod();
     float[] result = SystemLib.getMemoryUsage();
     System.out.println("  - used memory:  " + String.format("%.1f", result[0]) + " Mb");

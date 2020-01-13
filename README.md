@@ -1,4 +1,4 @@
-# BasicLib 1.3.4 - january 2019
+# BasicLib 1.3.5 - january 2020
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -8,7 +8,7 @@ A Java library with some basic methods (most are static) for all your needs when
 - use some system operations (see files in ch.jcsinfo.system package);
 - use callback, conversion types, prefs manager, screen info, etc.
 
-You can download and open this project in NetBeans 8.2. It's a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
+You can download and open this project in NetBeans 8.2 or higher. It's a Java 8 maven project. So, dependencies are loaded automaticly from maven central. There are some test classes where you can learn how to use this library.
 
 In MacOS terminal or Windows console, you can start the "test" suite with a Maven command :
 - mvn test
@@ -18,6 +18,12 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     http://www.jcsinfo.ch/doc/basiclib<br>
+
+New in release 1.4.0 (13.01.2020) :
+* JavaLib.getJavaVersionBits has been renamed "JavaLib.getJavaDataModel"
+* new method JavaLib.getJavaFullVersion() to return version with 32 ou 64 bits info 
+* new method SystemLib.getOs() that returns Operating System name with version
+* tests methods adapted to these new mathods
 
 New in release 1.3.4 (03.01.2019) :
 * all static methods in "ObjectCloner" use now "try with resources"

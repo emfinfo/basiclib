@@ -141,6 +141,16 @@ public class SystemLib {
     String os = System.getProperty("os.name").toLowerCase();
     return (os.contains("mac"));
   }
+  
+  /**
+   * Retoune le nom du système d'exploitation sous-jacent, ainsi que
+   * sa version entre paranthèses.
+   * 
+   * @return le nom du système d'exploitation et sa version
+   */
+  public static String getOS() {
+    return System.getProperty("os.name") + " (" + System.getProperty("os.version") + ")";
+  }
 
 
 

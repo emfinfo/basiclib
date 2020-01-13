@@ -14,7 +14,7 @@ import java.io.IOException;
 public class JavaLib {
 
   /**
-   * Retourne la version Java par défaut utilisé par l'OS.
+   * Retourne la version Java en cours d'utilisation.
    * 
    * @return la version Java tournant sur l'OS
    */
@@ -27,8 +27,17 @@ public class JavaLib {
    *
    * @return un entier 32 ou 64 (bits)
    */
-  public static int getJavaVersionBits() {
+  public static int getJavaDataModel() {
     return Integer.parseInt(System.getProperty("sun.arch.data.model"));
+  }
+  
+  /**
+   * Retourne la version JAVA avec l'architecture 32 ou 64 bits utilisée.
+   * 
+   * @return la version Java et son architecture 32 ou 64 bits
+   */
+  public static String getJavaFullVersion() {
+    return getJavaVersion() + " (" + getJavaDataModel() + " bits)";
   }
 
   /**

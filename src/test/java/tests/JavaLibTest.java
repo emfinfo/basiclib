@@ -44,18 +44,29 @@ public class JavaLibTest {
   }
 
   @Test
-  public void test02_getJavaVersionBits() {
+  public void test02_getJavaDataModel() {
     StackTracer.printCurrentTestMethod();
-    int result = JavaLib.getJavaVersionBits();
+    int result = JavaLib.getJavaDataModel();
     
     // on compare le résultat avec celui attendu
     boolean ok = result == 32 || result == 64;
     StackTracer.printTestResult("Bits", result);
     assertTrue(ok);    
   }
+  
+  @Test
+  public void test03_getJavaFullVersion() {
+    StackTracer.printCurrentTestMethod();
+    String result = JavaLib.getJavaFullVersion();
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = !result.isEmpty() && (result.contains("32") || result.contains("64"));
+    StackTracer.printTestResult("Version", result);
+    assertTrue(ok);  
+  }  
 
   @Test
-  public void test03_getJavaClassVersion() {
+  public void test04_getJavaClassVersion() {
     StackTracer.printCurrentTestMethod();
     int[] result = new int[2];
     try {
@@ -68,7 +79,7 @@ public class JavaLibTest {
   }
 
   @Test
-  public void test04_getJavaClassPlatform() {
+  public void test05_getJavaClassPlatform() {
     StackTracer.printCurrentTestMethod();
     String result = "";
     try {
