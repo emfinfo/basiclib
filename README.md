@@ -17,7 +17,7 @@ You can check a specific test with (for example) :
 - mvn test -Dtest=BinaryFileReaderTest
 
 Documentation :<br>
-    http://www.jcsinfo.ch/doc/basiclib<br>
+    https://www.jcsinfo.ch/doc/basiclib<br>
 
 New in release 1.5.0 (03.04.2020) :
 * groupid in pom.xml is now "ch.jcsinfo.libs" (before : ch.emf.info)
