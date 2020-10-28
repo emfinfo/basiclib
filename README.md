@@ -20,7 +20,7 @@ Documentation :<br>
     https://www.jcsinfo.ch/doc/basiclib<br>
 
 New in release 1.5.2 (28.10.2020) :
-* update dependency version for "junit" (4.13.1)
+* update dependency version for "junit" (4.13.1) 
 
 New in release 1.5.1 (31.05.2020) :
 * update dependency version for "slf4j-log4j12" (1.7.30)
