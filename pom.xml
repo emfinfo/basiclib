@@ -78,38 +78,26 @@
           </fileSets>
         </configuration>
       </plugin>
+      
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+        </configuration>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
-        <version>3.8.2</version>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>3.0.0</version> <!-- avant 24.10.2018 version 2.9-->
-        <configuration>
-          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-        </configuration>
+        <version>3.9.1</version>
       </plugin>
       
     </plugins>
   </build>
 
-  <!-- create javadoc -->
-  <reporting>
-    <plugins>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <source>1.8</source>
-        </configuration>             
-      </plugin>
-    </plugins>
-  </reporting>
 
-  <!-- more project information -->
+  <!-- project information details -->
   <name>BasicLib</name>
   <description>All utilities methods that you need to begin a Java application.</description>
   <licenses>
