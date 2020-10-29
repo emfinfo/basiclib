@@ -96,6 +96,17 @@
     </plugins>
   </build>
 
+  <!-- "mvn site" report -->
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+        </configuration>        
+      </plugin>
+    </plugins>
+  </reporting>
 
   <!-- project information details -->
   <name>BasicLib</name>
