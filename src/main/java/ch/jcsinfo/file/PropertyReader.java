@@ -161,7 +161,7 @@ public class PropertyReader {
     final String PREFIX_KEY = "javax.persistence.jdbc."; // JPA 2.0
     final String URL_KEY = "url";
     final String USER_KEY = "user";
-    final String PSW_KEY = "psw";
+    final String PSW_KEY = "password";
     Properties dbProps = new Properties();
 
     // url

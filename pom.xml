@@ -16,7 +16,7 @@
   <!-- project build information -->
   <groupId>ch.jcsinfo.libs</groupId>
   <artifactId>basiclib</artifactId>
-  <version>1.5.2</version>
+  <version>1.5.3</version>
   <packaging>jar</packaging>
 
   <!-- properties -->
