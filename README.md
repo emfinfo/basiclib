@@ -1,4 +1,4 @@
-# BasicLib 1.5.3 - june 2022
+# BasicLib 1.5.4 - april 2023
 A Java library with some basic methods (most are static) for all your needs when you are starting an application. Comments are in french in the source code, but methods are in english. You find classes and methods to :
 - manage date and time (see DateTimeLib class);
 - read files (see files in ch.jcsinfo.file package);
@@ -18,6 +18,10 @@ You can check a specific test with (for example) :
 
 Documentation :<br>
     https://www.jcsinfo.ch/doc/basiclib<br>
+
+New in release 1.5.4 (02.04.2023) :
+* better handling of preferences in PrefsManager. Lower or upper case keys. 
+* Added test methods for this class. 
 
 New in release 1.5.3 (20.06.2022) :
 * correct a bug in class PropertyReader, method getDbProperties, for password field
