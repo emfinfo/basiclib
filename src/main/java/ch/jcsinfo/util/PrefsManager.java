@@ -2,14 +2,23 @@ package ch.jcsinfo.util;
 
 import ch.jcsinfo.file.FileException;
 import ch.jcsinfo.file.FileHelper;
-import ch.jcsinfo.math.MathLib;
 import ch.jcsinfo.models.Printer;
 import ch.jcsinfo.models.PrinterCopy;
 import ch.jcsinfo.printing.PrintHelper;
 import java.awt.Dimension;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.prefs.Preferences;
 import javax.print.PrintService;
@@ -23,7 +32,7 @@ import javax.print.PrintService;
  * Sur MacOS, cela va écrire dans un fichier "com.apple.java.util.prefs.plist" sous :<br>
  * - /Users/nom_user/Library/Preferences<br>
  * <br>
- * L'application doit très tôt appeler "PrefsManager.getInstance.initPrefsDefaults"
+ * L'application doit très tôt appeler "PrefsManager.initPrefsDefaults"
  * avec le nom de l'application (par exemple "SAFdemo"). Ensuite, cette classe
  * est capable de retrouver des préférences ou de les modifier.<br>
  * Clés dépréciées : <br>
@@ -33,7 +42,8 @@ import javax.print.PrintService;
  * @author Jean-Claude Stritt
  */
 public class PrefsManager {
-  private static String nodeID = "";
+  private static Preferences prefs = Preferences.userRoot().node("prefs");  
+  private static boolean lowerCaseMode = true;
 
   /**
    * Une liste de préférences assez généralistes pour pouvoir être utilisées
@@ -61,197 +71,332 @@ public class PrefsManager {
     FILTER_LOG_AND, FILTER_LOG_OR
 
   }
-
+  
+  
+  
+  // --------------------METHODES PRIVEES--------------------
+  
   /**
-   * Récupère toutes les préférences settées pour le noeud ce cette application.
+   * Prépare un string d'une certaine longueur avec un caractère spécifié.
+   * Cela permet de préparer un format genre "#.##" avec un certain nb de décimales pour
+   * les méthodes setFloat et setDouble.
    *
-   * @return une liste des préférences
+   * @param len la longueur à obtenir
+   * @param ch le caractère qui remplira la chaine
+   * @return le String avec les caractères demandés
    */
-  public static Preferences getPrefs() {
-    Preferences prefs = Preferences.userRoot().node(nodeID);
-//    Preferences root = Preferences.userRoot().node("ch");
-//    Preferences parent = root.node("jcsinfo");
-//    Preferences prefs = parent.node(nodeID);
-    return prefs;
+  private static String fillString(int len, char ch) {
+    char[] array = new char[len];
+    Arrays.fill(array, ch);
+    return new String(array);
   }
 
   /**
-   * Récupère une valeur de préférence de type "String".
+   * Force le séparateur "." et pas de séparateur de milliers pour les stockages
+   * dans les préférences de valeurs "float" ou "double".
    *
-   * @param keyName un nom de clé pour rechercher une préférence
-   * @return la valeur de la clé sous la forme d'un String
+   * @return les symboles
    */
-  public static String getValue(String keyName) {
-    String pr = "";
-    Preferences prefs = getPrefs();
-    if (prefs != null) {
-      pr = prefs.get(keyName.toLowerCase(), "");
-      if (pr == null) {
-        pr = "";
-      }
+  private static DecimalFormatSymbols getDefSymbols() {
+    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+    symbols.setDecimalSeparator('.');
+//    unusualSymbols.setGroupingSeparator('\'');
+    return symbols;
+  }
+  
+  
+  
+  // --------------------METHODES PUBLIQUES--------------------
+  
+  /**
+   * Récupère le nom du noeud des préférences de l'utilisateur.
+   *
+   * @return le nom du noeud
+   */
+  public static String getUserNodeName() {
+    return prefs.name();
+  }
+
+  /**
+   * Permet de spécifier le nom identifiant le noeud dans l'arbre des préférences de l'utilisateur.
+   * Le nom abrégé de l'application est souvent utilisé pour cela.
+   *
+   * @param userNodeName le nom identifiant le noeud pour l'utilisateur courant
+   */
+  public static void setUserNodeName(String userNodeName) {
+    PrefsManager.prefs = Preferences.userRoot().node(userNodeName);
+  }  
+  
+  /**
+   * Teste si les noms de paramètres sont en minuscules.
+   * 
+   * @return true si les noms sont en minuscules
+   */
+  public static boolean isLowerCaseMode() {
+    return lowerCaseMode;
+  }
+
+  /**
+   * Mémorise le mode "minuscules" (défaut) pour les noms des préférences.
+   * 
+   * @param lowerCaseMode true ou false selon les besoins
+   */
+  public static void setLowerCaseMode(boolean lowerCaseMode) {
+    PrefsManager.lowerCaseMode = lowerCaseMode;
+  }
+  
+  /**
+   * Retourne le nom d'une préférence soit en minuscules, soit en majuscules.
+   * 
+   * @param pref une préférence de type String ou Enum
+   * @return le nom de préférence en minuscules ou majuscules
+   */
+  public static String getKey(Object pref) {
+    String key = pref.toString();
+    if (isLowerCaseMode()) {
+      key = key.toLowerCase();
+    } else {
+      key = key.toUpperCase();    
     }
-    return pr;
+    return key;
   }
+  
+  /**
+   * Permet de tester s'il faut initialiser l'un des paramètres par défaut
+   * de l'application. Cela est certainement nécessaire au démarrage de l'application
+   * lors de la première exécution du logiciel.
+   *
+   * @param nodeName généralement, le nom de l'application comme nom du noeud des préférences
+   * @throws FileException l'exception à gérer au niveau supérieur
+   */
+  public static void initPrefsDefaults(String nodeName, boolean lowerCaseMode) throws FileException {
+    setUserNodeName(nodeName);
+    setLowerCaseMode(lowerCaseMode);
+    Properties props = FileHelper.loadProperties("defaults.properties");
+    if (!props.isEmpty()) {
+      // tri sur les noms des propriétés
+      List<String> keys = new ArrayList<>();
+      for (String key : props.stringPropertyNames()) {
+        keys.add(key);
+      }
+      Collections.sort(keys);
 
+      // boucle pour créer les clés par défaut
+      for (String key : keys) {
+        String pref = (isLowerCaseMode()) ? key.toLowerCase() : key;
+        String value = props.getProperty(pref);
+        if (pref.equalsIgnoreCase("current_dpi")) {
+          List<String> res = ScreenInfo.getScreenResolutions();
+          for (String s : res) {
+            if (s.contains(value)) {
+              value = s;
+              break;
+            }
+          }
+        }
+        if (pref.contains("folder") || pref.contains("filename")) {
+          value = FileHelper.normalizeFileName(value);
+        }
+        if (pref.contains("db_url")) {
+          value = FileHelper.buildNewDbUrl(value);
+        }
+        if (getValue(pref).isEmpty()) {
+//          System.out.println(pref+"="+value);
+          setValue(pref, value);
+        }
+
+      }
+
+    }
+
+  }  
+  
+  
+  
   /**
    * Récupère une valeur de préférence de type "String".
    *
-   * @param key une clé de n'importe quel type à retrouver
-   * @return la valeur de la clé sous la forme d'un String
+   * @param pref une préférence de type String ou Enum
+   * @return la valeur de la préférence sous la forme d'un String
    */
-  public static String getValue(Object key) {
-    return getValue(key.toString());
+  public static String getValue(Object pref) {
+   return prefs.get(getKey(pref), "").trim();
   }
 
   /**
    * Mémorise une valeur de préférence de type "String".
    *
-   * @param keyName un nom de clé pour mettre à jour une préférence
-   * @param value   la valeur de la clé à mettre à jour
+   * @param pref une préférence de type String ou Enum
+   * @param value une valeur String à mémoriser
    */
-  public static void setValue(String keyName, String value) {
-    Preferences prefs = getPrefs();
-    prefs.put(keyName.toLowerCase(), value);
+  public static void setValue(Object pref, String value) {
+    prefs.put(getKey(pref), value.trim());
   }
 
-  /**
-   * Mémorise une valeur de préférence de type "String".
-   *
-   * @param key   une clé de type Pref à mettre à jour
-   * @param value une valeur String à mettre à jour pour la clé donnée
-   */
-  public static void setValue(Object key, String value) {
-    setValue(key.toString(), value);
-  }
-
+  
+  
   /**
    * Récupère une valeur de préférence de type "boolean".
    *
-   * @param keyName le nom d'une clé contenant un "booléen" à retrouver
-   * @return la valeur de cette clé sous la forme d'un booléen
+   * @param pref une préférence de type String ou Enum
+   * @return la valeur de cette préférence sous la forme d'un booléen
    */
-  public static boolean getBoolean(String keyName) {
-    String s = getValue(keyName);
-    return s.equalsIgnoreCase("true");
-  }
-
-  /**
-   * Récupère une valeur de préférence de type "boolean".
-   *
-   * @param key une clé de n'importe quel type à retrouver
-   * @return la valeur de cette clé sous la forme d'un booléen
-   */
-  public static boolean getBoolean(Object key) {
-    return getBoolean(key.toString());
+  public static boolean getBoolean(Object pref) {
+    String s = getValue(pref);
+    return s.equalsIgnoreCase("true");    
   }
 
   /**
    * Mémorise une valeur de préférence de type "boolean".
    *
-   * @param keyName le nom d'une clé à rechercher
-   * @param value   une valeur booléenne à mettre à jour
+   * @param pref une préférence de type String ou Enum
+   * @param value une valeur booléenne à mémoriser
    */
-  public static void setBoolean(String keyName, boolean value) {
-    setValue(keyName, value ? "true" : "false");
+  public static void setBoolean(String pref, boolean value) {
+    setValue(pref, value ? "true" : "false");    
   }
 
-  /**
-   * Mémorise une valeur de préférence de type "boolean".
-   *
-   * @param key   une clé de de n'importe quel type à rechercher
-   * @param value une valeur booléenne à mettre à jour
-   */
-  public static void setBoolean(Object key, boolean value) {
-    setBoolean(key.toString(), value);
-  }
+  
 
   /**
    * Récupère une valeur de préférence de type "int" (Integer).
+   * Si la préférence ne peut être lue, 0 est retournée.
    *
-   * @param keyName un nom de clé à rechercher
-   * @return la valeur de cette clé qui doit contenir un entier
+   * @param pref une préférence de type String ou Enum
+   * @return la valeur de cette préférence
    */
-  public static int getInt(String keyName) {
-    return ConvertLib.stringToInt(getValue(keyName));
-  }
-
-  /**
-   * Récupère une valeur de préférence de type "int" (Integer).
-   *
-   * @param key une clé de type Pref à rechercher
-   * @return la valeur de cette clé qui doit contenir un entier
-   */
-  public static int getInt(Object key) {
-    return getInt(key.toString());
+  public static int getInt(Object pref) {
+    return prefs.getInt(getKey(pref), 0);
   }
 
   /**
    * Mémorise une valeur de type int (Integer).
    *
-   * @param keyName un nom de clé à rechercher
-   * @param value   une valeur de type Integer à mettre à jour
+   * @param pref une préférence de type String ou Enum
+   * @param value une valeur de type Integer à mémoriser
    */
-  public static void setInt(String keyName, int value) {
-    setValue(keyName, "" + value);
+  public static void setInt(Object pref, int value) {
+    setValue(pref, "" + value);
+  }
+  
+  
+  
+  /**
+   * Récupère une valeur de préférence de type "long" (Long Integer).
+   * Si la préférence ne peut être lue, 0 est retournée.
+   *
+   * @param pref une préférence de type String ou Enum
+   * @return la valeur de cette préférence
+   */
+  public static long getLong(Object pref) {
+    return prefs.getLong(getKey(pref), 0);
   }
 
   /**
-   * Mémorise une valeur de type "int" (Integer).
+   * Mémorise une valeur de type long (Long Integer).
    *
-   * @param key   une clé de de n'importe quel type à rechercher
-   * @param value une valeur de type Integer à mettre à jour
+   * @param pref une préférence de type String ou Enum
+   * @param value une valeur de type Long à mémoriser
    */
-  public static void setInt(Object key, int value) {
-    setInt(key.toString(), value);
-  }
+  public static void setLong(Object pref, long value) {
+    setValue(pref, "" + value);
+  }  
 
+  
+  
   /**
-   * Récupère une valeur de préférence de type float.
+   * Récupère une valeur de préférence de type "float".
+   * Si la préférence ne peut être lue, 0f est retourné.
    *
-   * @param keyName un nom de clé à rechercher
+   * @param pref une préférence de type String ou Enum
    * @return la valeur de cette clé (nombre réel de type float)
    */
-  public static float getFloat(String keyName) {
-    String s = getValue(keyName);
-    int dot = s.indexOf('.');
-    int nbOfDecs = 0;
-    if (dot >= 0) {
-      nbOfDecs = s.length() - dot - 1;
+  public static float getFloat(Object pref) {
+    return prefs.getFloat(getKey(pref), 0f);
+  }
+
+  /**
+   * Mémorise une valeur de type "float".
+   *
+   * @param pref une préférence de type String ou Enum
+   * @param value une valeur de type "float" à mémoriser
+   * @param nbOfDecs nombre de decimales à mémoriser
+   */
+  public static void setFloat(Object pref, float value, int nbOfDecs) {
+    String fmt = (nbOfDecs > 0) ? "0." + fillString(nbOfDecs, '0') : "0";
+    setValue(pref, new DecimalFormat(fmt, getDefSymbols()).format(value));
+  }
+
+
+
+  /**
+   * Récupère une valeur de préférence de type "double".
+   * Si la préférence ne peut être lue, 0d est retourné.
+   *
+   * @param pref une préférence de type String ou Enum
+   * @return la valeur de cette préférence
+   */
+  public static double getDouble(Object pref) {
+    return prefs.getDouble(getKey(pref), 0d);
+  }
+
+  /**
+   * Mémorise une valeur de type "double".
+   *
+   * @param pref une préférence de type String ou Enum
+   * @param value une valeur de type "double" à mémoriser
+   * @param nbOfDecs nombre de decimales à mémoriser
+   */
+  public static void setDouble(Object pref, double value, int nbOfDecs) {
+    String fmt = (nbOfDecs > 0) ? "0." + fillString(nbOfDecs, '0') : "0";
+    setValue(pref, new DecimalFormat(fmt, getDefSymbols()).format(value));
+  }
+
+  /**
+   * Récupère un objet sérialisé dans une préférence.
+   *
+   * @param pref une préférence de type String ou Enum
+   * @return l'objet désérialisé ou null;
+   */
+  public static Object getObject(Object pref) {
+    Object obj = null;
+    byte[] bytes = prefs.getByteArray(getKey(pref), new byte[0]);
+    if (bytes.length > 0) {
+      try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes))) {
+        obj = in.readObject();
+      } catch (ClassNotFoundException | IOException ex) {
+      }
     }
-    float value = ConvertLib.stringToFloat(s);
-    return MathLib.roundFloatValue(value, nbOfDecs);
+    return obj;
   }
 
   /**
-   * Récupère une valeur de préférence de type float.
+   * Mémorise un objet quelconque dans un tableau d'octets stockés dans les préférences de l'application.
    *
-   * @param key une clé de type Pref à rechercher
-   * @return la valeur de cette clé (nombre réel de type float)
+   * @param pref une préférence de type String ou Enum
+   * @param value un objet de type quelconque, mais qui implémente la classe Serializable
    */
-  public static float getFloat(Object key) {
-    return getFloat(key.toString());
+  public static void setObject(Object pref, Object value) {
+    setValue(pref, "");
+    ByteArrayOutputStream os = new ByteArrayOutputStream();
+    ObjectOutput out;
+    try {
+      out = new ObjectOutputStream(os);
+      out.writeObject(value);
+      out.flush();
+      byte[] bytes = os.toByteArray();
+      prefs.putByteArray(getKey(pref), bytes);
+    } catch (IOException ex) {
+    } finally {
+      try {
+        os.close();
+      } catch (IOException ex) {
+      }
+    }
   }
 
-  /**
-   * Mémorise une valeur de type float.
-   *
-   * @param keyName un nom de clé à rechercher
-   * @param value   une valeur réelle (float) à mettre à jour
-   */
-  public static void setFloat(String keyName, float value) {
-    setValue(keyName, "" + value);
-  }
-
-  /**
-   * Mémorise une valeur de type float.
-   *
-   * @param key   une clé de de n'importe quel type à rechercher
-   * @param value une valeur réelle (float) à mettre à jour
-   */
-  public static void setFloat(Object key, float value) {
-    setFloat(key.toString(), value);
-  }
-
+  
+  
   /**
    * Récupére les propriétés de connexion stockées dans les préférences.
    *
@@ -284,22 +429,11 @@ public class PrefsManager {
     }
     return d;
   }
-
+  
   /**
-   * Mémorise la dimension préférée des images.
+   * Récupère la dimension mémorisée pour une image.
    *
-   * @param prefSize la dimension préférée
-   */
-  public static void setPrefPictureSize(Dimension prefSize) {
-    String value = String.valueOf(prefSize.width) + "x" + String.valueOf(
-      prefSize.height);
-    setValue(Pref.PICT_PREF_SIZE, value);
-  }
-
-  /**
-   * Récupère la dimension préférée pour une image.
-   *
-   * @return la dimension préférée pour une image
+   * @return la dimension mémorisée
    */
   public static Dimension getPrefPictureSize() {
     Dimension d = new Dimension(1, 1);
@@ -314,6 +448,16 @@ public class PrefsManager {
       }
     }
     return d;
+  }  
+
+  /**
+   * Mémorise la dimension préférée des images.
+   *
+   * @param prefSize la dimension préférée
+   */
+  public static void setPrefPictureSize(Dimension prefSize) {
+    String value = String.valueOf(prefSize.width) + "x" + String.valueOf(prefSize.height);
+    setValue(Pref.PICT_PREF_SIZE, value);
   }
 
   /**
@@ -333,28 +477,18 @@ public class PrefsManager {
     return result;
   }
 
-  /**
-   * Retourne un objet imprimante "Printer" d'après le nom enregistré
-   * dans les préférences.
-   *
-   * @param key une clé sous la forme d'un String
-   * @return un objet "imprimante" de type Printer
-   */
-  public static Printer getPrinter(String key) {
-    PrintService prtSrv = PrintHelper.findPrintService(getValue(key));
-//    System.out.println("key: "+ key + " value: "+getValue(key) + "prtSrv: "+prtSrv);
-    return new Printer(prtSrv);
-  }
 
   /**
    * Retourne un objet imprimante "Printer" d'après le nom enregistré
    * dans les préférences.
    *
-   * @param key une clé de la classe Pref
+   * @param pref une préférence de type String ou Enum
    * @return un objet "imprimante" de type Printer
    */
-  public static Printer getPrinter(Object key) {
-    return getPrinter(key.toString());
+  public static Printer getPrinter(Object pref) {
+    PrintService prtSrv = PrintHelper.findPrintService(getValue(pref));
+//    System.out.println("key: "+ key + " value: "+getValue(key) + "prtSrv: "+prtSrv);
+    return new Printer(prtSrv);
   }
 
   /**
@@ -401,53 +535,5 @@ public class PrefsManager {
     return prtCopies;
   }
 
-  /**
-   * Permet de tester s'il faut initialiser l'un des paramètres par défaut
-   * de l'application. Cela est certainement nécessaire au démarrage de l'application
-   * lors de la première exécution du logiciel.
-   *
-   * @param appTitle le titre de l'application
-   * @throws FileException l'exception à gérer au niveau supérieur
-   */
-  public static void initPrefsDefaults(String appTitle) throws FileException {
-    nodeID = appTitle;
-    Properties props = FileHelper.loadProperties("defaults.properties");
-    if (!props.isEmpty()) {
-      // tri sur les noms des propriétés
-      List<String> keys = new ArrayList<>();
-      for (String key : props.stringPropertyNames()) {
-        keys.add(key);
-      }
-      Collections.sort(keys);
-
-      // boucle pour créer les clés par défaut
-      for (String key : keys) {
-        String lcKey = key.toLowerCase();
-        String value = props.getProperty(lcKey);
-        if (lcKey.equalsIgnoreCase("current_dpi")) {
-          List<String> res = ScreenInfo.getScreenResolutions();
-          for (String s : res) {
-            if (s.contains(value)) {
-              value = s;
-              break;
-            }
-          }
-        }
-        if (lcKey.contains("folder") || lcKey.contains("filename")) {
-          value = FileHelper.normalizeFileName(value);
-        }
-        if (lcKey.contains("db_url")) {
-          value = FileHelper.buildNewDbUrl(value);
-        }
-        if (getValue(lcKey).isEmpty()) {
-//          System.out.println(lcKey+"="+value);
-          setValue(lcKey, value);
-        }
-
-      }
-
-    }
-
-  }
 
 }
