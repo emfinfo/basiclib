@@ -43,7 +43,17 @@ import javax.print.PrintService;
  */
 public class PrefsManager {
   private static Preferences prefs = Preferences.userRoot().node("prefs");  
-  private static boolean lowerCaseMode = true;
+  private static PrefCase prefCase = PrefCase.STANDARD;
+  
+  /**
+   * Une énumération avec 3 types pour indiquer comment les noms de préférences seront stockés
+   * dans la base de registres.
+   */
+  public static enum PrefCase {
+    STANDARD,
+    LOWCASE,
+    UPCASE
+  }
 
   /**
    * Une liste de préférences assez généralistes pour pouvoir être utilisées
@@ -132,17 +142,17 @@ public class PrefsManager {
    * 
    * @return true si les noms sont en minuscules
    */
-  public static boolean isLowerCaseMode() {
-    return lowerCaseMode;
+  public static PrefCase getPrefCase() {
+    return prefCase;
   }
 
   /**
-   * Mémorise le mode "minuscules" (défaut) pour les noms des préférences.
+   * Mémorise le type de casse pour les noms des préférences.
    * 
-   * @param lowerCaseMode true ou false selon les besoins
+   * @param prefCase une valeur de l'énumération PrefCase
    */
-  public static void setLowerCaseMode(boolean lowerCaseMode) {
-    PrefsManager.lowerCaseMode = lowerCaseMode;
+  public static void setPrefCase(PrefCase prefCase) {
+    PrefsManager.prefCase = prefCase;
   }
   
   /**
@@ -153,9 +163,10 @@ public class PrefsManager {
    */
   public static String getKey(Object pref) {
     String key = pref.toString();
-    if (isLowerCaseMode()) {
+    PrefCase pc = getPrefCase();
+    if (pc == PrefCase.LOWCASE) {
       key = key.toLowerCase();
-    } else {
+    } else if (pc == PrefCase.UPCASE) {
       key = key.toUpperCase();    
     }
     return key;
@@ -167,26 +178,28 @@ public class PrefsManager {
    * lors de la première exécution du logiciel.
    *
    * @param nodeName généralement, le nom de l'application comme nom du noeud des préférences
-   * @param lowerCaseMode si true, mémorise le nom des abréviations en minuscules, autrement en majuscules
+   * @param prefCase comment les noms de préférences seront stockés (STANDARD, LLOWCASE et UPCASE
    * @throws FileException l'exception à gérer au niveau supérieur
    */
-  public static void initPrefsDefaults(String nodeName, boolean lowerCaseMode) throws FileException {
+  public static void initPrefsDefaults(String nodeName, PrefCase prefCase) throws FileException {
     setUserNodeName(nodeName);
-    setLowerCaseMode(lowerCaseMode);
+    setPrefCase(prefCase);
     Properties props = FileHelper.loadProperties("defaults.properties");
     if (!props.isEmpty()) {
+      
       // tri sur les noms des propriétés
-      List<String> keys = new ArrayList<>();
-      for (String key : props.stringPropertyNames()) {
-        keys.add(key);
+      List<String> prefs = new ArrayList<>();
+      for (String pref : props.stringPropertyNames()) {
+        prefs.add(pref.toLowerCase());
       }
-      Collections.sort(keys);
+      Collections.sort(prefs);
 
       // boucle pour créer les clés par défaut
-      for (String key : keys) {
-        String pref = (isLowerCaseMode()) ? key.toLowerCase() : key;
+      for (String pref : prefs) {
         String value = props.getProperty(pref);
-        if (pref.equalsIgnoreCase("current_dpi")) {
+        
+        // traitement spécial pour la résolution écran
+        if (pref.equals("current_dpi")) {
           List<String> res = ScreenInfo.getScreenResolutions();
           for (String s : res) {
             if (s.contains(value)) {
@@ -195,12 +208,18 @@ public class PrefsManager {
             }
           }
         }
+        
+        // normalisation des préférences de dossiers ou fichiers
         if (pref.contains("folder") || pref.contains("filename")) {
           value = FileHelper.normalizeFileName(value);
         }
+        
+        // normalisation d'une URL
         if (pref.contains("db_url")) {
           value = FileHelper.buildNewDbUrl(value);
         }
+        
+        // si la préférence n'existe pas, on l'ajoute
         if (getValue(pref).isEmpty()) {
 //          System.out.println(pref+"="+value);
           setValue(pref, value);

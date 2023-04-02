@@ -3,6 +3,7 @@ package tests;
 import beans.Classe;
 import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.PrefsManager;
+import ch.jcsinfo.util.PrefsManager.PrefCase;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -21,7 +22,7 @@ public class PrefsManagerTest {
   @BeforeClass
   public static void setUpClass() {
     PrefsManager.setUserNodeName("PrefsManagerTest");
-    PrefsManager.setLowerCaseMode(false);
+    PrefsManager.setPrefCase(PrefCase.UPCASE);
   }
 
   @AfterClass
