@@ -167,6 +167,7 @@ public class PrefsManager {
    * lors de la première exécution du logiciel.
    *
    * @param nodeName généralement, le nom de l'application comme nom du noeud des préférences
+   * @param lowerCaseMode si true, mémorise le nom des abréviations en minuscules, autrement en majuscules
    * @throws FileException l'exception à gérer au niveau supérieur
    */
   public static void initPrefsDefaults(String nodeName, boolean lowerCaseMode) throws FileException {
