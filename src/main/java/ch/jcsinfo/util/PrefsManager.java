@@ -253,7 +253,7 @@ public class PrefsManager {
    * @param pref une préférence de type String ou Enum
    * @param value une valeur booléenne à mémoriser
    */
-  public static void setBoolean(String pref, boolean value) {
+  public static void setBoolean(Object pref, boolean value) {
     setValue(pref, value ? "true" : "false");    
   }
 
