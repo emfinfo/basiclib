@@ -188,14 +188,14 @@ public class PrefsManager {
     if (!props.isEmpty()) {
       
       // tri sur les noms des propriétés
-      List<String> prefs = new ArrayList<>();
+      List<String> preferences = new ArrayList<>();
       for (String pref : props.stringPropertyNames()) {
-        prefs.add(pref.toLowerCase());
+        preferences.add(pref.toLowerCase());
       }
-      Collections.sort(prefs);
+      Collections.sort(preferences);
 
       // boucle pour créer les clés par défaut
-      for (String pref : prefs) {
+      for (String pref : preferences) {
         String value = props.getProperty(pref);
         
         // traitement spécial pour la résolution écran
