@@ -23,7 +23,8 @@ import org.junit.runners.Suite.SuiteClasses;
   PropertyReaderTest.class,
   BinaryFileReaderTest.class,
   TextFileReaderTest.class,
-  PrintHelperTest.class
+  PrintHelperTest.class,
+  PrefsManagerTest.class
 })
 
 public class AllTests {
