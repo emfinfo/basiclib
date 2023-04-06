@@ -1,9 +1,11 @@
 package tests;
 
 import beans.Classe;
+import ch.jcsinfo.datetime.DateTimeLib;
 import ch.jcsinfo.system.StackTracer;
 import ch.jcsinfo.util.PrefsManager;
 import ch.jcsinfo.util.PrefsManager.PrefCase;
+import java.util.Date;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -120,8 +122,23 @@ public class PrefsManagerTest {
     assertTrue(ok);
   }        
   
+    @Test
+  public void test07_setAndGetDate() {
+    final String PREF = "date";
+    final Date TOTEST = DateTimeLib.getToday();
+
+    StackTracer.printCurrentTestMethod();
+    PrefsManager.setDate(PREF, TOTEST);
+    Date result = PrefsManager.getDate(PREF);
+    
+    // on compare le résultat avec celui attendu
+    boolean ok = result.getTime() == TOTEST.getTime();
+    StackTracer.printTestResult(PrefsManager.getKey(PREF), result);
+    assertTrue(ok);
+  }       
+  
   @Test
-  public void test07_setAndGetObject() {
+  public void test08_setAndGetObject() {
     final String PREF = "object";
     final Classe TOTEST = new Classe("1i1", "Informatique");
 

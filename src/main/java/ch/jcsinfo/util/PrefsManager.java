@@ -1,5 +1,6 @@
 package ch.jcsinfo.util;
 
+import ch.jcsinfo.datetime.DateTimeLib;
 import ch.jcsinfo.file.FileException;
 import ch.jcsinfo.file.FileHelper;
 import ch.jcsinfo.models.Printer;
@@ -17,6 +18,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
@@ -371,7 +373,36 @@ public class PrefsManager {
     String fmt = (nbOfDecs > 0) ? "0." + fillString(nbOfDecs, '0') : "0";
     setValue(pref, new DecimalFormat(fmt, getDefSymbols()).format(value));
   }
+  
+  
+  
+  /**
+   * Récupère une date stockée à la norme ISO (ex: 2023-04-06).
+   * 
+   * @param pref une préférence de type String ou Enum
+   * @return une date au format java.util.Date
+   */
+  public static Date getDate(Object pref) {
+    Date d = null;
+    String s = getValue(pref);
+    if (!s.isEmpty()) {
+      d = DateTimeLib.parseIsoDate(s);
+    }
+    return d;
+  }
+  
+  /**
+   * Mémorise une date au format ISO (ex: 2023-04-06).
+   * @param pref une préférence de type String ou Enum
+   * @param d une date au format java.utili.Date
+   */
+  public static void setDate(Object pref, Date d) {
+    setValue(pref, DateTimeLib.dateToString(d, DateTimeLib.ISO8601_DATE_FORMAT));
 
+  }
+
+  
+  
   /**
    * Récupère un objet sérialisé dans une préférence.
    *
