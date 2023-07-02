@@ -3,13 +3,19 @@ package ch.jcsinfo.util;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,6 +138,46 @@ public class ScreenInfo {
     pos.x = xmax - (int)child.getMinimumSize().getWidth();
     pos.y = ymax - (int)child.getMinimumSize().getHeight();
     return pos;
+  }
+  
+  /**
+   * Retourne la largeur d'un texte (en pt) pour une police fournie.
+   * 
+   * @param text le texte dont on veut connaitre la largeur en [pt]
+   * @param font une police fournie pour calculer la largeur
+   * @return la largeur en [pt]
+   */
+  public static int getTextWidth(String text, Font font) {
+    // Create a temporary image with a Graphics object
+    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    Graphics g = image.getGraphics();
+
+    // Set font and rendering hints
+    Graphics2D g2d = (Graphics2D) g;
+    g2d.setFont(font);
+    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+    // Get the font metrics for the given text and font
+    FontMetrics fontMetrics = g2d.getFontMetrics();
+    int width = fontMetrics.stringWidth(text);
+
+    // Dispose the graphics object and image
+    g.dispose();
+    image.flush();
+
+    return width;
+  }  
+  
+  /**
+   * Retourne la largeur d'un texte en [mm] pour une police fournie.
+   * 
+   * @param text le texte dont on veut connaitre la largeur en [mm]
+   * @param font une police fournie pour calculer la largeur
+   * @return la largeur en [mm]
+   */
+  public static double getTextWidthMm (String text, Font font) {
+    int pt = getTextWidth(text, font);
+    return 25.4 / 72 * pt;
   }
 
 }
