@@ -21,6 +21,7 @@ Documentation :<br>
 
 New in release 1.5.5 (02.07.2023) :
 * adding methods getTextWitdh and getTextWidthMm in class ScreenInfo
+* Added test methods for this class. 
 
 New in release 1.5.4 (02.04.2023) :
 * better handling of preferences in PrefsManager. Lower or upper case keys. 
