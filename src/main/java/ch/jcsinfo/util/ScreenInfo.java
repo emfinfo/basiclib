@@ -149,7 +149,7 @@ public class ScreenInfo {
    */
   public static int getTextWidth(String text, Font font) {
     // Create a temporary image with a Graphics object
-    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
     Graphics g = image.getGraphics();
 
     // Set font and rendering hints
